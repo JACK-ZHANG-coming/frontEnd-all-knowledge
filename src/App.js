@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Child1 from './components/Child1/index';
 import Child2 from './components/Child2/index';
+import Child3 from './components/Child3/index';
 
 const App = () => {
   const [parentValue, setParentValue] = useState('我是父组件的值-');
@@ -35,6 +36,7 @@ const App = () => {
       </div>
       <Child1 parentValue={parentValue} setParentValue={setParentValue}></Child1>
       <Child2 ref={Child2Ref}></Child2>
+      <Child3 areGetChild2Value={Child2Ref}></Child3>
 
     </div>
   );
