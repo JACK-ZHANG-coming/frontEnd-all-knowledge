@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { areDataReckon } from '@hlyy-front/master-tool';
 import Child1 from './components/Child1/index';
 import Child2 from './components/Child2/index';
 import Child3 from './components/Child3/index';
@@ -13,6 +14,7 @@ const App = () => {
 
   useEffect(() => {
     setIsChild2value(Child2Ref?.current?.areGetChild2Value());
+    console.log("areDataReckon('近一周'):", areDataReckon('近一周'))
   }, [])
 
   return (
