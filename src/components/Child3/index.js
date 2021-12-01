@@ -7,7 +7,7 @@ import React, {
 
 const Child3 = (props, ref) => {
 
-  console.log("props:", props);
+  // console.log("props:", props);
   return (
     <>
       <div style={{ width: '60%', margin: '30px auto', padding: '30px 5px', textAlign: 'center', border: '3px solid yellowgreen' }} >

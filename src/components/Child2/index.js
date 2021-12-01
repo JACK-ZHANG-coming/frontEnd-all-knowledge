@@ -14,7 +14,7 @@ const Child2 = (props, ref) => {
         return child2Value
       },
       areSetChild2Value: () => {
-        console.log(11111111);
+        // console.log(11111111);
         setChild2Value(child2Value + '子组件2数值-变了！')
       }
     }
