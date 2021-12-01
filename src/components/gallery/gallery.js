@@ -9,7 +9,7 @@ import './gallery.less'
 let ImgInfos = ImgsData.map((img) => {
   return Object.assign({},
     img,
-    { url: require(`../../../src/imgs/${img.filename}`) }
+    { url: require(`../../../src/imgs/${img.filename}`)}
   )
 })
 
