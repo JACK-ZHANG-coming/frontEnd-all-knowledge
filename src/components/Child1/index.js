@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 
 const Child1 = (props) => {
 
+  // const componentDidMount = ()=>{
+  //   console.log('组件挂载完毕');
+  // }
+  useEffect(()=>{
+    console.log('组件挂载完毕---useEffect');
+  },[])
   return (
     <>
       <div style={{ width: '60%', margin: '30px auto', padding: '30px 5px', textAlign: 'center', border: '3px solid yellowgreen' }} >
