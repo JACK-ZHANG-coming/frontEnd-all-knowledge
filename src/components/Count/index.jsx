@@ -6,11 +6,19 @@ export default class Count extends Component{
   state ={
     count:0
   }
-  // const {count}=this.state;
+
+  componentDidMount(){
+    console.log('组件挂载完毕');
+  }
+
+  componentDidUpdate(){
+    console.log('组件更新完毕');
+  }
+
   increment = ()=>{
     console.log('====');
     const {value}=this.selectNumber
-    const {count}=this.state
+    // const {count}=this.state
     store.dispatch({type:'increment',data:value*1})
     // this.setState({})
   }
