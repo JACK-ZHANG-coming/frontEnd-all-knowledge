@@ -10,6 +10,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "babel-plugin-plume2": "0.0.4",
     "echarts": "^5.1.2",
     "moment": "^2.29.1",
     "plume2": "^1.2.7",
@@ -43,19 +44,6 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
-  },
-  "babel": {
-    "plugins": [
-      [
-        "@babel/plugin-proposal-decorators",
-        {
-          "legacy": true
-        }
-      ]
-    ],
-    "presets": [
-      "react-app"
     ]
   }
 }

@@ -3,7 +3,7 @@ import { StoreProvider } from 'plume2';
 import AppStore from './store';
 
 //关联 AppStore
-@StoreProvider(AppStore, { debug })
+@StoreProvider(AppStore)
 
 export default class Demo extends React.Component {
   // 设置Appstore别名
