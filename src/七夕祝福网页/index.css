@@ -1,0 +1,116 @@
+.sky {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+}
+.videofilm {
+  /* position: absolute; */
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: -1;
+}
+h1 {
+  font-size: 36px;
+  color: #b1bce6;
+  font-family: '楷体';
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  perspective: 1300px;
+}
+.text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%);
+}
+.textone {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translateX(-50%);
+}
+:root {
+  --margin-top: 0;
+  --margin-left: 0;
+  --animation-duration: 0s;
+  --animation-delay: 0s;
+}
+div {
+  transform-style: preserve-3d;
+}
+.word-box,
+.word-box .word {
+  position: absolute;
+  animation: rotY 0s linear infinite;
+  animation-duration: var(--animation-duration);
+  animation-delay: var(--animation-delay);
+}
+.word-box {
+  margin-top: var(--margin-top);
+}
+.word-box .word {
+  margin-left: var(--margin-left);
+}
+.word-box .word {
+  animation-duration: reverse;
+}
+@keyframes rotY {
+  to {
+    transform: rotateY(360deg);
+  }
+}
+.textContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(0px, -20px);
+}
+
+.printer-div {
+  font-size: 20px;
+  /* 初始宽度为0 */
+  width: 0;
+  height: 30px;
+  border-right: 1px solid darkgray;
+  /*
+    Steps(<number_of_steps>，<direction>)
+    steps接收两个参数：第一个参数指定动画分割的段数；第二个参数可选，接受 start和 end两个值，指定在每个间隔的起点或是终点发生阶跃变化，默认为 end。
+    */
+  animation: write 4s steps(14) forwards, blink 0.5s steps(1) infinite;
+  overflow: hidden;
+}
+
+@keyframes write {
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: 700px;
+  }
+}
+
+@keyframes blink {
+  50% {
+    /* transparent是全透明黑色(black)的速记法，即一个类似rgba(0,0,0,0)这样的值。 */
+    border-color: transparent; /* #00000000 */
+  }
+}
+
+.time-div{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}

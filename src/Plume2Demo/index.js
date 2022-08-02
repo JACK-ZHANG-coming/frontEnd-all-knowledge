@@ -4,10 +4,10 @@ import AppStore from './store';
 
 //关联 AppStore
 @StoreProvider(AppStore)
-
 export default class Demo extends React.Component {
   // 设置Appstore别名
-  store:AppStore;
+  store: AppStore;
+
   render() {
     // 方法和数据都是从 Appstore 中拿到的
     //获取数据

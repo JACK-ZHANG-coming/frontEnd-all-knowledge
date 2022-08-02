@@ -1,4 +1,4 @@
-import { Action, Actor, IMap } from 'plume2/es5'
+import { Action, Actor, IMap } from 'plume2'
 
 export default class CounterActor extends Actor {
   defaultState() {
