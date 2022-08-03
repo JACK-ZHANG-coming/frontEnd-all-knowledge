@@ -1,6 +1,7 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component, useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import ReactPlayer from 'react-player'
+import ReactPlayer from 'react-player';
+// import { beFull, isFull } from 'be-full';
 import words from './data'
 import './index.css'
 
@@ -8,6 +9,8 @@ import './index.css'
 const Present = props => {
 
   const [isStart, setIsStart] = useState(true)
+  const [flag, setFlag] = useState(1)
+  const timer = useRef()
 
   function randomNum(min, max) {
     var num = (Math.random() * (max - min + 1) + min).toFixed(2);
@@ -45,20 +48,20 @@ const Present = props => {
     // document.getElementById('videofilm').innerHTML='<video src="./video/skystar.mp4" controls autoplay loop></video>'
     // 初始化旋转文字图层
     init();
-    let textone = document.querySelector('.textone').querySelector('h1');
-    let text = document.querySelector('.text').querySelector('h1');
-    setTimeout(function () {
+    setIsStart(false)
+    setTimeout(() => {
+      setIsStart(true);
+    }, 1500)
+    setTimeout(() => {
+      // console.log('是否全屏', isFull(document.getElementById('sky')));
+      let textone = document.querySelector('.textone').querySelector('h1');
+      let text = document.querySelector('.text').querySelector('h1');
       textone.innerHTML = '今晚，整片星空将为你一人闪烁';
       textone.style.color = '#E8F9FD';
       textone.style.fontFamily = '楷体'
       text.innerHTML = '';
     }, 10000)
-    setIsStart(false)
-    setTimeout(() => {
-      setIsStart(true)
-    }, 1500)
-    return
-  },[])
+  }, [])
 
   return (
     <>
