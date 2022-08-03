@@ -1,8 +1,9 @@
 import React, { Component, useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import ReactPlayer from 'react-player';
+import device from 'current-device'
 // import { beFull, isFull } from 'be-full';
-import words from './data'
+import { words, wordsToPhone } from './data'
 import './index.css'
 
 
@@ -17,7 +18,7 @@ const Present = props => {
     return num;
   }
 
-  const init = () => {
+  const init = (words) => {
     let container = document.querySelector('.container');
     console.log('====', container);
     let f = document.createDocumentFragment();
@@ -45,9 +46,12 @@ const Present = props => {
 
   useEffect(() => {
     console.log('进入了这个页面');
-    // document.getElementById('videofilm').innerHTML='<video src="./video/skystar.mp4" controls autoplay loop></video>'
-    // 初始化旋转文字图层
-    init();
+    let wordsArr = wordsToPhone;
+    if (device.desktop()) {
+      console.log('电脑')
+      wordsArr = words
+    }
+    init(wordsArr);
     setIsStart(false)
     setTimeout(() => {
       setIsStart(true);
