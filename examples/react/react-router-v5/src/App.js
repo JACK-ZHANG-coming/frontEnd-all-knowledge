@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-// import {
-//   BrowserRouter as Router,
-//   Switch,
-//   Route,
-// } from "react-router-dom";
-// import publicRoutes from './routes/publicRoutes';
-// import adminRoutes from './routes/adminRoutes';
-// import privateRoutes from './routes/privateRoutes';
-// import AuthRoute from './components/AuthRoute';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
+import publicRoutes from './routes/publicRoutes';
+import adminRoutes from './routes/adminRoutes';
+import privateRoutes from './routes/privateRoutes';
+import AuthRoute from './components/AuthRoute';
 
 function App() {
   const [user, setUser] = useState({});
@@ -25,28 +26,26 @@ function App() {
   }
 
   return (
-    <>
-      122344
-    </>
-    // <Router>
-    //   <Switch>
-    //     {publicRoutes.map(
-    //       ({path, component, ...route}) => 
-    //         <Route key={path} path={path} {...route} render={(routeProps) => {
-    //           const Component = component;
-    //           return (
-    //             <Component loginAsUser={loginAsUser} loginAsAdmin={loginAsAdmin} {...routeProps}/>
-    //           )
-    //         }}/>
-    //     )}
-    //     {privateRoutes.map(
-    //       (route) => <AuthRoute key={route.path} {...route} user={user}/>
-    //     )}
-    //     {adminRoutes.map(
-    //       (route) => <AuthRoute key={route.path} {...route} user={user}/>
-    //     )}
-    //   </Switch>
-    // </Router>
+    <Router>
+      <Switch>
+        {publicRoutes.map(
+          ({ path, component, ...route }) =>
+            <Route key={path} path={path} {...route} render={(routeProps) => {
+              const Component = component;
+              return (
+                <Component loginAsUser={loginAsUser} loginAsAdmin={loginAsAdmin} {...routeProps} />
+              )
+            }} />
+        )}
+        {privateRoutes.map(
+          (route) => <AuthRoute key={route.path} {...route} user={user} />
+        )}
+        {adminRoutes.map(
+          (route) => <AuthRoute key={route.path} {...route} user={user} />
+        )}
+        <Redirect from="/*" to="/404" />
+      </Switch>
+    </Router>
   );
 }
 
