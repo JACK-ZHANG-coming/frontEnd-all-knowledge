@@ -63,7 +63,7 @@ const Present = props => {
       let text = document.querySelector('.text').querySelector('h1');
       textone.innerHTML = '今晚，整片星空将为你一人闪烁';
       textone.style.color = '#E8F9FD';
-      textone.style.fontFamily = '楷体'
+      textone.style.fontFamily = '华文楷体'
       text.innerHTML = '';
     }, 10000)
   }, [])
