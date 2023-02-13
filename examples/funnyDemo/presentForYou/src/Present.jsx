@@ -7,6 +7,7 @@ import { words, wordsToPhone } from './data'
 import './index.css'
 
 
+
 const Present = props => {
 
   const [isStart, setIsStart] = useState(true)
@@ -70,12 +71,12 @@ const Present = props => {
   return (
     <>
       <div className="sky">
-        
+
         <div className="videofilm">
           <ReactPlayer
             width={'auto'}
             height={'auto'}
-            url={require('./video/skystar.mp4')}
+            url={props.videoSrc}
             playing={isStart}
             loop={true}
             volume={0.5}
