@@ -70,11 +70,12 @@ const Present = props => {
   return (
     <>
       <div className="sky">
+        
         <div className="videofilm">
           <ReactPlayer
             width={'auto'}
             height={'auto'}
-            url={require('../七夕祝福网页/video/skystar.mp4').default}
+            url={require('./video/skystar.mp4')}
             playing={isStart}
             loop={true}
             volume={0.5}

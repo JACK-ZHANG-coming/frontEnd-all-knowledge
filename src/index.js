@@ -5,9 +5,7 @@ import ReactDOM from 'react-dom'
 // import Count from './components/Count'
 // import LifeDemo from '../src/生命周期demo/index'
 // import Plume2Demo from './Plume2Demo/index'
-// import Qixi from './七夕祝福网页/index'
-// import HOCDmoe from './高阶组件Demo/index'
-import UseMemoUseCallbackDemo from './useMemo_useCallback实践/index'
+import Qixi from './presentForYou/index'
 
 // ReactDOM.render(
 //   <React.StrictMode>

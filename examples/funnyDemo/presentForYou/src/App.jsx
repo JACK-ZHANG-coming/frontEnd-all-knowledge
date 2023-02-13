@@ -13,7 +13,7 @@ let Module = null;
 let beFull = null;
 
 try {
-  Module = require("../../node_modules/be-full");
+  Module = require("../node_modules/be-full");
   beFull = Module.beFull;
 }
 catch {
@@ -50,7 +50,7 @@ const PageView = props => {
     () => {
       clearInterval(myInterval.current)
       //由于更新时清除了, 所以要重新模拟一下点击时的操作, 确保继续运行
-      // interval()
+      // interval()  // 如果有bug，试试注释掉这一句
       //更新时清除掉interval
       return () => clearInterval(myInterval.current)
     }, [])
@@ -64,7 +64,7 @@ const PageView = props => {
           null
           :
           <div className="printer-div">
-            嘿，点击这个按钮，开启你的七夕礼物^_^
+            嘿，点击这个按钮，开启你的礼物^_^
             &nbsp;
             <button onClick={() => {
               console.log('点了这个按钮');
@@ -82,6 +82,11 @@ const PageView = props => {
           null
       }
       {showPresent ? <Present></Present> : null}
+      {/* <Present></Present> */}
+      {/* <div>123</div>
+      <div style={{ width: '400px', height: '200px', border: '2px solid red' }}>
+        <video width={'400px'} height={'200px'} src={require('./video/skystar.mp4')} controls></video>
+      </div> */}
     </>
   )
 }
