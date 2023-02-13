@@ -1,11 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import store from './redux/store'
+// import store from './redux/store'
 // import App from './App'
-import Count from './components/Count'
+// import Count from './components/Count'
 // import LifeDemo from '../src/生命周期demo/index'
 // import Plume2Demo from './Plume2Demo/index'
-import Qixi from './七夕祝福网页/index'
+// import Qixi from './七夕祝福网页/index'
+// import HOCDmoe from './高阶组件Demo/index'
+import UseMemoUseCallbackDemo from './useMemo_useCallback实践/index'
 
 // ReactDOM.render(
 //   <React.StrictMode>
@@ -50,7 +52,7 @@ import Qixi from './七夕祝福网页/index'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Qixi></Qixi>
+    <UseMemoUseCallbackDemo></UseMemoUseCallbackDemo>
   </React.StrictMode>,
   document.getElementById('root')
 )
