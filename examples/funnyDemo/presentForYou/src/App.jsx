@@ -3,22 +3,9 @@ import ReactDOM from 'react-dom';
 import ReactPlayer from 'react-player'
 import Present from './Present';
 import './index.css'
-// import { beFull, isFull } from 'be-full';
 
-// if (system === "cmd") {
-//   Module = require("@/store/modules/cmdWorkOrders");
-//   WorkOrdersModule = Module.WorkOrdersModule;
-// }
-let Module = null;
-let beFull = null;
+const videoSrc = require('./video/skystar.mp4');
 
-try {
-  Module = require("../node_modules/be-full");
-  beFull = Module.beFull;
-}
-catch {
-  console.log('引用全屏插件失败');
-}
 const PageView = props => {
 
   const [showPresent, setShowPresent] = useState(false);
@@ -28,6 +15,15 @@ const PageView = props => {
   const [count, setCount] = useState(3)
   const [showTime, steShowTime] = useState(false)
 
+  /**
+   * 网页全屏
+   */
+  const areFullscreen = () => {
+    if (!document.fullscreen) {
+      document.body.requestFullscreen();
+    }
+  }
+
   const interval = () => {
     let num = count
     myInterval.current = setInterval(() => {
@@ -36,6 +32,7 @@ const PageView = props => {
         console.log('小于等于0');
         areClearInterval()
         setShowPresent(true)
+        areFullscreen();
       }
       setCount(--num)
     }, 1000)
@@ -68,9 +65,8 @@ const PageView = props => {
             &nbsp;
             <button onClick={() => {
               console.log('点了这个按钮');
-              beFull && beFull();
               steShowTime(true);
-              interval()
+              interval();
             }}>这个按钮</button>
           </div>
       }
@@ -81,9 +77,8 @@ const PageView = props => {
           :
           null
       }
-      {showPresent ? <Present></Present> : null}
-      {/* <Present></Present> */}
-      {/* <div>123</div>
+      {showPresent ? <Present videoSrc={videoSrc}></Present> : null}
+      {/* <Present></Present>
       <div style={{ width: '400px', height: '200px', border: '2px solid red' }}>
         <video width={'400px'} height={'200px'} src={require('./video/skystar.mp4')} controls></video>
       </div> */}
