@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import './App.less'
 
-function App() {
+const App: React.FC<{}> = () => {
 
   return (
     <div className="App">
