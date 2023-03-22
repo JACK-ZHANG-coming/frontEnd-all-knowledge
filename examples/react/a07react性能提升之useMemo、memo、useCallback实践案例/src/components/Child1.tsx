@@ -7,7 +7,7 @@ interface dataType {
 }
 
 interface ChildType {
-  data: dataType[];
+  data?: dataType[];
 }
 
 const App: React.FC<ChildType> = (props: ChildType) => {
