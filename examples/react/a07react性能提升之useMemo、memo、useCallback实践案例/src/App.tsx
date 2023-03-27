@@ -24,12 +24,13 @@ const App: React.FC<{}> = () => {
   };
 
   useEffect(() => {
+    console.log('父组件')
     getTime();
-    refreshTime();
+    // refreshTime();
 
-    return () => {
-      clearInterval(timerOne)
-    }
+    // return () => {
+    //   clearInterval(timerOne)
+    // }
   }, [])
 
   return (
@@ -39,8 +40,8 @@ const App: React.FC<{}> = () => {
         <br />
         {nowTime}
         <br /><br /><br />
-        {/* <Child1 data={data}></Child1> */}
-        <Child1></Child1>
+        <Child1 data={data}></Child1>
+        {/* <Child1></Child1> */}
       </div>
     </div>
   )

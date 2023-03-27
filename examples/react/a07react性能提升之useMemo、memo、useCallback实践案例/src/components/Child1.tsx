@@ -15,23 +15,26 @@ const App: React.FC<ChildType> = (props: ChildType) => {
   let timerOne: any;
 
   const refreshTime = () => {
+    console.log('启动timerOne')
     timerOne = setInterval(() => {
+      console.log('timerOne-Interval', smallComponentsId);
       setSmallComponentsId((smallComponentsId + 1) % 5)
     }, 1000);
   };
 
+
   useEffect(() => {
     console.log('smallComponentsId-->', smallComponentsId)
+  }, [smallComponentsId])
+
+  useEffect(() => {
+    console.log('Child1');
     refreshTime();
 
     return () => {
       console.log('卸载了子组件timerOne')
       clearInterval(timerOne)
     }
-  }, [smallComponentsId])
-
-  useEffect(() => {
-    console.log(props);
   }, [])
 
   return (
