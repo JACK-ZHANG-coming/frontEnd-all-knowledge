@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import Child1 from './components/Child1'
 
 
 class LifeDemo extends Component {
@@ -68,7 +69,7 @@ class LifeDemo extends Component {
   render() {
     console.log('render执行了,props:', this.props, 'state:', this.state)
     return (
-      <>
+      <div>
         <div>react生命周期例子</div>
         <div>state的值：{this.state.a}</div>
         <button onClick={() => { this.updateState() }}>
@@ -77,7 +78,9 @@ class LifeDemo extends Component {
         <button onClick={() => { this.areDeath() }}>
           卸载组件
         </button>
-      </>
+        <div>----------</div>
+        <Child1 val={1}></Child1>
+      </div>
     )
   }
 }

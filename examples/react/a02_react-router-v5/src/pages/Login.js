@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 function Login(props) {
-  const {loginAsUser, loginAsAdmin, history} = props;
+  const { loginAsUser, loginAsAdmin, history } = props;
 
   const userLoginHandler = () => {
     loginAsUser();      // 调用父级方法设置用户权限
@@ -14,13 +14,17 @@ function Login(props) {
     history.replace('/admin');     // 登录后跳转管理员页面
   }
 
+  useEffect(() => {
+    console.log('Login--props--->', props);
+  }, [])
+
   return (
     <>
       <h1>登录页</h1>
       <button onClick={userLoginHandler}>普通用户登录</button>
-      <br/><br/>
+      <br /><br />
       <button onClick={adminLoginHandler}>管理员登录</button>
-      <br/><br/>
+      <br /><br />
       <Link to="/">回首页</Link>
     </>
   );
