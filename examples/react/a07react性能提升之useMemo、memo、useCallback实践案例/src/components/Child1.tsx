@@ -18,7 +18,9 @@ const App: React.FC<ChildType> = (props: ChildType) => {
     console.log('启动timerOne')
     timerOne = setInterval(() => {
       console.log('timerOne-Interval', smallComponentsId);
-      setSmallComponentsId((smallComponentsId + 1) % 5)
+      setSmallComponentsId(smallComponentsId => (smallComponentsId + 1) % 5) // 不知道为什么，这样写就可以
+      // setSmallComponentsId((smallComponentsId + 1) % 5) // 这样写却不可以？？
+
     }, 1000);
   };
 
