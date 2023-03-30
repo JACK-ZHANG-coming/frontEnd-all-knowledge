@@ -10,7 +10,7 @@
 		<div id="app">
 			<h1>点击次数：{{count}}</h1>
 			<!-- 可以使用表达式完成事件操作 -->
-			<button type="button" @click="count+=1">点击</button>
+			<button type="button" v-on:click="count+=1">点击</button>
 			<!-- 获取事件对象 -->
 			<button  @click="clickEvent">点击2</button>
 		</div>
