@@ -1,0 +1,40 @@
+<!-- v-for列表渲染 关于key的使用 -->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 添加key值可以有效使input切换时自动清空 -->
+			<div v-if="isLogin" key='1'>
+				<h3>登陆</h3>
+				<input type="text" name="username" value="" />
+			</div>
+			<div v-else key='2'>
+				<h3>注册</h3>
+				<input type="text" name="username" value="" />
+			</div>
+			
+			
+			<button @click="togglePage" type="button">切换登陆注册页</button>
+		</div>
+		<script src="../public/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			let app = new Vue({
+				el:"#app",
+				data:{
+					isLogin:true
+				},
+				methods:{
+					togglePage:()=>{
+						app.isLogin = !app.isLogin;
+					}
+				}
+			})
+		</script>
+		
+	</body>
+</html>

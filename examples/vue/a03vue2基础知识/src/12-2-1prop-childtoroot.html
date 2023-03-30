@@ -1,0 +1,68 @@
+<!-- 子组件传值到父组件 -->
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script src="../public/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>
+	<div id="app">
+		<ul>
+			<!-- 从父组件传值到子组件 -->
+
+			<!-- 循环传值组件 -->
+			<school v-for="item,index in schoolList" @cschool='changeEvent' :key="'abc'+index" :index='index'
+				:school-name="item"></school>
+
+		</ul>
+
+		<h2>选中的学校是：{{chooseSchool}}</h2>
+
+
+	</div>
+
+	<script type="text/javascript">
+		//产品组件
+		Vue.component("school", {
+			props: ['schoolName', 'index'],
+			template: `<li>
+							
+							<h3>{{index}}-学校名称：{{schoolName}}</h3>
+							<button @click="chooseEvent(schoolName)">选择学校</button>
+							
+						</li>`,
+			methods: {
+				chooseEvent: function (schoolName) {
+					console.log(schoolName)
+					//想要将子元素的数据传递给父元素，需要自定义触发事件，实现数据的传值
+					//触发一个事件名称叫做cschool的事件
+					this.$emit('cschool', schoolName)
+				}
+			}
+
+		})
+
+
+		//根组件
+		let app = new Vue({
+			el: "#app",
+			data: {
+				schoolList: ['清华', '北大', '浙大', "中大"],
+				chooseSchool: ""
+			},
+			methods: {
+				changeEvent: function (data) {
+					console.log("触发子组件的学校选择事件")
+					this.chooseSchool = data
+				}
+			}
+		})
+
+
+	</script>
+</body>
+
+</html>

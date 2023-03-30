@@ -1,0 +1,46 @@
+<!-- 使用v-if v-show 实现页面切换 -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script src="../public/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>
+	<!-- view -->
+	<div id="app">
+		<h3 v-if="tab==1">首页</h3>
+		<h3 v-else-if="tab==2">新闻页</h3>
+		<h3 v-else>个人中心</h3>
+		<!-- 另一种写法 -->
+		<!-- <h3 v-show="tab==1">首页</h3>
+			<h3 v-show="tab==2">新闻页</h3>
+			<h3 v-show>个人中心</h3> -->
+
+		<button @click="tabChange" data-id="1">首页</button>
+		<button v-on:click="tabChange" data-id='2'>新闻</button>
+		<button @click="tabChange" data-id='3'>个人</button>
+	</div>
+
+	<script type="text/javascript">
+		let app = new Vue({
+			el: "#app",
+			data: {
+				tab: 1,
+			},
+			methods: {
+				tabChange: function (e) {
+					console.log(e)
+					let tabid = e.target.dataset.id
+					//app.tab = tabid//跟this.tab=tabid等同
+					this.tab = tabid
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

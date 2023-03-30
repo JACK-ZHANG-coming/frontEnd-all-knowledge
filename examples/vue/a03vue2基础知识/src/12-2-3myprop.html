@@ -1,0 +1,66 @@
+<!-- 手写子父组件传值 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="../public/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+    <body>
+        <div id="app">
+			<ul>
+				<!-- 从父组件传值到子组件 -->
+				
+				<!-- 循环传值组件 -->
+				<commodity v-for="item,index in shopName" :key="index"
+                    :index='index' :shop-name="item" 
+                    @cshop='changeEvent'
+                >
+                </commodity>
+				
+			</ul>
+			
+			<div>选中的商品是：{{chooseShopName}}</div>
+			
+		</div>
+
+        <script type="text/javascript">
+            // 商品列表组件
+            Vue.component("commodity",{
+                props:['shopName','index'],
+
+                template:`<li>
+                            <h1>{{index}}-水果名称：{{shopName}}</h1>
+                            <h3>时间：{{$root.time}}</h3>
+                            <button @click="chooseEvent(shopName)">选择商品</button>
+                    </li>`,
+                methods:{
+                    chooseEvent:function(shopName){
+                        console.log("点击了子组件的按钮，",shopName)
+                        //这里把shopName传值给了cshop所对应的事件
+                        this.$emit('cshop',shopName)
+                    }
+                }
+            })
+
+            //根组件  必须要有
+            let app =new Vue({
+                el:"#app",
+                data:{
+                    shopName:['香蕉','苹果','葡萄'],
+                    time:"11:11",
+                    chooseShopName:""
+                },
+                methods:{
+                    changeEvent:function(data){
+                        console.log("触发了cshop事件");
+                        this.chooseShopName = data;
+                    }
+                }
+            })
+
+        </script>
+
+    </body>
+
+</html>

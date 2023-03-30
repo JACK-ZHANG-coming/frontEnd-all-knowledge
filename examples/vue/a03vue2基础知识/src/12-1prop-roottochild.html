@@ -1,0 +1,54 @@
+<!-- 父组件传值到子组件 -->
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script src="../public/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>
+	<div id="app">
+		<ul>
+			<!-- 从父组件传值到子组件 -->
+			<!-- 静态属性 -->
+			<school school-name="清华北大"></school>
+			<!-- 动态属性 -->
+			<school v-bind:school-name="'上海浙大'"></school>
+			<!-- 动态属性 -->
+			<school :school-name="schoolList[0]"></school>
+			<!-- 循环传值组件 school-name对应schoolName 因为html里面属性名不能用驼峰命名-->
+			<school v-for="item,index in schoolList" :key="'abc'+index" :index='index' :school-name="item"></school>
+
+
+		</ul>
+
+
+	</div>
+
+	<script type="text/javascript">
+		//产品组件
+		Vue.component("school", {
+			props: ['schoolName', 'index'],
+			template: `<li>
+							<h3>{{index}}-学校名称：{{schoolName}}</h3>
+							
+						</li>`
+
+		})
+
+
+		//根组件
+		let app = new Vue({
+			el: "#app",
+			data: {
+				schoolList: ['sxt', 'czbk', 'xmg']
+			}
+		})
+
+
+	</script>
+</body>
+
+</html>

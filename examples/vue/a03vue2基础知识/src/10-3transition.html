@@ -1,0 +1,65 @@
+<!--  transition过渡动画  -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/animate.min.css"/>
+		<style type="text/css">
+			.content{
+				width: 200px;
+				height: 200px;
+				background: skyblue;
+				margin: 0 auto;
+			}
+			
+			.fade-enter-active, .fade-leave-active {
+			  transition: opacity 5s;
+			}
+			.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+			  opacity: 0;
+			}
+			
+			
+			.slide-enter-active{
+			  transition: all 3s;
+			}
+			.slide-leave-active {
+			  transition: all 5s;
+			}
+			.slide-enter, .slide-leave-to /* .fade-leave-active below version 2.1.8 */ {
+				transform: translateX(500px);
+				opacity: 0;
+			}
+		</style>
+		<script src="../public/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 
+				属性NAME会跟框架追加的类名一致
+			 -->
+			<transition name="slide" enter-active-class="animated bounceInLeft" leave-active-class="animated bounceOutRight">
+			 <div v-if="isShow" class="content"></div>
+			</transition>
+			<button @click="toggleEvent">切换内容</button>
+		</div>
+		<script type="text/javascript">
+			let app = new Vue({
+				el:"#app",
+				data:{
+					isShow:true
+				},
+				methods:{
+					toggleEvent:function(){
+						this.isShow = !this.isShow
+					}
+				}
+				
+			})
+			
+			
+		</script>
+		
+	</body>
+</html>

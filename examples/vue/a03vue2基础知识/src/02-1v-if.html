@@ -1,0 +1,42 @@
+<!-- v-if条件选择 -->
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="../public/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<!-- view -->
+		<div id="app">
+			<h1>用户名：{{username}}</h1>
+			<h3 v-if="isVip">用户类型：VIP</h3>
+			<!-- 注意v-if和v-else中间不能有其他的元素 -->
+			<h3 v-else>用户类型：普通用户</h3>
+			
+			<hr >
+			
+			<h1>用户允许登陆时间</h1>
+			
+			<h3 v-if="age>18">允许24小时登陆</h3>
+			<h3 v-else-if="age>14">允许8小时登陆</h3>
+			<h3 v-else>允许4小时登陆</h3>
+			
+			
+		</div>
+		
+		<script type="text/javascript">
+			let app = new Vue({
+				el:"#app",
+				data:{
+					username:"小明",
+					isVip:true,
+					age:24
+					
+				}
+			})
+		</script>
+	</body>
+</html>
+

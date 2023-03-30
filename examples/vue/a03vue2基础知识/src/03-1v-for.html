@@ -1,0 +1,79 @@
+<!-- v-for列表渲染 -->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="../public/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<h3>明星列表</h3>
+			<ul>
+				<li v-for="item in stars">
+					{{item}}
+				</li>
+			</ul>
+			<h3>学生列表</h3>
+			<ul>
+				<li v-for="item in students">
+					<h4>{{item.studentName}}</h4>
+					<p>年龄：{{item.age}}---学校：{{item.school}}</p>
+				</li>
+			</ul>
+			<h3>学生列表(带索引值)</h3>
+			<ul>
+				<li v-for="item,key in students">
+					<h4>索引值：{{key}}---学生名字：{{item.studentName}}</h4>
+					
+					<p>年龄：{{item.age}}---学校：{{item.school}}</p>
+				</li>
+			</ul>
+			<h3>循环对象</h3>
+			<ul>
+				<li v-for="item,key in students[0]">key:{{key}}---value:{{item}}</li>
+			</ul>
+			<h3>条件+循环渲染（将偶数年龄的学生渲染出来）,先循环在判断</h3>
+			<ol>
+				<li v-if="item.age%2==0" v-for="item,index in students"  :key="index">
+					<h4>索引值：{{index}} -------- {{item.studentName}}</h4>
+					<p>年龄：{{item.age}}---学校：{{item.school}}</p>
+				</li>
+			</ol>
+			
+		</div>
+		<script type="text/javascript">
+			var app = new Vue({
+				el:"#app",
+				data:{
+					stars:['蔡徐坤',"苏有朋","范冰冰","李晨"],
+					students:[
+						{
+							studentName:"小明",
+							age:16,
+							school:"清华",
+							imgheader:"http://b-ssl.duitang.com/uploads/item/201510/24/20151024160112_uYtPB.jpeg"
+						},
+						{
+							studentName:"小黑",
+							age:17,
+							school:"北大"
+						},
+						{
+							studentName:"小红",
+							age:18,
+							school:"浙大"
+						},
+						{
+							studentName:"小红",
+							age:15,
+							school:"浙大"
+						}
+					],
+					
+				}
+			})
+		</script>
+	</body>
+</html>

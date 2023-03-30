@@ -1,0 +1,32 @@
+<!-- 事件传参 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="../public/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<ul>
+				<li v-for="item,index in stars" @click="clickEvent(index,item,$event)">索引值：{{index}}----内容：{{item}}</li>
+			</ul>
+		</div>
+		
+		<script type="text/javascript">
+			var app = new Vue({
+				el:"#app",
+				data:{
+					stars:['蔡徐坤','范冰冰','李晨']
+				},
+				methods:{
+					clickEvent:function(index,value,event){
+						console.log(index)
+						console.log(value)
+						console.log(event)
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

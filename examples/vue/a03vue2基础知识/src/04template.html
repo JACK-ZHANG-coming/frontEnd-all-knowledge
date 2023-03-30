@@ -1,0 +1,78 @@
+<!-- 模板语法 -->
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<style type="text/css">
+		#login {
+			background: skyblue;
+		}
+
+		#register {
+			background: pink;
+		}
+	</style>
+	<script src="../public/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>
+	<div id="app">
+
+		<h1>{{msg}}</h1>
+		<!-- 一次性插入，不在修改 -->
+		<h1 v-once>{{msg}}</h1>
+		<!-- 插入HTML内容 -->
+		<h1>{{htmlTxt}}</h1>
+		<h1 v-html="htmlTxt"></h1>
+		<!-- 修改属性内容 -->
+		<!-- 绑定动态属性，全写  idname是样式-->
+		<div v-bind:id="idname">
+			<h1>登陆</h1>
+		</div>
+		<!-- 绑定动态属性，省略 -->
+		<div :id="idname">
+			<h1>登陆</h1>
+		</div>
+		<!-- 模板语言的表达式应用 -->
+		<div>
+			{{firstname+lastname}}
+		</div>
+		<!-- 三元运算符 -->
+		<div>
+			{{isVip?"欢迎VIP用户回来":"普通用户请充值"}}
+		</div>
+		<!-- 事件的绑定 -->
+		<button v-on:click="changeBg">改变背景</button>
+		<button @click="changeBg2">改变背景</button>
+
+	</div>
+
+	<script type="text/javascript">
+		var app = new Vue({
+			el: "#app",
+			data: {
+				msg: "hello Vue",
+				htmlTxt: '<span>hello</span>',
+				idname: "login",
+				firstname: "张",
+				lastname: "三",
+				isVip: true
+			},
+			methods: {
+				changeBg: function () {
+					document.body.style.background = "skyblue"
+				},
+				changeBg2: function () {
+					document.body.style.background = "white"
+				}
+			}
+		})
+
+
+
+	</script>
+</body>
+
+</html>

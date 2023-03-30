@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="css/animate.min.css"/>
+		<script src="js/lcXys.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		
+	</head>
+	<body>
+		<div id="app">
+			<div class="main">
+				<div class="header">
+					<div class="logo">LcTodo</div>
+					<!-- 绑定回车事件,v-model绑定输入框的value值 -->
+					<input type="text" v-model="inputValue" id="input" @keydown.enter="enterEvent" placeholder="请输入待办事项" />
+				</div>
+				<div class="doing todo">
+					<h3><span class="title">正在进行</span><span class="num">0</span></h3>
+					<div class="list">
+						<transition-group name="slide" mode="out-in" enter-active-class="animated bounceInLeft" leave-active-class="animated bounceOutRight">
+						<div class="todoItem" v-for="item,index in doingList" :key="'doing'+index">
+							<input @click.prevent="checkDone(item.id)" :data-id="item.id" type="checkbox">
+							<div class="content">{{item.content}}</div>
+							<div class="del" @click="deleteItem(item.id)">删除</div>
+						</div>
+						</transition-group>
+					</div>
+				</div>
+				<div class="done todo">
+					<h3><span class="title">正在进行</span><span class="num">0</span></h3>
+					<div class="list">
+						<transition-group name="slide" enter-active-class="animated bounceInLeft" leave-active-class="animated bounceOutRight">
+						<div class="todoItem" v-for="item,index in doneList" :key="'done'+index">
+							<input @click.prevent="checkDone(item.id)" :data-id="item.id" type="checkbox" checked="checked">
+							<div class="content">{{item.content}}</div>
+							<div class="del" @click="deleteItem(item.id)">删除</div>
+						</div>
+						</transition-group>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var app = new Vue({
+				el:"#app",
+				data:{
+					todoList:[],
+					inputValue:""
+				},
+				computed:{
+					//通过过滤todolist数据，得到未做好的列表和已做好的列表
+					doingList:function(){
+						let arr = this.todoList.filter(function(item,index){
+							return !item.isDone
+						})
+						return arr;
+					},
+					doneList:function(){
+						let arr = this.todoList.filter(function(item,index){
+							return item.isDone
+						})
+						return arr;
+					}
+				},
+				methods:{
+					enterEvent:function(event){
+						//将数据添加至todolist
+						this.todoList.push({
+							content:this.inputValue,
+							isDone:false,
+							id:this.todoList.length
+						})
+						//保存
+						this.saveData()
+						//清除输入框的值
+						this.inputValue = "";
+					},
+					// 将数据保存到本地存储
+					saveData:function(){
+						localStorage.todoList = JSON.stringify(this.todoList)
+					},
+					checkDone:function(id){
+						//console.log(id)
+						this.todoList[id].isDone = !this.todoList[id].isDone;
+						//每次修改都必须保存
+						this.saveData()
+					},
+					deleteItem:function(id){
+						this.todoList.splice(id,1)
+						this.todoList.forEach(function(item,i){
+							item.id = i;
+						})
+						this.saveData()
+					}
+					
+					
+				},
+				mounted:function(){
+					this.todoList = localStorage.todoList?JSON.parse(localStorage.todoList):[];
+				}
+			})
+		</script>
+	</body>
+</html>

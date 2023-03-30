@@ -1,0 +1,59 @@
+<!-- watch侦听器 侦听变量变化起效果-->
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title></title>
+	<script src="../public/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>
+	<div id="app">
+
+		<h1>{{msg}}</h1>
+		<h1>{{reverseMsg}}</h1>
+		<h1>{{msg}}</h1>
+		<ul>
+			<li v-for="item in arr">{{item}}</li>
+		</ul>
+	</div>
+
+
+	<script type="text/javascript">
+		var app = new Vue({
+			el: "#app",
+			data: {
+				msg: "hello Vue",
+				arr: ['小明', '小红', "小黑"]
+			},
+			// 计算属性
+			computed: {
+				reverseMsg: {
+					get: function () {
+						console.log(this.msg)
+						return this.msg.split("").reverse().join("")//这里返回值给reverseMsg
+					},
+					set: function (value) {
+						console.log(value)
+						this.msg = this.msg//value.split("").reverse().join("")//这里可以改变msg的值
+					}
+				}
+			},
+			// 监听
+			watch: {
+				msg: function (val) {
+					console.log("监听事件-------msg")
+					console.log(val)
+				},
+				arr: function (val) {
+					console.log("监听事件-------arr")
+					this.msg = "监听事件-------arr"
+					console.log(val)
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!-- v-show 
+    和v-if类似
+    区别：需要多次切换时用v-show，性能损耗低
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+		#pane {
+			width: 200px;
+			height: 200px;
+			background: skyblue;
+		}
+
+		#app {
+			display: flex;
+			flex-wrap: wrap;
+
+		}
+
+		button {
+			height: 30px;
+			width: 100px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<button @click="showPane">切换显示内容</button>
+		<div v-show="isShow" id="pane">
+			HelloVue
+		</div>
+	</div>
+	<script src="../public/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		let app = new Vue({
+			el: "#app",
+			data: {
+				isShow: true
+			},
+			methods: {
+				showPane: function (e) {
+					console.log(this)
+					console.log(e)
+					app.isShow = !app.isShow;
+				}
+			}
+		})
+			/*
+v-if:不显示时，第一次就直接不渲染，如果时内容已经显示将其改为不显示，将内容直接从Dom去除,只是渲染1次的内容用v-if
+v-show:不显示时，就会改为display:none,但是会渲染在DOM上。反复需要切换的内容，使用v-show
+*/
+	</script>
+</body>
+
+</html>
