@@ -1,6 +1,7 @@
 <template>
   <!-- 17_src_cutsomRef(自定义ref) -->
   <!--vue3的组件模版结构可以没有根标签-->
+  <!-- ps: 貌似有点难以理解，第一遍没看懂，后面再来看看 1 -->
   <input v-model="keyWord"/>
   <h3>{{ keyWord }}</h3>
 </template>

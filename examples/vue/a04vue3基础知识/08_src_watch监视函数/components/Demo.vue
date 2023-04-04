@@ -51,7 +51,7 @@ export default {
 
     //情况一: 监视ref所定义的响应式数据
     // watch(sum, (nv, ov) => {
-    //   //这里我并不需要this，所以剪头函数，普通函数我可以乱粥
+    //   //这里我并不需要this，所以箭头函数，普通函数我可以乱粥
     //   console.log('sum的值发生变化了');
     //   console.log(`newValue:${nv}, oldValue:${ov}`);
     // }, {
@@ -92,14 +92,15 @@ export default {
     //   console.log('person的age或name发生改变了',nv, ov);
     // });
 
-    //特殊情况
-    // watch(() => person.job, (nv, ov) => {
-    //   //这里依然无法拿到正确的ov，因为依然监视的是对象
-    //   console.log('person的job信息发生改变了',nv, ov);
-    // }, {
-    //   //这里必须要加deep:true注意
-    //   deep: true //此处因为监视的是reactive所定义的响应式对象的一个属性(这个属性的值它依然是一个对象)，所以deep配置有效
-    // })
+    //特殊情况  ps: 监视对象里面的某个值时，需要写成箭头函数的形式 ()=>..
+    watch(() => person.job, (nv, ov) => {
+      //这里依然无法拿到正确的ov，因为依然监视的是对象
+      console.log('person的job信息发生改变了',nv, ov);
+      // console.log(nv.j1)
+    }, {
+      //这里必须要加deep:true注意 如果不深度监听的话，那就会监听不到
+      deep: true //此处因为监视的是reactive所定义的响应式对象的一个属性(这个属性的值它依然是一个对象)，所以deep配置有效
+    })
 
     //返回一个对象
     return {

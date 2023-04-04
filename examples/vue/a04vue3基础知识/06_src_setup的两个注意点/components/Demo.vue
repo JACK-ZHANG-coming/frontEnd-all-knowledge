@@ -12,12 +12,13 @@ export default {
   beforeCreate() {
     console.log('----@bc');
   },
-  props: ['msg', 'school'],
-  emits:['hello'],
+  props: ['msg', 'school'], // 父组件传过来的 参数 传参集合的声明
+  emits:['hello'], // 父组件传过来的 函数 传参集合的声明
   setup(props, context){
     // console.log('----setup');
     // console.log(this); ///undefined
     console.log(props); //props: 外部给组件丢的参数 => 响应式(Proxy实例)
+    console.log(props.msg)
     //表演的舞台(setup)
     //准备数据 data
     //ref实现响应式(基本类型)也是采用Object.definedProperty()来实现的 getter和setter
@@ -36,7 +37,7 @@ export default {
     return {
       person,
       test(){
-        context.emit('hello', 666); //触发自定义事件
+        context.emit('hello', 666); //触发自定义事件  //这里使用父组件的函数 第一个参数是函数名，第二个是传的参数
       }
     }
   }

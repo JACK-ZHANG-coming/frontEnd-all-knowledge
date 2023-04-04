@@ -48,6 +48,7 @@ export default {
       //与computed有点类似，依赖收集.(侧重点不一致,watchEffect注重过程,而computed注重计算函数的返回值)
       const x1 = sum.value;
       const x2 = person.job.j1.salary;
+      console.log('x1,x2--->',x1,x2);
     })
 
 

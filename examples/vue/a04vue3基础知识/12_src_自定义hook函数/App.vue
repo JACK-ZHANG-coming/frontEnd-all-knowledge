@@ -1,7 +1,7 @@
 <template>
   <!-- 12_src_自定义hook函数 -->
   <!--vue3的组件模版结构可以没有根标签-->
-  <button @click="isShowDemo = !isShowDemo">{{ isShowDemo ? '隐藏' : '显示'}}</button>
+  <button @click="isShowDemo = !isShowDemo">{{ isShowDemo ? '点击切换为隐藏' : '点击切换为显示'}}</button>
   <Demo v-if="isShowDemo"/>
   <hr/>
   <Test/>

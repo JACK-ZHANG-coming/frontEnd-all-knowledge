@@ -44,7 +44,7 @@ export default {
     // let x = shallowRef(0);
     //但注意对象类型shallowRef不去处理，而ref底层回去借助reactive生成proxy对象(getter/setter)
     //但注意不管是shallowR还是非shallow, 第一层都是响应式的(不如下面的x依然是响应式数据)
-    let x = shallowRef({ y: 0 });
+    let x = shallowRef({ y: 0 }); // 只能监听简单类型的（一层）浅浅的，这里直接改变最外边的对象（替换掉可以），改y的值改变不了；或者{y:0}--->0，直接监听一个0也可以改变
 
     console.log(x);
 

@@ -1,3 +1,4 @@
+<!-- 18_src_provide与inject -->
 <template>
   <div class="app">
     <h2>app(祖) {{ name }}---{{ price }}</h2>

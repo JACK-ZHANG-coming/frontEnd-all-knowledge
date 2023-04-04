@@ -6,6 +6,8 @@
   <button @click="name = name + '~'">修改姓名</button>
   <button @click="age++">增长年龄</button>
   <button @click="salary++">增长薪资</button>
+  <hr/>
+  <button v-on:click="updateName2IsName">通过toRef复制的值重置姓名</button>
 </template>
 
 <script>
@@ -26,12 +28,19 @@ export default {
     //ref类型的值在模板里使用是不需要.value来取的
     const name1 = person.name //注意输出字符串，并不是响应式的数据
     console.log('@@@@@', name1);
-    const name2 = toRef(person,name); //RefImpl 这里的name2与person.name是完全一模一样的(你改这里的name2与你改person.name是一码事),且数据还是响应式的
+    // RefImpl 这里的name2与person.name是完全一模一样的(你改这里的name2与你改person.name是一码事),且数据还是响应式的 
+    // 注意，name要用引号引起来
+    let name2 = toRef(person,'name'); 
     console.log('####', name2);
 
     const x = toRefs(person);
     console.log(x);
 
+    function updateName2IsName(value){
+      console.log('进入了updateName2IsName',name2)
+      console.log('value',value)
+      name2.value = '小张三儿'
+    }
 
     //返回一个对象(toRef是引用 name就是person.name且为响应式)
     //toRef处理一个，而toRefs处理一群
@@ -42,7 +51,9 @@ export default {
       // age: toRef(person, "age"),
       // salary: toRef(person.job.j1, "salary")
       ...toRefs(person),
-      salary: toRef(person.job.j1, 'salary')  //toRef可以与toRefs连用,更加方便
+      salary: toRef(person.job.j1, 'salary'),  //toRef可以与toRefs连用,更加方便  ** 如果重复的话，下面的会覆盖上面的，好用
+      name:name2,
+      updateName2IsName,
     };
 
 

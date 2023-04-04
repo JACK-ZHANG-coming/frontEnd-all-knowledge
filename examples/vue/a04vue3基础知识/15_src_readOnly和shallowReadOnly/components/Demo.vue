@@ -31,7 +31,7 @@ export default {
     // person = readonly(person); //此时person里面的属性值都不允许修改
     //person = shallowReadonly(person); //第一层不能改(name,age), 但j1和salary仍然可以改动
 
-    // sum = readonly(sum); //同理
+    // sum = readonly(sum); // 同理
     // sum = shallowReadonly(sum)
 
     return {
