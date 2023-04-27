@@ -2,6 +2,9 @@
 <template>
   <!--vue3的组件模版结构可以没有根标签-->
   <Demo @hello="showHelloMsg" msg="hello" school="wust">
+    <!-- 
+      v-slot 后面是跟的名字，然后在子组件里面可以用 <slot name="qwe"></slot> 的形式去调用
+     -->
     <template v-slot:qwe>
       没事
     </template>

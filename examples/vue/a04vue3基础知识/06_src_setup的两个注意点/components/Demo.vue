@@ -2,6 +2,7 @@
   <!--vue3的组件模版结构可以没有根标签-->
   <h1>我是app组件</h1>
   <h1>我叫{{ person.name }}, {{ person.age }}岁</h1>
+  <slot name="qwe"></slot>
   <button @click="test">测试触发一次demo的自定义事件</button>
 </template>
 
