@@ -5,7 +5,7 @@ import { Table, Input, InputNumber, Popconfirm } from 'antd';
 
 
 
-const data = [];
+const data: any = [];
 for (let i = 0; i < 12; i++) {
   data.push({
     key: i.toString(),
@@ -14,15 +14,23 @@ for (let i = 0; i < 12; i++) {
     address: `London Park no. ${i}`,
   });
 }
+export interface CAFormOfTableProps {
+
+}
+
+export interface CAFormOfTableState {
+  data: any
+}
 
 
-class EditableTable extends React.Component {
-  constructor(props) {
+class EditableTable extends React.Component<CAFormOfTableProps, CAFormOfTableState>{
+  private columns;
+  constructor(props: CAFormOfTableProps) {
     super(props);
-    this.state = { data, editingKey: '' };
+    this.state = { data };
     this.columns = [
       {
-        title: 'name',
+        title: 'name11',
         dataIndex: 'name',
         width: '25%',
         editable: true,
@@ -56,7 +64,7 @@ class EditableTable extends React.Component {
    * @param key 当前编辑的这一行索引
    */
   save<T>(dataIndex: string, text: any, record: T, key?: string) {
-    const newData = [...this.state.data];
+    const newData: any = [...this.state.data];
     const index = newData.findIndex(item => key === item.key); // 这里后面根据dataIndex来查找
     console.log('dataIndex,text,record, key:', dataIndex, text, record, key)
     console.log('index:', index)
@@ -96,8 +104,8 @@ class EditableTable extends React.Component {
       <Table
         bordered
         dataSource={this.state.data}
-        columns={columns}
-        rowClassName="editable-row"
+        columns={this.columns}
+      // rowClassName="editable-row"
       // pagination={false}
       />
     );
