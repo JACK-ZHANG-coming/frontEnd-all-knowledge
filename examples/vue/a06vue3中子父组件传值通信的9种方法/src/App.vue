@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
-let $router = useRouter();
+import { useRouter } from 'vue-router'
+let $router = useRouter()
 </script>
 
 <template>
-  <h3>vue3中子父组件传值通信的9种方法</h3>
-  <el-space>
+  <h3 style="margin: 20px">vue3中子父组件传值通信的9种方法</h3>
+  <el-space style="margin-bottom: 20px">
     <el-button @click="$router.push('/home')">首页</el-button>
     <el-button @click="$router.push('/c1_props')">1props</el-button>
     <el-button @click="$router.push('/c2_custom_event')">2自定义事件</el-button>
