@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const count = ref(0)
+
+onMounted(() => {
+  console.log('Child3加载完毕')
+})
 </script>
 
 <template>

@@ -1,7 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const lifebar = ref(100)
+
+/**减血 */
+const subLifebar = () => {
+  lifebar.value--
+}
+
+onMounted(() => {
+  console.log('Child2加载完毕')
+})
 </script>
 
 <template>
