@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ajax学习使用</title>
+    <style>
+      .mainContainer {
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mainContainer"></div>
+    <div>打开控制台看ajax请求内容</div>
+    <button>点击发送GET请求</button>
+    <button>点击发送携带参数的GET请求</button>
+    <button>点击发送携带参数的POST请求</button>
+    <button>点击发送携带参数的POST请求-JSON形式传参</button>
+    <br />
+    <br />
+    <button>05点击打开指定文件夹在文件资源管理器-发送携带参数的GET请求</button>
+
+    <script>
+      //01获取button元素 GET请求
+      const btn = document.getElementsByTagName('button')[0]
+      //绑定事件
+      btn.onclick = function () {
+        //1. 创建对象
+        const xhr = new XMLHttpRequest()
+        //2. 初始化 设置请求方法和 url
+        xhr.open('GET', 'http://127.0.0.1:8000/server')
+        //3. 发送
+        xhr.send()
+        //4. 事件绑定 处理服务端返回的结果
+        // on  when 当....时候
+        // readystate 是 xhr 对象中的属性, 表示状态 0 1 2 3 4
+        // change  改变
+        xhr.onreadystatechange = function () {
+          console.log('xhr.readyState--->', xhr.readyState)
+          //判断 (服务端返回了所有的结果)
+          if (xhr.readyState === 4) {
+            //判断响应状态码 200  404  403 401 500
+            // 2xx 成功
+            if (xhr.status >= 200 && xhr.status < 300) {
+              //处理结果  行 头 空行 体
+              //响应
+              // console.log(xhr.status);//状态码
+              // console.log(xhr.statusText);//状态字符串
+              // console.log(xhr.getAllResponseHeaders());//所有响应头
+              // console.log(xhr.response);//响应体
+              //设置 result 的文本
+              console.log(`${btn.textContent}返回回来的数据：`, xhr.response)
+            } else {
+              console.log('接口请求失败', btn.textContent)
+            }
+          }
+        }
+      }
+
+      // 02点击发送带参数的GET请求
+      const btn2 = document.getElementsByTagName('button')[1]
+      //绑定事件
+      btn2.onclick = function () {
+        //1. 创建对象
+        const xhr = new XMLHttpRequest()
+        //2. 初始化 设置请求方法和 url
+        xhr.open('GET', `http://127.0.0.1:8000/server/getAndValue?a=${100}&b=200&c=300`) // get发送数值类型的参数？
+        //3. 发送
+        xhr.send()
+        //4. 事件绑定 处理服务端返回的结果
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              console.log(`${btn2.textContent}返回回来的数据：`, xhr.response)
+            } else {
+              console.log('接口请求失败', btn2.textContent)
+            }
+          }
+        }
+      }
+
+      // 03点击发送带参数的post请求 以form表单形式传参，字符串形式（传的参数都是字符串）
+      const btn3 = document.getElementsByTagName('button')[2]
+      //绑定事件
+      btn3.onclick = function () {
+        //1. 创建对象
+        const xhr = new XMLHttpRequest()
+        //2. 初始化 设置请求方法和 url
+        xhr.open('POST', 'http://127.0.0.1:8000/server/postAndValue')
+        //设置请求头  post请求要设置请求头，以form表单形式传参
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+        //3. 发送
+        xhr.send(`a=100&b=200&c=30000000000111`) // 普通类型，字符串
+        //4. 事件绑定 处理服务端返回的结果
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              console.log(`${btn3.textContent}返回回来的数据：`, xhr.response)
+            } else {
+              console.log('接口请求失败', btn3.textContent)
+            }
+          }
+        }
+      }
+
+      // 04点击发送带参数的post请求 以JSON形式传参，字符串形式（传的参数都是字符串）
+      const btn4 = document.getElementsByTagName('button')[3]
+      //绑定事件
+      btn4.onclick = function () {
+        //1. 创建对象
+        const xhr = new XMLHttpRequest()
+        //2. 初始化 设置请求方法和 url
+        xhr.open('POST', 'http://127.0.0.1:8000/server/postAndValue')
+        //设置请求头  post请求要设置请求头，以JSON形式传参
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        //3. 发送
+        // json类型
+        xhr.send(
+          JSON.stringify({
+            name: 'xibing',
+            a: 20
+          })
+        )
+        //4. 事件绑定 处理服务端返回的结果
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              console.log(`${btn4.textContent}返回回来的数据：`, xhr.response)
+            } else {
+              console.log('接口请求失败', btn4.textContent)
+            }
+          }
+        }
+      }
+
+      // 05点击发送带参数的GET请求
+      const btn5 = document.getElementsByTagName('button')[4]
+      const path = 'C:\\Program Files'
+      //绑定事件
+      btn5.onclick = function () {
+        //1. 创建对象
+        const xhr = new XMLHttpRequest()
+        //2. 初始化 设置请求方法和 url
+        xhr.open('GET', `http://127.0.0.1:8000/server/openFileInExplorerForGet?path=${path}`) // get发送数值类型的参数？
+        //3. 发送
+        xhr.send()
+        //4. 事件绑定 处理服务端返回的结果
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              console.log(`${btn5.textContent}返回回来的数据：`, xhr.response)
+            } else {
+              console.log('接口请求失败', btn5.textContent)
+            }
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
