@@ -1,0 +1,84 @@
+/* 把我们所有标签的内外边距清零 */
+* {
+    margin: 0;
+    padding: 0
+}
+
+/* 去掉li 的小圆点 */
+li {
+    list-style: none
+}
+
+img {
+    /* border 0 照顾低版本浏览器 如果 图片外面包含了链接会有边框的问题 */
+    border: 0;
+    /* 取消图片底侧有空白缝隙的问题 */
+    vertical-align: middle
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+body {
+    margin: 0 auto;
+    font-size: 16px;
+    text-align: justify;
+    color: white;
+}
+
+nav {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    margin-right: 100px;
+    background-color: #09344eea;
+    text-decoration: none;
+}
+
+nav ul li {
+    width: 15%;
+    float: left;
+    margin-left: 65px;
+}
+
+
+
+
+div {
+    position: relative;
+    width: 1260px;
+    margin: 0 auto;
+}
+
+div ul {
+    height: 670px;
+    margin: 0 auto;
+
+}
+
+div ul li {
+    float: left;
+    width: 335px;
+    margin: 30px 35px;
+    height: 315px;
+}
+
+div ul li a {
+    display: block;
+    position: relative;
+    float: left;
+    margin: 40px 120px 20px 10px;
+}
+
+div ul li img {
+    display: block;
+    width: 200px;
+    height: 200px;
+}
+
+div p {
+    color: black;
+    margin: 20px 0 0 66px;
+}
