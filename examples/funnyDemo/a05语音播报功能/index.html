@@ -6,17 +6,16 @@
     <title>语音播报</title>
   </head>
   <body>
-    <h3>看控制台js，关键代码都在js,已经默认自动播报</h3>
+    <h3>点击下方按钮可以进行语音播报</h3>
     <hr />
-    <h4>如果5s后没有声音，可以点击下面这个按钮调试声音</h4>
-    <button onclick="SpeakVoice('')">重置声音</button>
+    <button onclick="areSpeak('哈哈哈哈哈，这是声音~')">播放声音</button>&nbsp;&nbsp;<button onclick="beQuiet()">停止播放</button>
   </body>
   <script>
     //#region 语音播报封装
-    const areSpeak = async newMsg => {
+    const areSpeak = newMsg => {
       // 初次播报使用模拟按钮触发
       virtualClick(SpeakVoice)
-      await speakWithDelay(newMsg, 2000)
+      speakWithDelay(newMsg)
     }
 
     /**
@@ -75,12 +74,12 @@
       })
       button.dispatchEvent(event)
     }
-    //#endregion
 
-    // 调用播报
-    setInterval(() => {
-      let newMsg = 'you想播报的语音'
-      areSpeak(newMsg)
-    }, 2000)
+    const beQuiet = () => {
+      console.log('停止')
+      window.speechSynthesis.cancel()
+      SpeakVoice('')
+    }
+    //#endregion
   </script>
 </html>
