@@ -60,15 +60,34 @@ const rowTarget = {
   },
 };
 
-const DragableBodyRow = DropTarget('row', rowTarget, (connect, monitor) => ({
+// const DragableBodyRow = DropTarget('row', rowTarget, (connect, monitor) => ({
+//   connectDropTarget: connect.dropTarget(),
+//   isOver: monitor.isOver(),
+// }))(
+//   DragSource('row', rowSource, connect => ({
+//     connectDragSource: connect.dragSource(),
+//   }))(BodyRow),
+// );
+
+const DropTargetDecorator = DropTarget('row', rowTarget, (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
   isOver: monitor.isOver(),
-}))(
-  DragSource('row', rowSource, connect => ({
-    connectDragSource: connect.dragSource(),
-  }))(BodyRow),
-);
+}));
 
+const DragSourceDecorator = DragSource('row', rowSource, connect => ({
+  connectDragSource: connect.dragSource(),
+}));
+
+const DragableBodyRow = DropTargetDecorator(DragSourceDecorator(BodyRow));
+
+
+// const a: any = () => {
+//   console.log('a');
+// }
+// const b = () => {
+//   console.log('b');
+// }
+// a()(b())
 const columns = [
   {
     title: 'Name',
