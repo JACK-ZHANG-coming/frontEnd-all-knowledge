@@ -1,113 +1,163 @@
+/**拖拽表格 */
 import React from 'react';
 import 'antd/dist/antd.css';
 import './index.css';
 import { Table, Input, InputNumber, Popconfirm } from 'antd';
+import { DndProvider, DragSource, DropTarget } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import update from 'immutability-helper';
 
+let dragingIndex = -1;
 
+class BodyRow extends React.Component<any, any> {
+  render() {
+    const { isOver, connectDragSource, connectDropTarget, moveRow, ...restProps } = this.props;
+    const style = { ...restProps.style, cursor: 'move' };
 
-const data: any = [];
-for (let i = 0; i < 12; i++) {
-  data.push({
-    key: i.toString(),
-    name: `Edrward ${i}`,
-    age: 32,
-    address: `London Park no. ${i}`,
-  });
+    let { className } = restProps;
+    if (isOver) {
+      if (restProps.index > dragingIndex) {
+        className += ' drop-over-downward';
+      }
+      if (restProps.index < dragingIndex) {
+        className += ' drop-over-upward';
+      }
+    }
+
+    return connectDragSource(
+      connectDropTarget(<tr {...restProps} className={className} style={style} />),
+    );
+  }
 }
+
+const rowSource = {
+  beginDrag(props) {
+    dragingIndex = props.index;
+    return {
+      index: props.index,
+    };
+  },
+};
+
+const rowTarget = {
+  drop(props, monitor) {
+    const dragIndex = monitor.getItem().index;
+    const hoverIndex = props.index;
+
+    // Don't replace items with themselves
+    if (dragIndex === hoverIndex) {
+      return;
+    }
+
+    // Time to actually perform the action
+    props.moveRow(dragIndex, hoverIndex);
+
+    // Note: we're mutating the monitor item here!
+    // Generally it's better to avoid mutations,
+    // but it's good here for the sake of performance
+    // to avoid expensive index searches.
+    monitor.getItem().index = hoverIndex;
+  },
+};
+
+const DragableBodyRow = DropTarget('row', rowTarget, (connect, monitor) => ({
+  connectDropTarget: connect.dropTarget(),
+  isOver: monitor.isOver(),
+}))(
+  DragSource('row', rowSource, connect => ({
+    connectDragSource: connect.dragSource(),
+  }))(BodyRow),
+);
+
+const columns = [
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: 'Age',
+    dataIndex: 'age',
+    key: 'age',
+  },
+  {
+    title: 'Address',
+    dataIndex: 'address',
+    key: 'address',
+  },
+];
+
+
 export interface CAFormOfTableProps {
 
 }
 
 export interface CAFormOfTableState {
-  data: any
+
 }
 
 
-class EditableTable extends React.Component<CAFormOfTableProps, CAFormOfTableState>{
+class EditableTable extends React.Component<any, any>{
   private columns;
-  constructor(props: CAFormOfTableProps) {
+  constructor(props: any) {
     super(props);
-    this.state = { data };
-    this.columns = [
-      {
-        title: 'name11',
-        dataIndex: 'name',
-        width: '25%',
-        editable: true,
-      },
-      {
-        title: 'age',
-        dataIndex: 'age',
-        width: '15%',
-        editable: true,
-        render: (text, record) => {
-          return <InputNumber
-            value={text}
-            onChange={(e) => {
-              this.save('age', e, record, record.key)
-            }}></InputNumber>
-        }
-      },
-      {
-        title: 'address',
-        dataIndex: 'address',
-        width: '40%',
-        editable: true,
-      }
-    ];
+    this.state = {
+      data: [
+        {
+          key: '1',
+          name: 'John Brown',
+          age: 32,
+          address: 'New York No. 1 Lake Park',
+        },
+        {
+          key: '2',
+          name: 'Jim Green',
+          age: 42,
+          address: 'London No. 1 Lake Park',
+        },
+        {
+          key: '3',
+          name: 'Joe Black',
+          age: 32,
+          address: 'Sidney No. 1 Lake Park',
+        },
+      ],
+    };
   }
-  /**
-   * 保存表格数据
-   * @param editKey 当前编辑的这一行英文索引名 dataIndex
-   * @param text 当前编辑的内容值
-   * @param record 当前行数据
-   * @param key 当前编辑的这一行索引
-   */
-  save<T>(dataIndex: string, text: any, record: T, key?: string) {
-    const newData: any = [...this.state.data];
-    const index = newData.findIndex(item => key === item.key); // 这里后面根据dataIndex来查找
-    console.log('dataIndex,text,record, key:', dataIndex, text, record, key)
-    console.log('index:', index)
-    if (index > -1) {
-      const item = newData[index];
-      newData.splice(index, 1, {
-        ...item,
-        [`${dataIndex}`]: text,
-      });
-      console.log('newData===>', newData)
-      this.setState({ data: newData });
-    } else {
-      newData.push(record);
-      this.setState({ data: newData });
-    }
-  }
+
+  components = {
+    body: {
+      row: DragableBodyRow,
+    },
+  };
+
+  moveRow = (dragIndex, hoverIndex) => {
+    const { data } = this.state;
+    const dragRow = data[dragIndex];
+
+    this.setState(
+      update(this.state, {
+        data: {
+          $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
+        },
+      }),
+    );
+  };
 
 
   render() {
-
-    const columns = this.columns.map(col => {
-      if (!col.editable) {
-        return col;
-      }
-      return {
-        ...col,
-        onCell: record => ({
-          record,
-          // inputType: col.dataIndex === 'age' ? 'number' : 'text',
-          dataIndex: col.dataIndex,
-          title: col.title,
-        }),
-      };
-    });
-
     return (
-      <Table
-        bordered
-        dataSource={this.state.data}
-        columns={this.columns}
-      // rowClassName="editable-row"
-      // pagination={false}
-      />
+      <DndProvider backend={HTML5Backend}>
+        <Table
+          columns={columns}
+          dataSource={this.state.data}
+          components={this.components}
+          onRow={(record, index) => ({
+            index,
+            moveRow: this.moveRow,
+          })}
+        />
+      </DndProvider>
     );
   }
 }
