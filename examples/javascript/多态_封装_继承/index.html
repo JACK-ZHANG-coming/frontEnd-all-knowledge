@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>多态_封装_继承</title>
+  </head>
+  <body>
+    <h3>js多态_封装_继承_详情见控制台</h3>
+
+    <script>
+      /**
+       * 多态
+       * 
+      */
+      let petEat = function (pet) {
+        pet.eat()
+      }
+      let Dog = function () {}
+      Dog.prototype.eat = function () {
+        console.log('吃肉')
+      }
+      let Cat = function () {}
+      Cat.prototype.eat = function () {
+        console.log('吃鱼')
+      }
+
+      petEat(new Dog())
+      petEat(new Cat())
+    </script>
+  </body>
+</html>
