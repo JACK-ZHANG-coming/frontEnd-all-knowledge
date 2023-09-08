@@ -9,7 +9,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import DomFormatModal from '../../components/DomFormatModal.vue'
 
 interface bookmarkType {
-  favicon: string | null
+  favicon: string | null | any
   title: string
   src: string
 }
@@ -141,7 +141,7 @@ const areExport = () => {
 <template>
   <el-container class="common-el-container">
     <el-header class="common-el-header">
-      <span>😀朴实无华的导航网页</span>
+      <span>😀朴实无华的书签导航网页</span>
       <el-space :size="10" spacer="|">
         <el-input
           v-model="searchValue"
@@ -150,9 +150,13 @@ const areExport = () => {
           :prefix-icon="Search" />
         <el-button type="info" :icon="Plus" @click="areFunctionNotOpen">新增书签</el-button>
         <el-button type="info" :icon="Delete" @click="areFunctionNotOpen">删除书签</el-button>
-        <el-button type="primary" :icon="Upload" @click="bulkImportModalVisible = true">批量导入书签</el-button>
+        <el-button type="primary" :icon="Upload" @click="bulkImportModalVisible = true">
+          批量导入书签
+        </el-button>
         <el-button type="primary" :icon="Download" @click="areExport">导出书签</el-button>
-        <el-button type="primary" :icon="Switch" @click="areChangeVisible">解析浏览器书签文件</el-button>
+        <el-button type="primary" :icon="Switch" @click="areChangeVisible">
+          解析浏览器书签文件
+        </el-button>
         <el-button type="info" :icon="Share" @click="areFunctionNotOpen">源码</el-button>
       </el-space>
     </el-header>
