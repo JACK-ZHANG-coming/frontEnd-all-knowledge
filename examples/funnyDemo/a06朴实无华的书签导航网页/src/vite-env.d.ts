@@ -6,3 +6,4 @@
 //     export default Component;
 
 // }
+declare module 'jrj-front-end-tool';

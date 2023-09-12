@@ -7,6 +7,7 @@ import { reactive, ref } from 'vue'
 import { Share, Search, Upload, Download, Delete, Plus, Switch } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import DomFormatModal from '../../components/DomFormatModal.vue'
+import { typeCheck } from 'jrj-front-end-tool'
 
 interface bookmarkType {
   favicon: string | null | any
@@ -17,6 +18,7 @@ interface bookmarkType {
 interface bookmarkGroupType {
   [prop: string]: bookmarkType[]
 }
+
 
 const bulkImportPlaceholder = `
   这里粘贴已经解析过的json数据（就是刚刚解析浏览器书签文件的内容），例子如下：

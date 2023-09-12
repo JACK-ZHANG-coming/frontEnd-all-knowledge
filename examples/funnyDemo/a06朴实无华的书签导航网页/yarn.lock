@@ -610,6 +610,11 @@ is-number@^7.0.0:
   resolved "https://registry.npmmirror.com/is-number/-/is-number-7.0.0.tgz#7535345b896734d5f80c4d06c50955527a14f12b"
   integrity sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==
 
+jrj-front-end-tool@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/jrj-front-end-tool/-/jrj-front-end-tool-0.0.1.tgz#d3629379dbbd17839b7bfa2b2d2b350944cdac7f"
+  integrity sha512-XE6iRLTGfouICittSOL8VoTig0SyLJgC8DniLSjtEbBSsTMkk/EJl6qw4hv1xobp7TzzokbdMu5iXdrLiw5tXQ==
+
 jsonc-parser@^3.2.0:
   version "3.2.0"
   resolved "https://registry.npmmirror.com/jsonc-parser/-/jsonc-parser-3.2.0.tgz#31ff3f4c2b9793f89c67212627c51c6394f88e76"
@@ -634,6 +639,11 @@ lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.npmmirror.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
+
+ly-plugins@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/ly-plugins/-/ly-plugins-0.0.8.tgz#0dc572a6abfcb6de721c08b3387c6bce8a0d8f35"
+  integrity sha512-7qx4liSZDLRoqPpFlqaGcTylWTHcEaBv/Ub3lE0IvNUi4RtJr9+/uIrhEt+vMzqW3cXb1mjAKfBq/z8f8agImA==
 
 magic-string@^0.25.7:
   version "0.25.9"
