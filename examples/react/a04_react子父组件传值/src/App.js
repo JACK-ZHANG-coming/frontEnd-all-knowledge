@@ -3,6 +3,7 @@ import { add, areDataReckon } from '@hlyy-front/master-tool';
 import Child1 from './components/Child1/index';
 import Child2 from './components/Child2/index';
 import Child3 from './components/Child3/index';
+import Child4 from './components/Child4/index';
 
 const App = () => {
   const [parentValue, setParentValue] = useState('我是父组件的值-');
@@ -11,8 +12,8 @@ const App = () => {
 
   useEffect(() => {
     setIsChild2value(Child2Ref?.current?.areGetChild2Value());
-    console.log('---本日：', areDataReckon('本日'));
-    console.log(add(1, 2));
+    // console.log('---本日：', areDataReckon('本日'));
+    // console.log(add(1, 2));
   }, [])
 
   return (
@@ -41,6 +42,7 @@ const App = () => {
         <Child1 parentValue={parentValue} setParentValue={setParentValue}></Child1>
         <Child2 ref={Child2Ref}></Child2>
         <Child3 areGetChild2Value={Child2Ref}></Child3>
+        <Child4></Child4>
 
       </div>
     </>

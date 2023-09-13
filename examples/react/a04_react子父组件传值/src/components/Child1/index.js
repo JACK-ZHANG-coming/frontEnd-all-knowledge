@@ -7,7 +7,7 @@ const Child1 = (props) => {
   //   console.log('组件挂载完毕');
   // }
   useEffect(()=>{
-    console.log('组件挂载完毕---useEffect');
+    // console.log('组件挂载完毕---useEffect');
   },[])
   return (
     <>
