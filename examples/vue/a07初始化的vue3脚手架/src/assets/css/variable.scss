@@ -1,0 +1,52 @@
+$font-size-mini: 13px;
+$font-size-small: 15px;
+$font-size-common: 17px;
+$font-size-medium: 20px;
+$font-size-big: 25px;
+
+$header-bar-height: 70px;
+$footer-bar-height: 48px;
+
+$color-primary: #1677f7;
+$color-success: #52c41a;
+$color-info: #909399;
+$color-danger: #ff4d4f;
+$color-warning: #faad14;
+$color-box-background: #ffffff;
+$color-background: #f8f8f8;
+$color-white: #ffffff;
+$color-black: #000000;
+
+// 自定义element ui样式
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'white': $color-white,
+    'black': $color-black,
+    'primary': (
+      'base': $color-primary
+    ),
+    'success': (
+      'base': $color-success
+    ),
+    'warning': (
+      'base': $color-warning
+    ),
+    'danger': (
+      'base': $color-danger
+    ),
+    'error': (
+      'base': $color-danger
+    ),
+    'info': (
+      'base': $color-primary
+    )
+  ),
+  $font-size: (
+    'extra-large': 20px,
+    'large': 18px,
+    'medium': 16px,
+    'base': 14px,
+    'small': 13px,
+    'extra-small': 12px
+  )
+);

@@ -1,0 +1,189 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  background-color: $color-background;
+}
+
+/*怪异盒模型*/
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+/*不倾斜*/
+em,
+i {
+  font-style: normal;
+}
+
+/*去掉列表前面的小点*/
+ul {
+  li {
+    list-style: none;
+  }
+}
+
+/*去掉图片边框和图片底侧的空白缝隙*/
+img {
+  border: 0;
+  vertical-align: middle;
+}
+
+/*单行文字隐藏*/
+.text-one-hidden {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*多行溢出(超出省略)*/
+.text-two-dot {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
+//盒子阴影
+.box_shadow {
+  box-shadow: 0px 5px 8px 5px rgba(#000000, 0.05);
+}
+
+//两边排版
+.space_between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.box_padding {
+  padding: 20px 30px;
+}
+//颜色样式
+.color_primary {
+  color: $color-primary;
+}
+
+.color_success {
+  color: $color-success;
+}
+
+.color_info {
+  color: $color-info;
+}
+
+.color_danger {
+  color: $color-danger;
+}
+
+.color_box_background {
+  background-color: $color-box-background;
+}
+//弹出框标题
+.el-dialog__title {
+  color: $color-primary !important;
+}
+
+//穿梭框样式
+.el-transfer {
+  width: 90%;
+  margin-left: 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .el-transfer-panel {
+    width: 40%;
+    box-shadow: 0px 5px 8px 5px rgba(#000000, 0.05);
+    .el-input {
+      width: auto;
+    }
+  }
+
+  .el-transfer__buttons {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column-reverse;
+
+    button {
+      width: 30px;
+      height: 50px;
+      margin: 10px 0;
+
+      i {
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+.el-tabs__content {
+  .el-checkbox-group {
+    margin-left: 40px;
+
+    .el-checkbox {
+      height: 35px;
+      margin-top: -5px;
+      color: $color-info;
+
+      .el-checkbox__label {
+        width: 180px;
+      }
+    }
+  }
+}
+.el-dropdown-menu__item--divided {
+  padding: 0 !important;
+}
+.el-divider {
+  margin: 15px 0;
+}
+//按钮样式
+.toolbar_button_style {
+  margin-left: 12px;
+}
+
+//修改vxe消息框样式
+.vxe-modal--box:has(.vxe-modal--status-wrapper .vxe-icon-success-circle-fill) {
+  color: $color-success;
+  border-color: #e1f3d8;
+  background-color: #f0f9eb;
+}
+.vxe-modal--box:has(.vxe-modal--status-wrapper .vxe-icon-warnion-circle-fill) {
+  color: $color-warning;
+  border-color: #fde2e2;
+  background-color: #fdf6ec;
+}
+.vxe-modal--box:has(.vxe-modal--status-wrapper .vxe-icon-error-circle-fill) {
+  color: $color-danger;
+  border-color: #e9e9eb;
+  background-color: #fef0f0;
+}
+.vxe-modal--box:has(.vxe-modal--status-wrapper .vxe-icon-info-circle-fill) {
+  color: $color-info;
+  border-color: #e9e9eb;
+  background-color: #f4f4f5;
+}
+//打印配置
+@media print {
+  @page {
+    margin: 0 !important;
+    mso-header: none;
+    mso-footer: none;
+  }
+}

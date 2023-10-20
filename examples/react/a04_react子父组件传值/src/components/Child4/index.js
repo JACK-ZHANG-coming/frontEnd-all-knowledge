@@ -1,12 +1,11 @@
-import React, { useEffect,memo } from 'react';
+import React, { useEffect } from 'react';
 import { getLengthArray } from '@jrj-front-end/tools'
 
 
-const Child4 = memo((props, ref) => {
-
+const Child4 = (props, ref) => {
   useEffect(() => {
     console.log('===>11', getLengthArray(2));
-  }, [])
+  }, [props])
 
   // console.log("props:", props);
   return (
@@ -15,6 +14,6 @@ const Child4 = memo((props, ref) => {
     </>
   )
 
-})
+}
 
 export default Child4;
