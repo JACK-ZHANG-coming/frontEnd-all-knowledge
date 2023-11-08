@@ -1,0 +1,19 @@
+{
+	"name": "phone",
+	"version": "1.0.0",
+	"description": "",
+	"main": "main.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"moment": "^2.29.4"
+	},
+	"dependencies": {
+		"@vue/reactivity": "^3.3.8",
+		"element-plus": "^2.4.2"
+	}
+}
