@@ -14,6 +14,7 @@ const PageView = props => {
   isNum.current = 3
   const [count, setCount] = useState(3)
   const [showTime, steShowTime] = useState(false)
+  const [userName, setUserName] = useState('')
 
   /**
    * 网页全屏
@@ -43,6 +44,28 @@ const PageView = props => {
     // setCount(3)
   }
 
+  /**
+     * 获取url?后面的参数值
+     * @param name 所要获取的参数名
+     * 
+     * eg:
+     *  https://www.baidu.com?param1=111&parma2=222
+     *  GetQueryString('param1') ---> 111
+     */
+  const GetQueryString = (name) => {
+    let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+    let r = window.location.search.substring(1).match(reg);
+    if (r != null) {
+      return unescape(r[2]);
+    }
+    return null;
+  }
+
+  useEffect(() => {
+    let userName = GetQueryString('userName')
+    setUserName(userName)
+  }, [])
+
   useEffect(
     () => {
       clearInterval(myInterval.current)
@@ -61,7 +84,7 @@ const PageView = props => {
           null
           :
           <div className="printer-div">
-            嘿，点击这个按钮，开启你的礼物^_^
+            嘿，{userName ? `${userName}，` : ''}点击这个按钮，开启你的礼物^_^
             &nbsp;
             <button onClick={() => {
               console.log('点了这个按钮');
