@@ -1,0 +1,11 @@
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $colors: (
+    "primary": (
+      "base": #9B59B6
+    ),
+    "success": (
+      "base": #67c23a
+    )
+  )
+);
+@import "element-plus/theme-chalk/src/index.scss"; // 如果想要引入所有的样式

@@ -1,0 +1,378 @@
+@import "./element-variables.scss";
+@import "./element-ui.scss";
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* 解决 h1 标签在 webkit 内核浏览器中文字大小失效问题 */
+:-webkit-any(article, aside, nav, section) h1 {
+  font-size: 2em;
+}
+
+body {
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+}
+
+label {
+  font-weight: 700;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.no-padding {
+  padding: 0px !important;
+}
+
+.padding-content {
+  padding: 4px 0;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+.fr {
+  float: right;
+}
+
+.fl {
+  float: left;
+}
+
+.pr-5 {
+  padding-right: 5px;
+}
+
+.pl-5 {
+  padding-left: 5px;
+}
+
+.block {
+  display: block;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.inlineBlock {
+  display: block;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+
+// 菜单栏
+aside {
+  // background: #eef1f6;
+  background-color: var(--el-menu-bg-color);
+  padding: 0 2px;
+  // margin-bottom: 10px;
+  // border-radius: 2px;
+  display: block;
+  line-height: 32px;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  color: #2c3e50;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  a {
+    color: #337ab7;
+    cursor: pointer;
+
+    &:hover {
+      color: rgb(32, 160, 255);
+    }
+  }
+}
+
+// 全局样式
+.text-center {
+  text-align: center;
+}
+
+.link-type,
+.link-type:focus {
+  color: #337ab7;
+  cursor: pointer;
+
+  &:hover {
+    color: rgb(32, 160, 255);
+  }
+}
+
+
+//refine vue-multiselect plugin
+.multiselect {
+  line-height: 16px;
+}
+
+.multiselect--active {
+  z-index: 1000 !important;
+}
+
+// 主题颜色
+.router-link-active .is-active span {
+  color: #fff;
+}
+
+.tags-view-container .tags-view-wrapper .tags-view-item.active {
+  background-color: #355db4 !important;
+  border-color: #355db4 !important;
+}
+
+/*******************flex样式****************************/
+.flex-box {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+
+/*************垂直方向左对齐********/
+.flex-ver-left {
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+
+/*************水平方向左对齐********/
+.flex-ver-h-left {
+  justify-content: flex-start;
+}
+
+/*************水平方向右对齐********/
+.flex-ver-h-right {
+  justify-content: flex-end;
+}
+
+/*************水平垂直居中********/
+.flex-ver {
+  align-items: center;
+  justify-content: center;
+}
+
+/*************垂直居中********/
+.flex-ver-v {
+  align-items: center;
+}
+
+/*************水平居中********/
+.flex-ver-h {
+  justify-content: center;
+}
+
+/*************换行********/
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+/*************两端对齐********/
+.flex-between {
+  justify-content: space-between;
+}
+
+/*******************flex样式结束****************************/
+.dl-horizontal {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+
+  dt {
+    min-width: 60px;
+    text-align: right;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  dd {
+    margin-inline-start: 20px;
+  }
+}
+
+.sidebar-logo-container {
+  cursor: pointer;
+}
+
+/* flex */
+.flx-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flx-justify-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flx-align-center {
+  display: flex;
+  align-items: center;
+}
+
+/* clearfix */
+.clearfix::after {
+  display: block;
+  height: 0;
+  overflow: hidden;
+  clear: both;
+  content: "";
+}
+
+/* 文字单行省略号 */
+.sle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 文字多行省略号 */
+.mle {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* 文字多了自动換行 */
+.break-word {
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+/* fade-transform */
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all 0.2s;
+}
+
+.fade-transform-enter-from {
+  opacity: 0;
+  transition: all 0.2s;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transition: all 0.2s;
+  transform: translateX(30px);
+}
+
+/* breadcrumb-transform */
+.breadcrumb-enter-active {
+  transition: all 0.2s;
+}
+
+.breadcrumb-enter-from,
+.breadcrumb-leave-active {
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+/* scroll bar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--el-border-color-darker);
+  border-radius: 20px;
+}
+
+/* nprogress */
+#nprogress .bar {
+  background: var(--el-color-primary) !important;
+}
+
+#nprogress .spinner-icon {
+  border-top-color: var(--el-color-primary) !important;
+  border-left-color: var(--el-color-primary) !important;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px var(--el-color-primary), 0 0 5px var(--el-color-primary) !important;
+}
+
+/* 外边距、内边距全局样式 */
+@for $i from 0 through 40 {
+  .mt#{$i} {
+    margin-top: #{$i}px !important;
+  }
+
+  .mr#{$i} {
+    margin-right: #{$i}px !important;
+  }
+
+  .mb#{$i} {
+    margin-bottom: #{$i}px !important;
+  }
+
+  .ml#{$i} {
+    margin-left: #{$i}px !important;
+  }
+
+  .pt#{$i} {
+    padding-top: #{$i}px !important;
+  }
+
+  .pr#{$i} {
+    padding-right: #{$i}px !important;
+  }
+
+  .pb#{$i} {
+    padding-bottom: #{$i}px !important;
+  }
+
+  .pl#{$i} {
+    padding-left: #{$i}px !important;
+  }
+}
