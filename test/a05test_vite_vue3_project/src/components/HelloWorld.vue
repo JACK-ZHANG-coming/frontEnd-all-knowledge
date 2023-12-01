@@ -63,7 +63,6 @@ const tableConfig = reactive<any>({
       {{ header }}
     </div>
     <div class="content">
-      <!-- <j-div  :content="123"></j-div> -->
       <j-table :tableConfig="tableConfig"></j-table>
     </div>
   </div>
@@ -86,6 +85,7 @@ $headerHeight: 30px;
     width: 100%;
     height: calc(100vh - $headerHeight);
     border: 1px solid yellowgreen;
+    padding: 10px 20px;
   }
 }
 </style>
