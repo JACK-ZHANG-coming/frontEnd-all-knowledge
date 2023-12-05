@@ -10,10 +10,12 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import VXETable from 'vxe-table'
 import 'vxe-table/lib/style.css'
 
+import '@jrj-front-end/jrj-ui/lib/style.css'
+
 const app = createApp(App)
 
 // 注册全局公共组件
-const componentList = {  }
+const componentList = {}
 for (const [key, component] of Object.entries({ ...ElementPlusIconsVue, ...componentList })) {
   app.component(key, component)
 }
