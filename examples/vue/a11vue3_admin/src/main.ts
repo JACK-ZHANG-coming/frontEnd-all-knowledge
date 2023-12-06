@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 
 import '@/assets/css/global.scss'
 import App from './App.vue'
+import router from './router'
 
 // 引入element-plus
 import ElementPlus from 'element-plus'
@@ -17,6 +18,7 @@ for (const [key, component] of Object.entries({ ...ElementPlusIconsVue, ...compo
   app.component(key, component)
 }
 
+app.use(router)
 app.use(ElementPlus, {
   locale: zhCn,
   size: 'default'
