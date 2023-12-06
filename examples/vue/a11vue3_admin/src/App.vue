@@ -1,9 +1,19 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { useRoute, useRouter, RouterView } from 'vue-router'
+
+const route = useRoute()
 </script>
 
 <template>
-  <HelloWorld msg="Vite + Vue" />
+  <div class="main_box">
+    <RouterView v-slot="{ Component }">
+      <component :is="Component" :key="route.name" />
+    </RouterView>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.main_box {
+  height: 100%;
+}
+</style>
