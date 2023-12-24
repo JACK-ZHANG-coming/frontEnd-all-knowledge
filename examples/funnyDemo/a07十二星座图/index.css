@@ -7,7 +7,16 @@
   display: block;
 }
 
-.main-canvas{
+.main-canvas {
   width: 100vw;
   height: 100vh;
+}
+
+._audio {
+  position: absolute;
+  width: 300px;
+  height: 35px;
+  bottom: 5%;
+  right: 5%;
+  opacity: 0.5;
 }

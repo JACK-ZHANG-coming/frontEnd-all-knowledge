@@ -451,22 +451,10 @@ const init = () => {
   }, 1000);
 }
 
-const music = () => {
-  let audioElement = new Audio();
-  audioElement.src = "../static/iw ix - 天空之城（钢琴版）（Cover 久石让）.mp3";
-  audioElement.loop = true;
-  audioElement.play();
-}
-
 window.onload = function () {
   // 在这里执行你想要在页面加载完成后执行的代码
   console.log('页面加载完成！');
   init()
-
-  setTimeout(() => {
-    music()
-  }, 1000)
-
 };
 
 // 添加beforeunload事件监听器
