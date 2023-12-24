@@ -1,0 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+#canvas {
+  background: #000;
+  display: block;
+}
+
+.main-canvas{
+  width: 100vw;
+  height: 100vh;
+}
