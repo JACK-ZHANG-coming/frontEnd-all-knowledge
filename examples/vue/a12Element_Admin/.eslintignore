@@ -1,0 +1,11 @@
+dist
+.husky
+*.d.ts
+public
+/src/assets
+.eslintrc.js
+.prettierrc.js
+uno.config.ts
+commitlint.config.js
+node_modules
+components.d.ts

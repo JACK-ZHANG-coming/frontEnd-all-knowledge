@@ -1,0 +1,73 @@
+{
+	"pages": [{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/login/setIP",
+			"style": {
+				"navigationBarTitleText": "配置IP",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/usercenter/usercenter",
+			"style": {
+				"navigationBarTitleText": "个人中心",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/usercenter/aboutUs",
+			"style": {
+				"navigationBarTitleText": "关于我们",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/usercenter/changePwd",
+			"style": {
+				"navigationBarTitleText": "修改密码",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/factoryStation/factoryStation",
+			"style": {
+				"navigationBarTitleText": "工人操作台",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/factoryStation/startTask",
+			"style": {
+				"navigationBarTitleText": "开工",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/factoryStation/commitTask",
+			"style": {
+				"navigationBarTitleText": "报工",
+				"enablePullDownRefresh": false
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "MES",
+		"navigationBarBackgroundColor": "#108ee9",
+		"backgroundColor": "#F8F8F8",
+		"app-plus": {
+			"background": "#efeff4"
+		}
+	}
+}

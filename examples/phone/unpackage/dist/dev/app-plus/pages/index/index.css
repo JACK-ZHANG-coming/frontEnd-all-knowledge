@@ -1,0 +1,26 @@
+/* 水平间距 */
+/* 水平间距 */
+.moduleContainer .option {
+  width: 33.33%;
+  height: 75px;
+  display: inline-block;
+  margin-top: 15px;
+  text-decoration: none;
+}
+.moduleContainer .option .icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2.5rem;
+  margin-top: 5px;
+}
+.moduleContainer .option .icon .image {
+  width: 50px;
+  height: 50px;
+}
+.moduleContainer .option .text {
+  font-size: 13px;
+  text-align: center;
+  margin-top: 10px;
+  color: #666;
+}

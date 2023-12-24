@@ -1,0 +1,27 @@
+{
+  "name": "jrj-ui-test-project",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue-jsx": "^3.1.0",
+    "element-plus": "^2.4.3",
+    "eslint": "^8.54.0",
+    "unplugin-element-plus": "^0.8.0",
+    "vite-plugin-vue-setup-extend-plus": "^0.1.0",
+    "vue": "^3.3.4",
+    "vxe-table": "^4.5.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "sass": "^1.69.5",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vue-tsc": "^1.8.5"
+  }
+}

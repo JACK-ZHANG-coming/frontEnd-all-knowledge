@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./", // 解析非相对模块的基地址，默认是当前目录
+    "paths": {
+      //路径映射，相对于baseUrl
+      "@/*": ["src/*"]
+    },
+    "types": [
+      "vite/client",
+      "unplugin-vue-define-options/macros-global",
+      "element-plus/global"
+    ],
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "node",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "auto-imports.d.ts"
+  ],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

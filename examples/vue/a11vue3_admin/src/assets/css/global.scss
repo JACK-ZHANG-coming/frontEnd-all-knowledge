@@ -1,0 +1,91 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  background-color: $color-background;
+}
+
+/*怪异盒模型*/
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+/*不倾斜*/
+em,
+i {
+  font-style: normal;
+}
+
+/*去掉列表前面的小点*/
+ul {
+  li {
+    list-style: none;
+  }
+}
+
+/*去掉图片边框和图片底侧的空白缝隙*/
+img {
+  border: 0;
+  vertical-align: middle;
+}
+
+/*单行文字隐藏*/
+.text-one-hidden {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*多行溢出(超出省略)*/
+.text-two-dot {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
+//修改vxe消息框样式
+.vxe-modal--box:has(.vxe-modal--status-wrapper .vxe-icon-success-circle-fill) {
+  color: $color-success;
+  border-color: #e1f3d8;
+  background-color: #f0f9eb;
+}
+.vxe-modal--box:has(.vxe-modal--status-wrapper .vxe-icon-warnion-circle-fill) {
+  color: $color-warning;
+  border-color: #fde2e2;
+  background-color: #fdf6ec;
+}
+.vxe-modal--box:has(.vxe-modal--status-wrapper .vxe-icon-error-circle-fill) {
+  color: $color-danger;
+  border-color: #e9e9eb;
+  background-color: #fef0f0;
+}
+.vxe-modal--box:has(.vxe-modal--status-wrapper .vxe-icon-info-circle-fill) {
+  color: $color-info;
+  border-color: #e9e9eb;
+  background-color: #f4f4f5;
+}
+//打印配置
+@media print {
+  @page {
+    margin: 0 !important;
+    mso-header: none;
+    mso-footer: none;
+  }
+}
