@@ -1,22 +1,25 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, Ref } from 'vue'
 import Child1 from './components/Child1.vue'
 import Child2 from './components/Child2.vue'
 import Child3 from './components/Child3.vue'
+
+interface child1refType {
+  /**生命值 */
+  lifebar: number
+  /**加血 */
+  addLifebar: () => void
+}
 
 const data = reactive({
   lifebar: 100,
   child1_lifebar: 0
 })
 
-const child1ref: {
-  value: {
-    /**生命值 */
-    lifebar: number
-    /**加血 */
-    addLifebar: () => void
-  }
-} = ref<T>()
+const child1ref: Ref<child1refType> = ref({
+  lifebar: 0,
+  addLifebar: () => {}
+})
 const child2ref = ref()
 
 /**自身加血 */

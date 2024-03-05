@@ -10,6 +10,16 @@ const routes: any[] = [
     }
   },
   {
+    path: '/home',
+    name: 'home',
+    // component: () => import('@/views/home/index.vue'),
+    meta: {
+      title: '首页',
+      showHeader: false,
+      showFooter: false
+    }
+  },
+  {
     path: '/testPage',
     name: 'testPage',
     component: () => import('@/views/testPage/index.vue'),
