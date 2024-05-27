@@ -3,7 +3,7 @@ import Home from '../views/home/index.vue';
 import C1_props from '../views/c1_props/c1_props.vue';
 import C2_custom_event from '../views/c2_custom_event/c2_custom_event.vue';
 import C3_eventBus from '../views/c3_event-bus/c3_event-bus.vue';
-import C4_vModel from '../views/c4_v-model/c4_v-model.vue';
+import C4_vModel from '../views/c4_v-model/index.vue';
 import C5_attrsListeners from '../views/c5_attrs-listeners/c5_attrs-listeners.vue';
 import C6_refChildrenProps from '../views/c6_ref-children-props/c6_ref-children-props.vue';
 import C7_provideInject from '../views/c7_provide-inject/c7_provide-inject.vue';
