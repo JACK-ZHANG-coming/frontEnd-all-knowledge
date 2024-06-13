@@ -27,7 +27,7 @@ export default defineMock([
         refreshToken: null,
         expires: null,
       },
-      msg: "一切ok",
+      msg: "一切ok1111",
     },
   },
 
