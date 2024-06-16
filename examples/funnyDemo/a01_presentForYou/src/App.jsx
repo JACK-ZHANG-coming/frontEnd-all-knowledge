@@ -53,17 +53,17 @@ const PageView = props => {
      *  GetQueryString('param1') ---> 111
      */
   const GetQueryString = (name) => {
-    let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-    let r = window.location.search.substring(1).match(reg);
-    if (r != null) {
-      return unescape(r[2]);
-    }
-    return null;
+    const urlParams = new URLSearchParams(window.location.search);
+    const value = decodeURIComponent(urlParams.get(name));
+
+    return value
   }
 
   useEffect(() => {
-    let userName = GetQueryString('userName')
-    setUserName(userName)
+    let name = GetQueryString('name')
+    console.log('name', !!name);
+    console.log('name', typeof name);
+    setUserName(name !== 'null' ? name : '')
   }, [])
 
   useEffect(
