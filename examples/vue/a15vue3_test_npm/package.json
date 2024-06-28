@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "2.1.0",
+    "element-plus": "2.6.1",
     "vue": "^3.2.45"
   },
   "devDependencies": {
