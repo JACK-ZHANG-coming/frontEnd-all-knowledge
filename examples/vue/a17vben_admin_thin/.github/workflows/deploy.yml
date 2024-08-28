@@ -1,0 +1,74 @@
+name: Deploy Website on push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-push-ftp:
+    name: Deploy Push Ftp
+    if: github.actor != 'dependabot[bot]' && !contains(github.event.head_commit.message, '[skip ci]') && contains(github.event.head_commit.message, '[deploy]')
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Sed Config Base
+        shell: bash
+        run: |
+          sed -i  "s#VITE_COMPRESS\s*=.*#VITE_COMPRESS = gzip#g" ./apps/web-antd/.env.production
+          cat ./apps/web-antd/.env.production
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Sync Web Antd files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.PRO_FTP_HOST }}
+          username: ${{ secrets.WEB_ANTD_FTP_ACCOUNT }}
+          password: ${{ secrets.WEB_ANTD_FTP_PASSWORD }}
+          local-dir: ./apps/web-antd/dist/
+
+      - name: Sync Web Naive files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.PRO_FTP_HOST }}
+          username: ${{ secrets.WEB_NAIVE_FTP_ACCOUNT }}
+          password: ${{ secrets.WEB_NAIVE_FTP_PASSWORD }}
+          local-dir: ./apps/web-naive/dist/
+
+      - name: Sync Web Ele files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.PRO_FTP_HOST }}
+          username: ${{ secrets.WEB_ELE_FTP_ACCOUNT }}
+          password: ${{ secrets.WEB_ELE_FTP_PASSWORD }}
+          local-dir: ./apps/web-ele/dist/
+
+      - name: Sync Docs files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.PRO_FTP_HOST }}
+          username: ${{ secrets.WEBSITE_FTP_ACCOUNT }}
+          password: ${{ secrets.WEBSITE_FTP_PASSWORD }}
+          local-dir: ./docs/.vitepress/dist/

@@ -1,0 +1,15 @@
+{
+  "name": "@vben/backend-mock",
+  "version": "0.0.1",
+  "description": "",
+  "private": true,
+  "license": "MIT",
+  "author": "",
+  "scripts": {
+    "start": "nitro dev",
+    "build": "nitro build"
+  },
+  "dependencies": {
+    "nitropack": "^2.9.7"
+  }
+}

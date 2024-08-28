@@ -215,7 +215,7 @@ const simpleFormModalConfig = ref<SimpleFormModalType>({
       })
     }, 2000)
   }
-})   
+})
 //#endregion
 
 onMounted(() => {
