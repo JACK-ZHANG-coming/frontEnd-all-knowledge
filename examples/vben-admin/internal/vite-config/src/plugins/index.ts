@@ -2,8 +2,8 @@ import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { type PluginOption } from 'vite';
 import purgeIcons from 'vite-plugin-purge-icons';
-import DevTools from 'vite-plugin-vue-devtools';
 
+// import DevTools from 'vite-plugin-vue-devtools';
 import { createAppConfigPlugin } from './appConfig';
 import { configCompressPlugin } from './compress';
 import { configHtmlPlugin } from './html';
@@ -25,7 +25,7 @@ async function createPlugins({ isBuild, root, enableMock, compress, enableAnalyz
   const appConfigPlugin = await createAppConfigPlugin({ root, isBuild });
   vitePlugins.push(appConfigPlugin);
 
-  vitePlugins.push(DevTools());
+  // vitePlugins.push(DevTools());  // 屏蔽DevTools 开启页面页面会卡
 
   // vite-plugin-html
   vitePlugins.push(configHtmlPlugin({ isBuild }));

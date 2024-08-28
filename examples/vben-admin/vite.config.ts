@@ -17,7 +17,6 @@ export default defineApplicationConfig({
     server: {
       proxy: {
         '/basic-api': {
-          // target: 'http://192.168.88.130:5154', // 万聪的Ip地址
           target: 'http://192.168.124.75:5154', // 测试环境的Ip地址
           changeOrigin: true,
           ws: true,

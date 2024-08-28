@@ -220,13 +220,13 @@ export const useUserStore = defineStore({
       let homePath = '';
       switch (roleId) {
         case RoleEnum.SUPER_ADMIN:
-          homePath = '/systemHealthMonitoring/serverHealth';
+          homePath = '/personnelAuthority/personnelManagement';
           break;
         case RoleEnum.ADMINISTRATOR_ADMIN:
-          homePath = '/equipmentManagement/equipmentOverviewTidy';
+          homePath = '/personnelAuthority/personnelManagement';
           break;
         case RoleEnum.ADMIN:
-          homePath = '/equipmentManagement/equipmentOverviewTidy';
+          homePath = '/personnelAuthority/personnelManagement';
           break;
         default:
           break;

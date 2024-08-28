@@ -64,7 +64,7 @@
 
   function goHome() {
     // go(userStore.getUserInfo.homePath || PageEnum.BASE_HOME);
-    go(userStore.getUserInfo.homePath || '/systemHealthMonitoring/serverHealth');
+    go(userStore.getUserInfo.homePath || '/personnelAuthority/personnelManagement');
   }
 </script>
 <style lang="less" scoped>

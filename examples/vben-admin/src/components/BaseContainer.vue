@@ -1,6 +1,6 @@
 <!-- 我的信息 -->
 <template>
-  <div class="p-1 pt-0 pb-0">
+  <div>
     <slot></slot>
   </div>
 </template>

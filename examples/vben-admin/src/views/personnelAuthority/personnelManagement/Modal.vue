@@ -224,7 +224,7 @@
           account: res?.account ?? '',
           userName: res?.userName ?? '',
           isMale: res?.isMale ?? '',
-          password: res?.password ?? res?.account,
+          password: res?.password ?? '123', // 不填密码默认123
           roleId: res?.roleId ?? '',
           roleName: res?.roleName ?? '',
           jobNumber: res?.jobNumber ?? '',

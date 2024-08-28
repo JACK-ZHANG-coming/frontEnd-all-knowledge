@@ -11,7 +11,7 @@ export function createFakeUserList() {
       avatar: '',
       desc: 'manager',
       token: 'fakeToken1',
-      homePath: '/systemHealthMonitoring/serverHealth',
+      homePath: '/personnelAuthority/personnelManagement',
       roles: [
         {
           roleName: 'Super Admin',
@@ -28,7 +28,7 @@ export function createFakeUserList() {
       avatar: '',
       desc: 'tester',
       token: 'fakeToken2',
-      homePath: '/systemHealthMonitoring/serverHealth',
+      homePath: '/personnelAuthority/personnelManagement',
       roles: [
         {
           roleName: 'Tester',

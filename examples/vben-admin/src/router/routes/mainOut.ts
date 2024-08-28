@@ -20,15 +20,6 @@ export const mainOutRoutes: AppRouteModule[] = [
   //     ignoreAuth: true,
   //   },
   // },
-  {
-    path: '/dataDefinitionEditingConsole',
-    name: 'DataDefinitionsOverviewConsole',
-    component: () => import('@/views/dataDefinition/dataDefinitionEditingConsole/index.vue'),
-    meta: {
-      title: '数据定义编辑-控制台',
-      ignoreAuth: true,
-    },
-  },
 ];
 
 export const mainOutRouteNames = mainOutRoutes.map((item) => item.name);
