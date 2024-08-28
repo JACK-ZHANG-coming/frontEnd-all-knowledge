@@ -1,6 +1,8 @@
-echo Start running commit-msg hook...
+#!/bin/sh
 
-# Check whether the git commit information is standardized
-pnpm exec commitlint --edit "$1"
+# shellcheck source=./_/husky.sh
+. "$(dirname "$0")/_/husky.sh"
 
-echo Run commit-msg hook done.
+PATH="/usr/local/bin:$PATH"
+
+npx --no-install commitlint --edit "$1"

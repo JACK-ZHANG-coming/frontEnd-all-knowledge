@@ -1,13 +1,22 @@
-import type { UserConfig } from 'vite';
+import UnoCSS from 'unocss/vite';
+import { type UserConfig } from 'vite';
 
-async function getCommonConfig(): Promise<UserConfig> {
-  return {
-    build: {
-      chunkSizeWarningLimit: 1000,
-      reportCompressedSize: false,
-      sourcemap: false,
+const commonConfig: (mode: string) => UserConfig = (mode) => ({
+  server: {
+    host: true,
+  },
+  esbuild: {
+    drop: mode === 'production' ? ['console', 'debugger'] : [],
+  },
+  build: {
+    reportCompressedSize: false,
+    chunkSizeWarningLimit: 1500,
+    rollupOptions: {
+      // TODO: Prevent memory overflow
+      maxParallelFileOps: 3,
     },
-  };
-}
+  },
+  plugins: [UnoCSS()],
+});
 
-export { getCommonConfig };
+export { commonConfig };

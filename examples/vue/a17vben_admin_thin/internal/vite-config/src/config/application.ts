@@ -1,114 +1,109 @@
-import type { UserConfig } from 'vite';
+import { resolve } from 'node:path';
 
-import type { DefineApplicationOptions } from '../typing';
+import dayjs from 'dayjs';
+import { readPackageJSON } from 'pkg-types';
+import { defineConfig, loadEnv, mergeConfig, type UserConfig } from 'vite';
 
-import { relative } from 'node:path';
+import { createPlugins } from '../plugins';
+import { generateModifyVars } from '../utils/modifyVars';
+import { commonConfig } from './common';
 
-import { findMonorepoRoot } from '@vben/node-utils';
+interface DefineOptions {
+  overrides?: UserConfig;
+  options?: {
+    //
+  };
+}
 
-import { defineConfig, loadEnv, mergeConfig } from 'vite';
+function defineApplicationConfig(defineOptions: DefineOptions = {}) {
+  const { overrides = {} } = defineOptions;
 
-import { getDefaultPwaOptions } from '../options';
-import { loadApplicationPlugins } from '../plugins';
-import { loadAndConvertEnv } from '../utils/env';
-import { getCommonConfig } from './common';
-
-function defineApplicationConfig(userConfigPromise?: DefineApplicationOptions) {
-  return defineConfig(async (config) => {
-    const { appTitle, base, port, ...envConfig } = await loadAndConvertEnv();
-    const options = await userConfigPromise?.(config);
-    const { command, mode } = config;
-    const { application = {}, vite = {} } = options || {};
+  return defineConfig(async ({ command, mode }) => {
     const root = process.cwd();
     const isBuild = command === 'build';
-    const env = loadEnv(mode, root);
-
-    const plugins = await loadApplicationPlugins({
-      compress: false,
-      compressTypes: ['brotli', 'gzip'],
-      devtools: true,
-      env,
-      extraAppConfig: true,
-      html: true,
-      i18n: true,
-      injectAppLoading: true,
-      injectMetadata: true,
-      isBuild,
-      license: true,
+    const { VITE_PUBLIC_PATH, VITE_USE_MOCK, VITE_BUILD_COMPRESS, VITE_ENABLE_ANALYZE } = loadEnv(
       mode,
-      nitroMock: !isBuild,
-      nitroMockOptions: {},
-      print: !isBuild,
-      printInfoMap: {
-        'Vben Admin Docs': 'https://doc.vben.pro',
-      },
-      pwa: true,
-      pwaOptions: getDefaultPwaOptions(appTitle),
-      ...envConfig,
-      ...application,
+      root,
+    );
+
+    const defineData = await createDefineData(root);
+    const plugins = await createPlugins({
+      isBuild,
+      root,
+      enableAnalyze: VITE_ENABLE_ANALYZE === 'true',
+      enableMock: VITE_USE_MOCK === 'true',
+      compress: VITE_BUILD_COMPRESS,
     });
 
-    const { injectGlobalScss = true } = application;
+    const pathResolve = (pathname: string) => resolve(root, '.', pathname);
 
     const applicationConfig: UserConfig = {
-      base,
+      base: VITE_PUBLIC_PATH,
+      resolve: {
+        alias: [
+          {
+            find: 'vue-i18n',
+            replacement: 'vue-i18n/dist/vue-i18n.cjs.js',
+          },
+          // @/xxxx => src/xxxx
+          {
+            find: /@\//,
+            replacement: pathResolve('src') + '/',
+          },
+          // #/xxxx => types/xxxx
+          {
+            find: /#\//,
+            replacement: pathResolve('types') + '/',
+          },
+        ],
+      },
+      define: defineData,
       build: {
+        target: 'es2015',
+        cssTarget: 'chrome80',
         rollupOptions: {
           output: {
-            assetFileNames: '[ext]/[name]-[hash].[ext]',
-            chunkFileNames: 'js/[name]-[hash].mjs',
-            entryFileNames: 'jse/index-[name]-[hash].mjs',
+            // 入口文件名（不能变，否则所有打包的 js hash 值全变了）
+            entryFileNames: 'index.js',
+            manualChunks: {
+              vue: ['vue', 'pinia', 'vue-router'],
+              antd: ['ant-design-vue', '@ant-design/icons-vue'],
+            },
           },
         },
-        target: 'es2015',
       },
-      css: createCssOptions(injectGlobalScss),
-      esbuild: {
-        drop: isBuild
-          ? [
-              // 'console',
-              'debugger',
-            ]
-          : [],
-        legalComments: 'none',
-      },
-      plugins,
-      server: {
-        host: true,
-        port,
-        warmup: {
-          // 预热文件
-          clientFiles: ['./index.html', './src/{views,layouts}/*'],
+      css: {
+        preprocessorOptions: {
+          less: {
+            modifyVars: generateModifyVars(),
+            javascriptEnabled: true,
+          },
         },
       },
+      plugins,
     };
 
-    const mergedConfig = mergeConfig(
-      await getCommonConfig(),
-      applicationConfig,
-    );
-    return mergeConfig(mergedConfig, vite);
+    const mergedConfig = mergeConfig(commonConfig(mode), applicationConfig);
+
+    return mergeConfig(mergedConfig, overrides);
   });
 }
 
-function createCssOptions(injectGlobalScss = true) {
-  const root = findMonorepoRoot();
-  return {
-    preprocessorOptions: injectGlobalScss
-      ? {
-          scss: {
-            additionalData: (content: string, filepath: string) => {
-              const relativePath = relative(root, filepath);
-              // apps下的包注入全局样式
-              if (relativePath.startsWith('apps/')) {
-                return `@import (reference) "@vben/styles/global";\n${content}`;
-              }
-              return content;
-            },
-          },
-        }
-      : {},
-  };
+async function createDefineData(root: string) {
+  try {
+    const pkgJson = await readPackageJSON(root);
+    const { dependencies, devDependencies, name, version } = pkgJson;
+
+    const __APP_INFO__ = {
+      pkg: { dependencies, devDependencies, name, version },
+      lastBuildTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    };
+    return {
+      __APP_INFO__: JSON.stringify(__APP_INFO__),
+    };
+  } catch (error) {
+    return {};
+  }
 }
 
 export { defineApplicationConfig };
