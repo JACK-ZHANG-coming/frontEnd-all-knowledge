@@ -12,7 +12,7 @@
       <Input
         size="large"
         v-model:value="formData.Account"
-        :placeholder="t('sys.login.userName')"
+        :placeholder="t('sys.login.userName') + ':admin'"
         class="fix-auto-fill"
       />
     </FormItem>
@@ -21,36 +21,26 @@
         size="large"
         visibilityToggle
         v-model:value="formData.Password"
-        :placeholder="t('sys.login.password')"
+        :placeholder="t('sys.login.password') + ':123'"
       />
     </FormItem>
-    <ARow class="enter-x">
+    <!-- <ARow class="enter-x">
       <ACol :span="16">
-        <FormItem>
-          <!-- No logic, you need to deal with it yourself -->
-          <Checkbox v-model:checked="isAgreed" size="small">
-            {{ t('sys.login.statement_before')
-            }}<span class="clickText" @click="openModal()">{{
-              t('sys.login.statement_after')
-            }}</span>
-          </Checkbox>
-        </FormItem>
+        <FormItem />
       </ACol>
       <ACol :span="8">
         <FormItem :style="{ 'text-align': 'right' }">
-          <!-- No logic, you need to deal with it yourself -->
           <Checkbox v-model:checked="isRememberPsd" size="small">
             {{ t('sys.login.password_remember') }}
           </Checkbox>
         </FormItem>
-        <!-- <FormItem :style="{ 'text-align': 'right' }">
-         
+        <FormItem :style="{ 'text-align': 'right' }">
           <Button type="link" size="small" @click="setLoginState(LoginStateEnum.RESET_PASSWORD)">
             {{ t('sys.login.forgetPassword') }}
           </Button>
-        </FormItem> -->
+        </FormItem>
       </ACol>
-    </ARow>
+    </ARow> -->
 
     <FormItem class="enter-x">
       <Button type="primary" size="large" block @click="handleLogin" :loading="loading">
@@ -58,7 +48,6 @@
       </Button>
     </FormItem>
   </Form>
-  <StatementModal @register="registerModal" />
 </template>
 <script lang="ts" setup>
   import { reactive, ref, unref, computed } from 'vue';
@@ -72,12 +61,10 @@
   import { useUserStore } from '@/store/modules/user';
   import { LoginStateEnum, useLoginState, useFormRules, useFormValid } from './useLogin';
   import { useDesign } from '@/hooks/web/useDesign';
-  import StatementModal from './StatementModal.vue';
   import { useModal } from '@/components/Modal';
 
   import { Base64 } from 'js-base64'; //引入base64加密，用于记住密码
 
-  const [registerModal, { openModal }] = useModal();
   const ACol = Col;
   const ARow = Row;
   const FormItem = Form.Item;
@@ -103,7 +90,7 @@
   const hasUserCodeOrPassword = () => {
     if (localStorage.getItem('userAccount') && localStorage.getItem('userPassword')) {
       formData.Account = localStorage.getItem('userAccount');
-      formData.Password = Base64.decode(localStorage.getItem('userPassword')); //解密
+      formData.Password = Base64.decode(localStorage.getItem('userPassword') as string); //解密
       // loginForm.checked.push(true)
     }
   };
@@ -117,14 +104,6 @@
     const data = await validForm();
     console.log(data, 'Account');
     if (!data) return;
-    if (!isAgreed.value) {
-      notification.warning({
-        message: t('sys.app.logoutTip'),
-        description: t('sys.login.statement_tip'),
-        duration: 3,
-      });
-      return;
-    }
     try {
       loading.value = true;
       const userInfo = await userStore.login({

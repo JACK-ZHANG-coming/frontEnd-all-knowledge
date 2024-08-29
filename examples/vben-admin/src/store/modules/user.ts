@@ -15,6 +15,7 @@ import { usePermissionStore } from '@/store/modules/permission';
 import { RouteRecordRaw } from 'vue-router';
 import { PAGE_NOT_FOUND_ROUTE } from '@/router/routes/basic';
 import { h } from 'vue';
+import userAvatarBase64 from '../../../mock/common/userAvatarBase64';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -119,14 +120,15 @@ export const useUserStore = defineStore({
       userInfo.homePath = this.getHomePath(data.roleId);
 
       // 获取用户头像
-      const userAvatar = await getUserAvatar();
-      const base64 = btoa(
-        new Uint8Array(userAvatar.data).reduce(
-          (data, byte) => data + String.fromCharCode(byte),
-          '',
-        ),
-      );
-      const imageSrc = `data:${userAvatar.headers['content-type'].toLowerCase()};base64,${base64}`;
+      // const userAvatar = await getUserAvatar();
+      // const base64 = btoa(
+      //   new Uint8Array(userAvatar.data).reduce(
+      //     (data, byte) => data + String.fromCharCode(byte),
+      //     '',
+      //   ),
+      // );
+      // const imageSrc = `data:${userAvatar.headers['content-type'].toLowerCase()};base64,${base64}`;
+      const imageSrc = userAvatarBase64; // 这里是mock数据，正式环境替换为接口或者其他方式
       this.setUserAvatar(imageSrc);
 
       const sessionTimeout = this.sessionTimeout;
@@ -229,6 +231,7 @@ export const useUserStore = defineStore({
           homePath = '/personnelAuthority/personnelManagement';
           break;
         default:
+          homePath = '/personnelAuthority/personnelManagement'; // 如果没有roleId，默认首页
           break;
       }
       return homePath;

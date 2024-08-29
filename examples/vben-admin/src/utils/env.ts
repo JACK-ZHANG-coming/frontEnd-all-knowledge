@@ -26,6 +26,9 @@ const getVariableName = (title: string) => {
 
 export function getAppEnvConfig() {
   const ENV_NAME = getVariableName(import.meta.env.VITE_GLOB_APP_TITLE);
+  console.log('ENV_NAME-->', ENV_NAME);
+  console.log('import.meta.env--->', import.meta.env);
+  console.log('window', window);
   const ENV = import.meta.env.DEV
     ? // Get the global configuration (the configuration will be extracted independently when packaging)
       (import.meta.env as unknown as GlobEnvConfig)

@@ -47,6 +47,7 @@
   const { getCollapsedShowTitle } = useMenuSetting();
   const userStore = useUserStore();
   const { title } = useGlobSetting();
+  console.log('title--->', title);
   const go = useGo();
 
   const getAppLogoClass = computed(() => [

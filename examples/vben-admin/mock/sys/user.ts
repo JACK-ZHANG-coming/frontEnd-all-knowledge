@@ -1,122 +1,40 @@
 import { MockMethod } from 'vite-plugin-mock';
 import { resultError, resultSuccess, getRequestToken, requestParams } from '../_util';
+import { personList } from '../common/data';
 
-export function createFakeUserList() {
-  return [
-    {
-      userId: '1',
-      account: 'admin',
-      UserName: 'admin',
-      Password: 'string',
-      avatar: '',
-      desc: 'manager',
-      token: 'fakeToken1',
-      homePath: '/personnelAuthority/personnelManagement',
-      roles: [
-        {
-          roleName: 'Super Admin',
-          value: 'super',
-        },
-      ],
-    },
-    {
-      userId: '2',
-      account: 'admin2',
-      UserName: 'admin2',
-      Password: 'string2',
-      realName: 'test user',
-      avatar: '',
-      desc: 'tester',
-      token: 'fakeToken2',
-      homePath: '/personnelAuthority/personnelManagement',
-      roles: [
-        {
-          roleName: 'Tester',
-          value: 'test',
-        },
-      ],
-    },
-  ];
-}
-
-const fakeCodeList: any = {
-  '1': ['1000', '3000', '5000'],
-
-  '2': ['2000', '4000', '6000'],
-};
 export default [
-  // mock user login
-  // {
-  //   url: '/basic-api/api/Person/Login',
-  //   method: 'post',
-  //   response: ({ body }) => {
-  //     const { Account, Password } = body;
-  //     const checkUser = createFakeUserList().find(
-  //       (item) => item.account === Account && Password === item.Password,
-  //     );
-  //     if (!checkUser) {
-  //       return resultError('Incorrect account or Password！');
-  //     }
-  //     const { userId, account: _Account, token, realName, desc, roles } = checkUser;
-  //     return resultSuccess({
-  //       roles,
-  //       userId,
-  //       Account: _Account,
-  //       token,
-  //       realName,
-  //       desc,
-  //     });
-  //   },
-  // },
-  // {
-  //   url: '/basic-api/getUserInfo',
-  //   method: 'get',
-  //   response: (request: requestParams) => {
-  //     const token = getRequestToken(request);
-  //     if (!token) return resultError('Invalid token');
-  //     const checkUser = createFakeUserList().find((item) => item.token === token);
-  //     if (!checkUser) {
-  //       return resultError('The corresponding user information was not obtained!');
-  //     }
-  //     return resultSuccess(checkUser);
-  //   },
-  // },
+  // mock Login
   {
-    url: '/basic-api/getPermCode',
-    timeout: 200,
+    url: '/basic-api/api/Person/Login',
+    method: 'post',
+    response: ({ body }) => {
+      console.log('body==>', body);
+      const { Account, Password } = body;
+      const checkUser = personList.find((item) => item.account === Account && Password === '123');
+      if (!checkUser) {
+        return resultError('Incorrect account or Password！');
+      }
+      const { roleId, account: _Account } = checkUser;
+      return resultSuccess({
+        roleId,
+        Account: _Account,
+        // token在mock中静态写死，实际开发中应该由服务端生成
+        token: _Account,
+      });
+    },
+  },
+  // mock getUserInfo
+  {
+    url: '/basic-api/api/Person/QueryByAccount',
     method: 'get',
     response: (request: requestParams) => {
       const token = getRequestToken(request);
       if (!token) return resultError('Invalid token');
-      const checkUser = createFakeUserList().find((item) => item.token === token);
+      const checkUser = personList.find((item) => item.account === token);
       if (!checkUser) {
-        return resultError('Invalid token!');
+        return resultError('The corresponding user information was not obtained!');
       }
-      const codeList = fakeCodeList[checkUser.userId];
-
-      return resultSuccess(codeList);
-    },
-  },
-  {
-    url: '/basic-api/logout',
-    timeout: 200,
-    method: 'get',
-    response: (request: requestParams) => {
-      const token = getRequestToken(request);
-      if (!token) return resultError('Invalid token');
-      const checkUser = createFakeUserList().find((item) => item.token === token);
-      if (!checkUser) {
-        return resultError('Invalid token!');
-      }
-      return resultSuccess(undefined, { message: 'Token has been destroyed' });
-    },
-  },
-  {
-    url: '/basic-api/testRetry',
-    statusCode: 405,
-    method: 'get',
-    response: () => {
-      return resultError('Error!');
+      return resultSuccess(checkUser);
     },
   },
 ] as MockMethod[];
