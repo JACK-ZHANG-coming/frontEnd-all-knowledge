@@ -1,7 +1,9 @@
 
 ## 1 简介
 
-mdc-web-4.0 是一个中后台系统， 采用了最新的`vue3`,`vite5`,`TypeScript`等主流技术进行开发。
+前端中后台模板 是一个中后台系统模板， 采用了最新的`vue3`,`vite5`,`TypeScript`等主流技术进行开发。
+
+本模板是基于社区开源代码vue3中后台模板 `vben admin` `v2.11.5`版本更改，当前模板采用的接口调用均为mock接口（包括登录、增删改查等），后续如正式生产将对应mock接口注释掉即可。
 
 ## 2 特性
 
@@ -17,7 +19,7 @@ mdc-web-4.0 是一个中后台系统， 采用了最新的`vue3`,`vite5`,`TypeSc
 
 - node  `v20.15.1`
 
-- pnpm `9.5.0`
+- pnpm `9.0.4`
 
 ## 3 开发工具
 
@@ -65,8 +67,7 @@ pnpm build
 
 ## 9 参考
 
-[模板文档地址](https://doc.vvbin.cn/)
-
+- [Vben Admin模板文档地址](https://doc.vvbin.cn/guide/introduction.html)
 - [node](http://nodejs.org/) 和 [git](https://git-scm.com/) -项目开发环境
 - [Vite](https://vitejs.dev/) - 熟悉 vite 特性
 - [Vue3](https://v3.vuejs.org/) - 熟悉 Vue 基础语法
