@@ -27,7 +27,7 @@
               <span class="inline-block mt-4 text-3xl"> 前端中台模板</span>
             </div>
             <div class="mt-5 font-normal text-white dark:text-gray-500 -enter-x"
-              >智绘数据 存取自如
+              >前端中后台系统模板，你值得拥有
               <!-- {{ t('sys.login.signInDesc') }} -->
             </div>
           </div>

@@ -12,7 +12,7 @@
     <img
       class="mt-1"
       style="width: 28px; height: 28px"
-      src="../../../assets/images/common/logo2.png"
+      src="../../../assets/images/common/logo.png"
     />
     <div class="ml-2 truncate md:opacity-100" :class="getTitleClass" v-show="showTitle">
       {{ title }}
