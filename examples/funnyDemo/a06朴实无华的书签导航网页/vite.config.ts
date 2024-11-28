@@ -12,5 +12,6 @@ export default defineConfig({
     alias: {
       '@': path.resolve('./src') // @代替src
     }
-  }
+  },
+  base: './', // 设置打包路径
 })

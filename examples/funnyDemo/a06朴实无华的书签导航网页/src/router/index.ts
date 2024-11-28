@@ -4,7 +4,7 @@ import Home from '../../src/views/Home/index.vue';
 // @ts-ignore
 const routes: Array<RouteRecordRaw> = [
     {
-      path: '',
+      path: '/',
       redirect: (_) => {
         return {path: '/home'};
       }
