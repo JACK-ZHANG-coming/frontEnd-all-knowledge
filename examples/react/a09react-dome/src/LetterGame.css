@@ -1,0 +1,117 @@
+.letter {
+  width: 400px;
+  height: 400px;
+  line-height: 400px;
+  margin: 0 auto;
+  border-radius: 0.75rem;
+  font-size: 4em;
+  text-align: center;
+  background-color: rgba(187, 187, 187, 0.8);
+  box-shadow: 0 100px 80px #322e8112, 0 41.7776px 33.4221px #322e810d, 0 22.3363px 17.869px #322e810b, 0 12.5216px 10.0172px #322e8109, 0 6.6501px 5.32008px #322e8107, 0 2.76726px 2.21381px #322e8105;
+}
+
+.letter-container {
+  position: relative;
+  width: 500px;
+  margin: 0 auto;
+}
+
+.animate-pulse {
+  -webkit-animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.mask-message {
+  font-size: 1.2em;
+  color: red;
+}
+
+.text-gray-600 {
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity));
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 20px;
+  background-color: #f3f3f3;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #4caf50;
+  width: 0;
+  transition: width 0.5s;
+}
+
+.feedback {
+}
+
+.feedback img {
+  width: 30px;
+  height: 30px;
+}
+
+.feedback-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 抖动动画 */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-5px);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+/* 应用抖动动画到失败图标 */
+.feedback img.incorrect {
+  animation: shake 0.5s;
+}
+
+/* 确保反馈图标至少显示0.5秒 */
+.feedback img {
+  width: 30px;
+  height: 30px;
+  transition: opacity 0.5s;
+  /* 平滑淡出效果 */
+}
+
+/* 淡入并轻微放大动画 */
+@keyframes fadeInAndScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+    /* 初始状态：透明且稍微缩小 */
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    /* 最终状态：完全不透明且恢复原大小 */
+  }
+}
+
+/* 应用淡入并轻微放大动画到成功图标 */
+.feedback img.correct {
+  animation: fadeInAndScale 0.5s;
+}
