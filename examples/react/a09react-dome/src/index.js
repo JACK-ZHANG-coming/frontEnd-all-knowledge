@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import LetterGame from './LetterGame';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <LetterGame />
   </React.StrictMode>,
   document.getElementById('root')
 );
