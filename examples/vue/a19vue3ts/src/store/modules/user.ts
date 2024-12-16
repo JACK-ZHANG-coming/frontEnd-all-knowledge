@@ -222,16 +222,16 @@ export const useUserStore = defineStore({
       let homePath = '';
       switch (roleId) {
         case RoleEnum.SUPER_ADMIN:
-          homePath = '/overview/workspace';
+          homePath = '/bookManagement/bookDetailManage';
           break;
         case RoleEnum.ADMINISTRATOR_ADMIN:
-          homePath = '/overview/workspace';
+          homePath = '/bookManagement/bookDetailManage';
           break;
         case RoleEnum.ADMIN:
-          homePath = '/overview/workspace';
+          homePath = '/bookManagement/bookDetailManage';
           break;
         default:
-          homePath = '/overview/workspace'; // 如果没有roleId，默认首页
+          homePath = '/bookManagement/bookDetailManage'; // 如果没有roleId，默认首页
           break;
       }
       return homePath;

@@ -55,7 +55,7 @@
 
   function goHome() {
     // go(userStore.getUserInfo.homePath || PageEnum.BASE_HOME);
-    go(userStore.getUserInfo.homePath || '/overview/workspace');
+    go(userStore.getUserInfo.homePath || '/bookManagement/bookDetailManage');
   }
 </script>
 <style lang="less" scoped>
