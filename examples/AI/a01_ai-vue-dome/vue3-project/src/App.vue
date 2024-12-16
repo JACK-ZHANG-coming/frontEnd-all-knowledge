@@ -1,5 +1,9 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
+
+function showMessage() {
+  alert('Hello, AI');
+}
 </script>
 
 <template>
@@ -12,6 +16,7 @@ import HelloWorld from './components/HelloWorld.vue'
     </a>
   </div>
   <HelloWorld msg="Vite + Vue" />
+  <button @click="showMessage">点击我</button>
 </template>
 
 <style scoped>
