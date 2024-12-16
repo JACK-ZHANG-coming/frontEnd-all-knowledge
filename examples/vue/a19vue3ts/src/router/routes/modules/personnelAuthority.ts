@@ -12,7 +12,7 @@ const personnelAuthority: AppRouteModule = {
   meta: {
     orderNo: 16,
     icon: 'ion:person-outline',
-    title: t('routes.dashboard.personnelAuthority'),
+    title: '读者管理',
     roles: [RoleEnum.SUPER_ADMIN, RoleEnum.ADMINISTRATOR_ADMIN, RoleEnum.ADMIN],
   },
   children: [
@@ -22,7 +22,7 @@ const personnelAuthority: AppRouteModule = {
       component: () => import('@/views/personnelAuthority/myInformation/index.vue'),
       meta: {
         title: t('routes.dashboard.myInformation'),
-        roles: [RoleEnum.SUPER_ADMIN, RoleEnum.ADMINISTRATOR_ADMIN, RoleEnum.ADMIN],
+        roles: [],
       },
     },
     {
@@ -30,8 +30,8 @@ const personnelAuthority: AppRouteModule = {
       name: 'PersonnelManagement',
       component: () => import('@/views/personnelAuthority/personnelManagement/index.vue'),
       meta: {
-        title: t('routes.dashboard.personnelManagement'),
-        roles: [RoleEnum.SUPER_ADMIN],
+        title: '读者管理',
+        roles: [RoleEnum.SUPER_ADMIN, RoleEnum.ADMINISTRATOR_ADMIN, RoleEnum.ADMIN],
       },
     },
   ],

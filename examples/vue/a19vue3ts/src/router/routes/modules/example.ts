@@ -17,7 +17,7 @@ const example: AppRouteModule = {
     orderNo: 17,
     icon: 'hugeicons:flash', // 使用自定义svg图标
     title: t('routes.dashboard.example'),
-    roles: [RoleEnum.SUPER_ADMIN, RoleEnum.ADMINISTRATOR_ADMIN, RoleEnum.ADMIN],
+    roles: [],
   },
   children: [
     {
@@ -26,7 +26,7 @@ const example: AppRouteModule = {
       component: () => import('@/views/example/upload/index.vue'),
       meta: {
         title: t('routes.dashboard.upload'),
-        roles: [RoleEnum.SUPER_ADMIN, RoleEnum.ADMINISTRATOR_ADMIN, RoleEnum.ADMIN],
+        roles: [],
       },
     },
     {
@@ -37,7 +37,7 @@ const example: AppRouteModule = {
       meta: {
         title: '外链(嵌套页面)',
         frameSrc: 'https://doc.vvbin.cn/',
-        roles: [RoleEnum.SUPER_ADMIN, RoleEnum.ADMINISTRATOR_ADMIN, RoleEnum.ADMIN],
+        roles: [],
       },
     },
   ],

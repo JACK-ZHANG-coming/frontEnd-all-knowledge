@@ -24,10 +24,10 @@
               class="w-1/2 -mt-16 -enter-x"
             />
             <div class="mt-10 font-medium text-white -enter-x">
-              <span class="inline-block mt-4 text-3xl"> 专属轻量级前端模板</span>
+              <span class="inline-block mt-4 text-3xl"> HI图书管理系统</span>
             </div>
             <div class="mt-5 font-normal text-white dark:text-gray-500 -enter-x"
-              >hi，助你在前端开发路上更加便捷~
+              >HI图书管理系统，助你使用图书更加便捷~
               <!-- {{ t('sys.login.signInDesc') }} -->
             </div>
           </div>

@@ -13,7 +13,7 @@ const overview: AppRouteModule = {
     orderNo: 16,
     icon: 'menu-overview|svg', // 使用自定义svg图标
     title: t('routes.dashboard.overview'),
-    roles: [RoleEnum.SUPER_ADMIN, RoleEnum.ADMINISTRATOR_ADMIN, RoleEnum.ADMIN],
+    roles: [],
   },
   children: [
     {
@@ -22,7 +22,7 @@ const overview: AppRouteModule = {
       component: () => import('@/views/overview/workspace/index.vue'),
       meta: {
         title: t('routes.dashboard.workspace'),
-        roles: [RoleEnum.SUPER_ADMIN, RoleEnum.ADMINISTRATOR_ADMIN, RoleEnum.ADMIN],
+        roles: [],
       },
     },
   ],

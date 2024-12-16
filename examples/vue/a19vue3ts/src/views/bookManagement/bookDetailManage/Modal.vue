@@ -34,7 +34,7 @@
     propsData.value = data;
     isEdit.value = data.isEdit;
     if (data.isEdit) {
-      modalTitle.value = '编辑读者';
+      modalTitle.value = '编辑图书';
       setFieldsValue({
         account: data?.record?.account,
         isMale: data?.record?.isMale,
@@ -48,7 +48,7 @@
         department: data?.record?.department,
       });
     } else {
-      modalTitle.value = '新增读者';
+      modalTitle.value = '新增图书';
       reset();
     }
   };
@@ -56,9 +56,9 @@
   const modelRef = ref({});
   const schemas: FormSchema[] = [
     {
-      field: 'account',
+      field: 'bookName',
       component: 'Input',
-      label: '账号',
+      label: '图书名称',
       colProps: {
         span: 12,
       },
@@ -68,32 +68,9 @@
       dynamicDisabled: computed(() => isEdit.value) as any,
     },
     {
-      field: 'isMale',
-      component: 'Select',
-      label: '性别',
-      colProps: {
-        span: 12,
-      },
-      componentProps: {
-        options: [
-          {
-            label: '男',
-            value: true as any,
-            key: true,
-          },
-          {
-            label: '女',
-            value: false as any,
-            key: false,
-          },
-        ],
-      },
-      defaultValue: true,
-    },
-    {
-      field: 'userName',
+      field: 'bookStatus',
       component: 'Input',
-      label: '用户名称',
+      label: '在馆状态',
       colProps: {
         span: 12,
       },
@@ -102,77 +79,42 @@
       },
     },
     {
-      field: 'roleId',
+      field: 'bookType',
       component: 'Select',
-      label: '读者权限',
+      label: '图书类型',
       colProps: {
         span: 12,
       },
       componentProps: {
         options: [
           {
-            label: '超级管理员',
-            value: RoleEnum.SUPER_ADMIN,
-            key: RoleEnum.SUPER_ADMIN,
-          },
-          {
-            label: '普通管理员',
-            value: RoleEnum.ADMINISTRATOR_ADMIN,
-            key: RoleEnum.ADMINISTRATOR_ADMIN,
-          },
-          {
-            label: '普通用户',
-            value: RoleEnum.ADMIN,
-            key: RoleEnum.ADMIN,
+            label: '图书',
+            value: '图书',
+            key: '图书',
           },
         ],
       },
-      defaultValue: RoleEnum.ADMIN,
     },
     {
-      field: 'roleName',
+      field: 'bookLocation',
       component: 'Input',
-      label: '读者角色',
+      label: '图书位置',
       colProps: {
         span: 12,
       },
     },
     {
-      field: 'jobNumber',
+      field: 'bookAuthor',
       component: 'Input',
-      label: '工号',
+      label: '作者',
       colProps: {
         span: 12,
       },
     },
     {
-      field: 'phone',
+      field: 'bookPrice馆藏数量',
       component: 'Input',
-      label: '电话',
-      colProps: {
-        span: 12,
-      },
-    },
-    {
-      field: 'email',
-      component: 'Input',
-      label: '电子邮箱',
-      colProps: {
-        span: 12,
-      },
-    },
-    {
-      field: 'company',
-      component: 'Input',
-      label: '公司名称',
-      colProps: {
-        span: 12,
-      },
-    },
-    {
-      field: 'department',
-      component: 'Input',
-      label: '部门名称',
+      label: '馆藏数量',
       colProps: {
         span: 12,
       },

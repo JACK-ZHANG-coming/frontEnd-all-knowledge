@@ -1,4 +1,4 @@
-<!-- 读者管理 -->
+<!-- 图书管理 -->
 <template>
   <BaseContainer>
     <BasicTable @register="registerTable">
@@ -9,7 +9,7 @@
           style="margin-left: 2px"
         >
           <template #icon><PlusOutlined /></template>
-          新增读者
+          新增图书
         </a-button>
         <span class="ml-2"></span>
         <!-- <BasicUpload
@@ -55,7 +55,7 @@
   import { useModal } from '@/components/Modal';
   import { FormSchema } from '@/components/Form';
   import {
-    queryPersonList,
+    queryBookList,
     deletePerson,
     updatePerson,
   } from '@/api/personnelAuthority/personnelManagement';
@@ -75,58 +75,14 @@
   const getSchamas = (): FormSchema[] | any => {
     return [
       {
-        field: 'account',
+        field: 'bookName',
         component: 'Input',
-        label: '账号',
+        label: '图书名称',
       },
       {
-        field: 'userName',
+        field: 'bookAuthor',
         component: 'Input',
-        label: '用户名称',
-      },
-      {
-        field: 'roleId',
-        component: 'Select',
-        label: '读者权限',
-        componentProps: {
-          options: [
-            {
-              label: '超级管理员',
-              value: RoleEnum.SUPER_ADMIN,
-              key: RoleEnum.SUPER_ADMIN,
-            },
-            {
-              label: '普通管理员',
-              value: RoleEnum.ADMINISTRATOR_ADMIN,
-              key: RoleEnum.ADMINISTRATOR_ADMIN,
-            },
-            {
-              label: '普通用户',
-              value: RoleEnum.ADMIN,
-              key: RoleEnum.ADMIN,
-            },
-          ],
-        },
-      },
-      {
-        field: 'jobNumber',
-        component: 'Input',
-        label: '工号',
-      },
-      {
-        field: 'phone',
-        component: 'Input',
-        label: '电话',
-      },
-      {
-        field: 'email',
-        component: 'Input',
-        label: '电子邮箱',
-      },
-      {
-        field: 'createTime',
-        component: 'RangePicker',
-        label: '注册时间',
+        label: '作者',
       },
     ];
   };
@@ -134,48 +90,28 @@
   //表格配置
   const columns: BasicColumn[] = [
     {
-      title: '账号',
-      dataIndex: 'account',
+      title: '图书名称',
+      dataIndex: 'bookName',
     },
     {
-      title: '用户名称',
-      dataIndex: 'userName',
+      title: '在馆状态',
+      dataIndex: 'bookStatus',
     },
     {
-      title: '读者权限',
-      dataIndex: 'roleId',
-      format: (roleId: any): any => {
-        switch (roleId) {
-          case RoleEnum.SUPER_ADMIN:
-            return '超级管理员';
-          case RoleEnum.ADMINISTRATOR_ADMIN:
-            return '普通管理员';
-          case RoleEnum.ADMIN:
-            return '普通用户';
-          default:
-            return '未知';
-        }
-      },
+      title: '图书类型',
+      dataIndex: 'bookType',
     },
     {
-      title: '读者角色',
-      dataIndex: 'roleName',
+      title: '图书位置',
+      dataIndex: 'bookLocation',
     },
     {
-      title: '工号',
-      dataIndex: 'jobNumber',
+      title: '作者',
+      dataIndex: 'bookAuthor',
     },
     {
-      title: '电话',
-      dataIndex: 'phone',
-    },
-    {
-      title: '电子邮箱',
-      dataIndex: 'email',
-    },
-    {
-      title: '注册时间',
-      dataIndex: 'createTime',
+      title: '馆藏数量',
+      dataIndex: 'bookPrice',
     },
   ];
 
@@ -195,7 +131,7 @@
   };
 
   const [registerTable, { reload }] = useTable({
-    api: queryPersonList,
+    api: queryBookList,
     columns: columns,
     formConfig: {
       labelWidth: 90,
