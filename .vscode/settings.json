@@ -1,5 +1,9 @@
 {
   "git.ignoreLimitWarning": true,
   "liveServer.settings.port": 5501,
-  "cSpell.words": ["pinia"]
+  "cSpell.words": ["pinia"],
+  "marscode.codeCompletionPro": {
+    "enableCodeCompletionPro": false
+  },
+  "marscode.enableInlineCommand": true
 }
