@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Typewriter Effect Demo</title>
+    <style>
+      body {
+        font-family: 'Courier New', Courier, monospace;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f5f5f5;
+        margin: 0;
+      }
+      .container {
+        max-width: 500px;
+        min-width: 500px;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .typewriter {
+        border-left: 2px solid #333;
+        padding-left: 10px;
+        min-height: 100px;
+      }
+      .cursor {
+        display: inline-block;
+        width: 10px;
+        height: 20px;
+        background-color: #333;
+        animation: blink 0.7s infinite;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+      .controls {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+      }
+      button {
+        padding: 8px 16px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      textarea {
+        width: 100%;
+        height: 80px;
+        margin-top: 20px;
+        padding: 8px;
+        font-family: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>打字机效果演示</h1>
+      <div class="typewriter" id="typewriter"></div>
+      <textarea id="textInput" placeholder="输入要显示的文本...">欢迎使用打字机效果演示！这是一个使用 HTML 和 JavaScript 实现的打字机效果。您可以在下方输入框中更改文本，然后点击"开始打字"按钮查看效果。</textarea>
+      <div class="controls">
+        <button id="startBtn">开始打字</button>
+        <button id="stopBtn">停止</button>
+        <button id="resetBtn">重置</button>
+      </div>
+    </div>
+
+    <script>
+      class Typewriter {
+        constructor(element) {
+          this.element = element
+          this.text = ''
+          this.index = 0
+          this.speed = 100 // 打字速度（毫秒）
+          this.isTyping = false
+          this.timeout = null
+        }
+
+        type(text) {
+          // 如果已经在打字，先停止
+          this.stop()
+
+          this.text = text
+          this.index = 0
+          this.isTyping = true
+          // this.element.innerHTML = '<span class="cursor"></span>'
+          this.typeNextChar()
+        }
+
+        typeNextChar() {
+          if (!this.isTyping || this.index >= this.text.length) {
+            this.isTyping = false
+            return
+          }
+
+          // 获取当前字符
+          const currentChar = this.text.charAt(this.index)
+
+          // 更新 innerHTML，保留光标
+          const currentText = this.text.substring(0, this.index + 1)
+          // this.element.innerHTML = currentText + '<span class="cursor"></span>'
+          this.element.innerHTML = currentText
+
+          this.index++
+
+          // 设置下一个字符的延迟
+          this.timeout = setTimeout(() => this.typeNextChar(), this.speed)
+        }
+
+        stop() {
+          this.isTyping = false
+          if (this.timeout) {
+            clearTimeout(this.timeout)
+            this.timeout = null
+          }
+        }
+
+        reset() {
+          this.stop()
+          // this.element.innerHTML = '<span class="cursor"></span>'
+          this.index = 0
+        }
+      }
+
+      // 初始化
+      document.addEventListener('DOMContentLoaded', () => {
+        const typewriterElement = document.getElementById('typewriter')
+        const textInput = document.getElementById('textInput')
+        const startBtn = document.getElementById('startBtn')
+        const stopBtn = document.getElementById('stopBtn')
+        const resetBtn = document.getElementById('resetBtn')
+
+        const typewriter = new Typewriter(typewriterElement)
+
+        startBtn.addEventListener('click', () => {
+          const text = textInput.value
+          if (text) {
+            typewriter.type(text)
+          }
+        })
+
+        stopBtn.addEventListener('click', () => {
+          typewriter.stop()
+        })
+
+        resetBtn.addEventListener('click', () => {
+          typewriter.reset()
+        })
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Typewriter Effect</title>
+    <style>
+      body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      .chat-container {
+        width: 100%;
+        max-width: 600px;
+        height: 400px;
+        margin: 0 auto;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow-y: auto;
+        padding: 10px;
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .message {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 8px;
+        max-width: 80%;
+        word-wrap: break-word;
+      }
+      .user-message {
+        background-color: #e1f5fe;
+        margin-left: auto;
+        text-align: right;
+      }
+      .bot-message {
+        background-color: #f1f1f1;
+      }
+      .controls {
+        max-width: 600px;
+        margin: 20px auto;
+        display: flex;
+        gap: 10px;
+      }
+      input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      button {
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      .cursor {
+        display: inline-block;
+        width: 2px;
+        height: 16px;
+        background-color: #333;
+        animation: blink 0.7s infinite;
+        vertical-align: middle;
+        margin-left: 2px;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-container" id="chatContainer"></div>
+    <div class="controls">
+      <input type="text" id="messageInput" placeholder="Type a message..." />
+      <button id="sendBtn">Send</button>
+    </div>
+
+    <script>
+      class Typewriter {
+        constructor(element) {
+          this.element = element
+          this.text = ''
+          this.html = ''
+          this.index = 0
+          this.speed = 30 // 打字速度（毫秒）
+          this.isTyping = false
+          this.timeout = null
+          this.onComplete = null
+          this.useHTML = false
+        }
+
+        type(content, useHTML = false) {
+          // 如果已经在打字，先停止
+          this.stop()
+
+          this.useHTML = useHTML
+          if (useHTML) {
+            this.html = content
+            // 创建临时元素来获取纯文本
+            const temp = document.createElement('div')
+            temp.innerHTML = content
+            this.text = temp.textContent || temp.innerText || ''
+          } else {
+            this.text = content
+          }
+
+          this.index = 0
+          this.isTyping = true
+          this.element.innerHTML = '<span class="cursor"></span>'
+          this.typeNextChar()
+
+          return new Promise(resolve => {
+            this.onComplete = resolve
+          })
+        }
+
+        typeNextChar() {
+          if (!this.isTyping || this.index >= this.text.length) {
+            this.isTyping = false
+            if (this.onComplete) {
+              this.onComplete()
+              this.onComplete = null
+            }
+            return
+          }
+
+          if (this.useHTML) {
+            // 使用HTML时，我们需要逐步构建HTML
+            // 这是一个简化的实现，实际上需要更复杂的HTML解析
+            const progress = (this.index + 1) / this.text.length
+            const visibleLength = Math.ceil(this.html.length * progress)
+            let visibleHTML = this.html.substring(0, visibleLength)
+
+            // 确保HTML标签完整
+            const lastOpenTag = visibleHTML.lastIndexOf('<')
+            const lastCloseTag = visibleHTML.lastIndexOf('>')
+
+            if (lastOpenTag > lastCloseTag) {
+              // 找到下一个关闭标签
+              const nextCloseTag = this.html.indexOf('>', visibleLength)
+              if (nextCloseTag !== -1) {
+                visibleHTML = this.html.substring(0, nextCloseTag + 1)
+              }
+            }
+
+            this.element.innerHTML = visibleHTML + '<span class="cursor"></span>'
+          } else {
+            // 纯文本模式
+            const currentText = this.text.substring(0, this.index + 1)
+            this.element.innerHTML = currentText + '<span class="cursor"></span>'
+          }
+
+          this.index++
+
+          // 滚动到底部（如果元素在DOM中）
+          if (this.element.parentNode) {
+            const container = this.element.closest('.chat-container')
+            if (container) {
+              container.scrollTop = container.scrollHeight
+            }
+          }
+
+          // 设置下一个字符的延迟
+          this.timeout = setTimeout(() => this.typeNextChar(), this.speed)
+        }
+
+        stop() {
+          this.isTyping = false
+          if (this.timeout) {
+            clearTimeout(this.timeout)
+            this.timeout = null
+          }
+        }
+
+        reset() {
+          this.stop()
+          this.element.innerHTML = '<span class="cursor"></span>'
+          this.index = 0
+        }
+      }
+
+      // 初始化
+      document.addEventListener('DOMContentLoaded', () => {
+        const chatContainer = document.getElementById('chatContainer')
+        const messageInput = document.getElementById('messageInput')
+        const sendBtn = document.getElementById('sendBtn')
+
+        // 发送消息
+        function sendMessage() {
+          const message = messageInput.value.trim()
+          if (!message) return
+
+          // 添加用户消息
+          addMessage(message, 'user-message')
+          messageInput.value = ''
+
+          // 模拟机器人回复
+          setTimeout(() => {
+            const botResponses = ['Hello there! How can I help you today?', "That's an interesting question. Let me think about it...", "I understand your concern. Here's what you can do...", 'Thanks for sharing that information with me!', '<strong>Bold text</strong> and <em>italic text</em> demonstration.']
+            const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)]
+            addMessage(randomResponse, 'bot-message', true)
+          }, 1000)
+        }
+
+        // 添加消息到聊天容器
+        async function addMessage(content, className, useHTML = false) {
+          // 创建消息元素
+          const messageWrapper = document.createElement('div')
+          messageWrapper.className = `message ${className}`
+
+          // 添加到容器
+          chatContainer.appendChild(messageWrapper)
+
+          // 应用打字机效果
+          const typewriter = new Typewriter(messageWrapper)
+          await typewriter.type(content, useHTML)
+
+          // 移除光标
+          const cursor = messageWrapper.querySelector('.cursor')
+          if (cursor) cursor.remove()
+
+          // 滚动到底部
+          chatContainer.scrollTop = chatContainer.scrollHeight
+        }
+
+        // 事件监听
+        sendBtn.addEventListener('click', sendMessage)
+        messageInput.addEventListener('keypress', e => {
+          if (e.key === 'Enter') sendMessage()
+        })
+
+        // 初始消息
+        setTimeout(() => {
+          addMessage('Welcome! Type a message and press Enter or click Send.', 'bot-message')
+        }, 500)
+      })
+    </script>
+  </body>
+</html>
