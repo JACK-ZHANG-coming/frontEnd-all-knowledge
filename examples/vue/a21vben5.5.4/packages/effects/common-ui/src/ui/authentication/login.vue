@@ -97,6 +97,7 @@ defineExpose({
       <Title>
         <slot name="title">
           {{ title || `${$t('authentication.welcomeBack')} 👋🏻` }}
+          通用的登录页~
         </slot>
         <template #desc>
           <span class="text-muted-foreground">
