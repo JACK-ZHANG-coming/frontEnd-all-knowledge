@@ -1,22 +1,9 @@
 <script lang="ts" setup>
-import type {
-  WorkbenchProjectItem,
-  WorkbenchQuickNavItem,
-  WorkbenchTodoItem,
-  WorkbenchTrendItem,
-} from '@vben/common-ui';
-
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-
 import { WorkbenchHeader } from '@vben/common-ui';
 import { preferences } from '@vben/preferences';
 import { useUserStore } from '@vben/stores';
-import { openWindow } from '@vben/utils';
 
 const userStore = useUserStore();
-
-
 </script>
 
 <template>
