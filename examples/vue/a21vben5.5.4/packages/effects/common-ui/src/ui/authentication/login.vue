@@ -93,21 +93,22 @@ defineExpose({
 
 <template>
   <div @keydown.enter.prevent="handleSubmit">
-    <slot name="title">
-      <Title>
-        <slot name="title">
-          {{ title || `${$t('authentication.welcomeBack')} 👋🏻` }}
-          通用的登录页~
-        </slot>
-        <template #desc>
-          <span class="text-muted-foreground">
-            <slot name="subTitle">
-              {{ subTitle || $t('authentication.loginSubtitle') }}
-            </slot>
-          </span>
-        </template>
-      </Title>
-    </slot>
+    <div class="mb-20">
+      <slot name="title">
+        <Title>
+          <slot name="title">
+            {{ title || `${$t('authentication.welcomeBack')} 👋🏻` }}
+          </slot>
+          <template #desc>
+            <span class="text-muted-foreground">
+              <slot name="subTitle">
+                {{ subTitle || $t('authentication.loginSubtitle') }}
+              </slot>
+            </span>
+          </template>
+        </Title>
+      </slot>
+    </div>
 
     <Form />
 

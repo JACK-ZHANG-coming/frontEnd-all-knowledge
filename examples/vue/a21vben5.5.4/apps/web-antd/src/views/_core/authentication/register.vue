@@ -2,7 +2,7 @@
 import type { VbenFormSchema } from '@vben/common-ui';
 import type { Recordable } from '@vben/types';
 
-import { computed, h, ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import { AuthenticationRegister, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
@@ -16,7 +16,7 @@ const formSchema = computed((): VbenFormSchema[] => {
     {
       component: 'VbenInput',
       componentProps: {
-        placeholder: $t('authentication.usernameTip'),
+        placeholder: `${$t('authentication.usernameTip')}`,
       },
       fieldName: 'username',
       label: $t('authentication.username'),
@@ -25,16 +25,11 @@ const formSchema = computed((): VbenFormSchema[] => {
     {
       component: 'VbenInputPassword',
       componentProps: {
-        passwordStrength: true,
-        placeholder: $t('authentication.password'),
+        passwordStrength: false,
+        placeholder: `${$t('authentication.password')}`,
       },
       fieldName: 'password',
       label: $t('authentication.password'),
-      renderComponentContent() {
-        return {
-          strengthText: () => $t('authentication.passwordStrength'),
-        };
-      },
       rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
     },
     {
@@ -57,27 +52,6 @@ const formSchema = computed((): VbenFormSchema[] => {
       fieldName: 'confirmPassword',
       label: $t('authentication.confirmPassword'),
     },
-    {
-      component: 'VbenCheckbox',
-      fieldName: 'agreePolicy',
-      renderComponentContent: () => ({
-        default: () =>
-          h('span', [
-            $t('authentication.agree'),
-            h(
-              'a',
-              {
-                class: 'vben-link ml-1 ',
-                href: '',
-              },
-              `${$t('authentication.privacyPolicy')} & ${$t('authentication.terms')}`,
-            ),
-          ]),
-      }),
-      rules: z.boolean().refine((value) => !!value, {
-        message: $t('authentication.agreeTip'),
-      }),
-    },
   ];
 });
 
@@ -91,6 +65,8 @@ function handleSubmit(value: Recordable<any>) {
   <AuthenticationRegister
     :form-schema="formSchema"
     :loading="loading"
+    title="注册"
+    sub-title="请输入用户名、密码、确认密码"
     @submit="handleSubmit"
   />
 </template>

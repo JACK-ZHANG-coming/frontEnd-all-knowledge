@@ -17,7 +17,7 @@ export const MOCK_USERS: UserInfo[] = [
   },
   {
     id: 1,
-    password: '123456',
+    password: 'admin',
     realName: 'Admin',
     roles: ['admin'],
     username: 'admin',
@@ -30,6 +30,13 @@ export const MOCK_USERS: UserInfo[] = [
     roles: ['user'],
     username: 'jack',
     homePath: '/analytics',
+  },
+  {
+    id: 3,
+    password: 'system',
+    realName: 'system',
+    roles: ['super'],
+    username: 'system',
   },
 ];
 

@@ -39,8 +39,12 @@ const showTheme = computed(() => props.toolbarList.includes('theme'));
   >
     <!-- Only show on medium and larger screens -->
     <div class="hidden md:flex">
-      <AuthenticationColorToggle v-if="showColor" />
-      <AuthenticationLayoutToggle v-if="showLayout" />
+      <AuthenticationColorToggle
+        v-if="showColor && preferences.widget.authenticationColorToggle"
+      />
+      <AuthenticationLayoutToggle
+        v-if="showLayout && preferences.widget.authenticationLayoutToggle"
+      />
     </div>
     <!-- Always show Language and Theme toggles -->
     <LanguageToggle v-if="showLanguage && preferences.widget.languageToggle" />

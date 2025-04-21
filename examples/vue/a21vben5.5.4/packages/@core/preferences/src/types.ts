@@ -219,6 +219,10 @@ interface TransitionPreferences {
 }
 
 interface WidgetPreferences {
+  /** 是否显示主题颜色切换部件 */
+  authenticationColorToggle: boolean;
+  /** 是否显示登录页布局切换部件 */
+  authenticationLayoutToggle: boolean;
   /** 是否启用全屏部件 */
   fullscreen: boolean;
   /** 是否启用全局搜索部件 */
