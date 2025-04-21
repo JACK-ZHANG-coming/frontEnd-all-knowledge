@@ -25,7 +25,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+  <div class="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-2">
     <template v-for="item in items" :key="item.title">
       <Card :title="item.title" class="w-full">
         <CardHeader>

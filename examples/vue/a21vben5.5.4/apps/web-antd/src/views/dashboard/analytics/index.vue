@@ -44,7 +44,12 @@ const chartTabs: TabOption[] = [
 
 <template>
   <div class="p-5">
-    <AnalysisOverview :items="overviewItems" />
+    <div class="h-100% mt-5 w-full md:flex">
+      <AnalysisOverview class="h-100% w-1/2 md:mr-2" :items="overviewItems" />
+      <AnalysisChartCard class="mt-5 md:mt-0 md:w-1/2" title="访问数量">
+        <AnalyticsVisitsData />
+      </AnalysisChartCard>
+    </div>
     <AnalysisChartsTabs :tabs="chartTabs" class="mt-5">
       <template #trends>
         <AnalyticsTrends />
@@ -53,11 +58,5 @@ const chartTabs: TabOption[] = [
         <AnalyticsVisits />
       </template>
     </AnalysisChartsTabs>
-
-    <div class="mt-5 w-full md:flex">
-      <AnalysisChartCard class="mt-5 md:mr-4 md:mt-0 md:w-1/3" title="访问数量">
-        <AnalyticsVisitsData />
-      </AnalysisChartCard>
-    </div>
   </div>
 </template>
