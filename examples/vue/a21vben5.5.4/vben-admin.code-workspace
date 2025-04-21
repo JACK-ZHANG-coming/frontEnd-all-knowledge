@@ -168,5 +168,9 @@
       "name": "@vben/vsh",
       "path": "scripts/vsh",
     },
+    {
+      "name": "@vben/a01custom-app1",
+      "path": "apps/a01custom-app1",
+    },
   ],
 }
