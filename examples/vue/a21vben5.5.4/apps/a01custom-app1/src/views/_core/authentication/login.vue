@@ -38,9 +38,7 @@ const formSchema = computed((): VbenFormSchema[] => {
       dependencies: {
         trigger(values, form) {
           if (values.selectAccount) {
-            const findUser = MOCK_USER_OPTIONS.find(
-              (item) => item.value === values.selectAccount,
-            );
+            const findUser = MOCK_USER_OPTIONS.find((item) => item.value === values.selectAccount);
             if (findUser) {
               form.setValues({
                 password: '123456',
@@ -76,7 +74,7 @@ const formSchema = computed((): VbenFormSchema[] => {
     :show-code-login="false"
     :show-qrcode-login="false"
     title="欢迎登录前端通用模板系统"
-    sub-title="当前使用的是基于antd的子系统"
+    sub-title="当前使用的是基于antd的子系统 -- 这个是子项目自定义的标题"
     @submit="authStore.authLogin"
   />
 </template>
