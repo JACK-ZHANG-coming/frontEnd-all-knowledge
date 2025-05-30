@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>屏幕区域录制</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+      }
+      #startBtn,
+      #stopBtn {
+        padding: 8px 16px;
+        margin-right: 8px;
+      }
+      /* 选区遮罩样式 */
+      #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        cursor: crosshair;
+        display: none;
+        z-index: 1000;
+      }
+      #selection {
+        position: absolute;
+        border: 2px dashed #fff;
+        background: rgba(255, 255, 255, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <button id="startBtn">开始录制</button>
+    <button id="stopBtn" disabled>停止录制</button>
+
+    <div id="overlay"></div>
+
+    <script>
+      const startBtn = document.getElementById('startBtn');
+      const stopBtn = document.getElementById('stopBtn');
+      const overlay = document.getElementById('overlay');
+
+      let mediaStream,
+        recorder,
+        chunks = [];
+      let selection = null;
+      let rect = {};
+
+      // 1. 画选区
+      overlay.addEventListener('mousedown', (e) => {
+        if (selection) selection.remove();
+        selection = document.createElement('div');
+        selection.id = 'selection';
+        overlay.appendChild(selection);
+        rect.startX = e.clientX;
+        rect.startY = e.clientY;
+        selection.style.left = rect.startX + 'px';
+        selection.style.top = rect.startY + 'px';
+
+        function onMouseMove(e) {
+          const w = e.clientX - rect.startX;
+          const h = e.clientY - rect.startY;
+          selection.style.width = Math.abs(w) + 'px';
+          selection.style.height = Math.abs(h) + 'px';
+          selection.style.left = (w < 0 ? e.clientX : rect.startX) + 'px';
+          selection.style.top = (h < 0 ? e.clientY : rect.startY) + 'px';
+        }
+        function onMouseUp(e) {
+          overlay.removeEventListener('mousemove', onMouseMove);
+          overlay.removeEventListener('mouseup', onMouseUp);
+          // 选区结束，开始录制
+          const box = selection.getBoundingClientRect();
+          overlay.style.display = 'none';
+          startRecording(box);
+        }
+        overlay.addEventListener('mousemove', onMouseMove);
+        overlay.addEventListener('mouseup', onMouseUp);
+      });
+
+      // 2. 点击开始
+      startBtn.onclick = async () => {
+        // 请求屏幕共享
+        try {
+          mediaStream = await navigator.mediaDevices.getDisplayMedia({
+            video: true,
+            audio: false,
+          });
+        } catch (err) {
+          alert('获取屏幕失败：' + err.message);
+          return;
+        }
+        // 显示遮罩让用户画选区
+        overlay.style.display = 'block';
+        startBtn.disabled = true;
+      };
+
+      // 3. 真正开始录制选区
+      function startRecording(box) {
+        // 在后台创建 video 元素播放 screen stream
+        const video = document.createElement('video');
+        video.srcObject = mediaStream;
+        video.play();
+
+        // 创建 canvas 用于裁剪
+        const canvas = document.createElement('canvas');
+        canvas.width = box.width;
+        canvas.height = box.height;
+        const ctx = canvas.getContext('2d');
+
+        // 采集 canvas 流进行录制
+        const canvasStream = canvas.captureStream(30);
+        recorder = new MediaRecorder(canvasStream, {
+          mimeType: 'video/webm; codecs=vp8',
+        });
+
+        recorder.ondataavailable = (e) => chunks.push(e.data);
+        recorder.onstop = exportVideo;
+
+        recorder.start();
+        stopBtn.disabled = false;
+
+        // 持续绘制
+        const draw = () => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(
+            video,
+            box.left,
+            box.top,
+            box.width,
+            box.height, // 源
+            0,
+            0,
+            canvas.width,
+            canvas.height, // 目标
+          );
+          if (recorder && recorder.state === 'recording') {
+            requestAnimationFrame(draw);
+          }
+        };
+        draw();
+      }
+
+      // 4. 点击停止
+      stopBtn.onclick = () => {
+        stopBtn.disabled = true;
+        recorder.stop();
+        mediaStream.getTracks().forEach((t) => t.stop());
+        startBtn.disabled = false;
+      };
+
+      // 5. 导出视频
+      function exportVideo() {
+        const blob = new Blob(chunks, { type: 'video/webm' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `screen-record-${Date.now()}.webm`;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          URL.revokeObjectURL(url);
+          a.remove();
+          chunks = [];
+        }, 100);
+      }
+    </script>
+  </body>
+</html>

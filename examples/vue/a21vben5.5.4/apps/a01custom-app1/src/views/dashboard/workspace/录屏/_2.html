@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>屏幕区域录制（修复0B问题）</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+      }
+      button {
+        padding: 8px 16px;
+        margin: 4px;
+        cursor: pointer;
+        transition: transform 0.1s ease;
+      }
+      button:hover {
+        transform: scale(1.05);
+      }
+      button:active {
+        transform: scale(0.9);
+      }
+      #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        cursor: crosshair;
+        display: none;
+        z-index: 1000;
+      }
+      #selection {
+        position: absolute;
+        border: 2px dashed #fff;
+        background: rgba(255, 255, 255, 0.2);
+      }
+      #controlPanel {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        background: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 8px;
+        z-index: 1001;
+        display: none;
+        cursor: move;
+        user-select: none;
+        transition:
+          left 0.2s ease,
+          right 0.2s ease;
+      }
+      #controlPanel span,
+      #controlPanel button {
+        vertical-align: middle;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="startBtn">开始录制</button>
+    <div id="overlay"></div>
+    <div id="controlPanel">
+      <span id="timer">00:00</span>
+      <button id="pauseBtn" disabled>暂停</button>
+      <button id="resumeBtn" disabled>继续</button>
+      <button id="stopBtn" disabled>结束</button>
+    </div>
+    <script>
+      const startBtn = document.getElementById('startBtn');
+      const overlay = document.getElementById('overlay');
+      const controlPanel = document.getElementById('controlPanel');
+      const pauseBtn = document.getElementById('pauseBtn');
+      const resumeBtn = document.getElementById('resumeBtn');
+      const stopBtn = document.getElementById('stopBtn');
+      const timerEl = document.getElementById('timer');
+
+      let mediaStream,
+        recorder,
+        chunks = [];
+      let selection,
+        rect = {};
+      let recordStart = 0,
+        elapsedBeforePause = 0,
+        timerInterval;
+      const saveMime = 'video/webm; codecs=vp8'; // 始终使用WebM，兼容主流
+
+      overlay.addEventListener('mousedown', (e) => {
+        if (selection) selection.remove();
+        selection = document.createElement('div');
+        selection.id = 'selection';
+        overlay.appendChild(selection);
+        rect.startX = e.clientX;
+        rect.startY = e.clientY;
+        selection.style.left = rect.startX + 'px';
+        selection.style.top = rect.startY + 'px';
+        function onMouseMove(e) {
+          const w = e.clientX - rect.startX,
+            h = e.clientY - rect.startY;
+          selection.style.width = Math.abs(w) + 'px';
+          selection.style.height = Math.abs(h) + 'px';
+          selection.style.left = (w < 0 ? e.clientX : rect.startX) + 'px';
+          selection.style.top = (h < 0 ? e.clientY : rect.startY) + 'px';
+        }
+        function onMouseUp(e) {
+          overlay.removeEventListener('mousemove', onMouseMove);
+          overlay.removeEventListener('mouseup', onMouseUp);
+          overlay.style.display = 'none';
+          startRecording(selection.getBoundingClientRect());
+        }
+        overlay.addEventListener('mousemove', onMouseMove);
+        overlay.addEventListener('mouseup', onMouseUp);
+      });
+
+      startBtn.onclick = async () => {
+        try {
+          mediaStream = await navigator.mediaDevices.getDisplayMedia({
+            video: true,
+            audio: false,
+          });
+        } catch (err) {
+          alert('获取屏幕失败：' + err.message);
+          return;
+        }
+        overlay.style.display = 'block';
+        startBtn.disabled = true;
+      };
+
+      function startTimer() {
+        recordStart = Date.now() - elapsedBeforePause;
+        timerInterval = setInterval(() => {
+          const diff = Date.now() - recordStart;
+          const m = String(Math.floor(diff / 60000)).padStart(2, '0');
+          const s = String(Math.floor(diff / 1000) % 60).padStart(2, '0');
+          timerEl.textContent = `${m}:${s}`;
+        }, 500);
+      }
+      function stopTimer() {
+        clearInterval(timerInterval);
+        elapsedBeforePause = Date.now() - recordStart;
+      }
+
+      function startRecording(box) {
+        chunks = [];
+        const video = document.createElement('video');
+        video.srcObject = mediaStream;
+        video.muted = true;
+        video.play();
+
+        const canvas = document.createElement('canvas');
+        canvas.width = box.width;
+        canvas.height = box.height;
+        const ctx = canvas.getContext('2d');
+
+        video.addEventListener('playing', () => {
+          console.log('playing');
+          const canvasStream = canvas.captureStream(30);
+          recorder = new MediaRecorder(canvasStream, { mimeType: saveMime });
+          recorder.ondataavailable = (e) => {
+            if (e.data && e.data.size > 0) chunks.push(e.data);
+          };
+          recorder.onstop = exportVideo;
+          recorder.start(1000); // 每秒触发一次 dataavailable
+          pauseBtn.disabled = false;
+          stopBtn.disabled = false;
+          controlPanel.style.display = 'flex';
+          startTimer();
+          (function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(
+              video,
+              box.left,
+              box.top,
+              box.width,
+              box.height,
+              0,
+              0,
+              canvas.width,
+              canvas.height,
+            );
+            if (recorder && recorder.state === 'recording')
+              requestAnimationFrame(draw);
+          })();
+        });
+      }
+
+      pauseBtn.onclick = () => {
+        if (recorder.state === 'recording') {
+          recorder.pause();
+          stopTimer();
+          pauseBtn.disabled = true;
+          resumeBtn.disabled = false;
+        }
+      };
+      resumeBtn.onclick = () => {
+        if (recorder.state === 'paused') {
+          recorder.resume();
+          startTimer();
+          pauseBtn.disabled = false;
+          resumeBtn.disabled = true;
+        }
+      };
+      stopBtn.onclick = () => {
+        recorder.stop();
+        mediaStream.getTracks().forEach((t) => t.stop());
+        stopTimer();
+        controlPanel.style.display = 'none';
+        pauseBtn.disabled = true;
+        resumeBtn.disabled = true;
+        stopBtn.disabled = true;
+        startBtn.disabled = false;
+        elapsedBeforePause = 0;
+        timerEl.textContent = '00:00';
+      };
+
+      function exportVideo() {
+        const blob = new Blob(chunks, { type: saveMime });
+        if (blob.size === 0) {
+          alert('录制失败，文件大小为0，请检查摄取流程是否正常。');
+          return;
+        }
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `screen-record-${Date.now()}.webm`;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          URL.revokeObjectURL(url);
+          a.remove();
+          chunks = [];
+        }, 100);
+      }
+
+      (function makeDraggable(el) {
+        let offsetX = 0,
+          offsetY = 0,
+          isDown = false;
+        el.addEventListener('mousedown', (e) => {
+          isDown = true;
+          offsetX = el.offsetLeft - e.clientX;
+          offsetY = el.offsetTop - e.clientY;
+        });
+        document.addEventListener('mouseup', () => {
+          if (!isDown) return;
+          isDown = false;
+          const midX = window.innerWidth / 2;
+          if (el.offsetLeft + el.offsetWidth / 2 < midX) {
+            el.style.left = '16px';
+            el.style.right = '';
+          } else {
+            el.style.left = '';
+            el.style.right = '16px';
+          }
+        });
+        document.addEventListener('mousemove', (e) => {
+          if (!isDown) return;
+          el.style.left = e.clientX + offsetX + 'px';
+          el.style.top = e.clientY + offsetY + 'px';
+          el.style.right = '';
+        });
+      })(controlPanel);
+    </script>
+  </body>
+</html>
