@@ -490,50 +490,88 @@
         canvas.width = selectedArea.width;
         canvas.height = selectedArea.height;
 
-        // Create a new stream from canvas
-        canvasStream = canvas.captureStream(30); // 30 FPS
+        // Wait for video to be ready and draw initial frame
+        const drawInitialFrame = () => {
+          if (sourceVideo.readyState >= 2) {
+            // HAVE_CURRENT_DATA
+            // Calculate scale factors
+            const videoRect = sourceVideo.getBoundingClientRect();
+            const scaleX = sourceVideo.videoWidth / videoRect.width;
+            const scaleY = sourceVideo.videoHeight / videoRect.height;
 
-        // Add audio track from original stream if available
-        const audioTracks = originalStream.getAudioTracks();
-        if (audioTracks.length > 0) {
-          canvasStream.addTrack(audioTracks[0]);
-        }
+            // Calculate source coordinates
+            const sourceX = (selectedArea.x - videoRect.left) * scaleX;
+            const sourceY = (selectedArea.y - videoRect.top) * scaleY;
+            const sourceWidth = selectedArea.width * scaleX;
+            const sourceHeight = selectedArea.height * scaleY;
 
-        // Start drawing cropped video to canvas
-        drawCroppedVideo();
+            // Draw initial frame
+            ctx.drawImage(
+              sourceVideo,
+              sourceX,
+              sourceY,
+              sourceWidth,
+              sourceHeight,
+              0,
+              0,
+              selectedArea.width,
+              selectedArea.height,
+            );
 
-        // Start recording with canvas stream
-        startRecordingWithStream(canvasStream);
+            // Create stream from canvas
+            canvasStream = canvas.captureStream(30); // 30 FPS
+
+            // Add audio track from original stream if available
+            const audioTracks = originalStream.getAudioTracks();
+            if (audioTracks.length > 0) {
+              canvasStream.addTrack(audioTracks[0]);
+            }
+
+            // Start continuous drawing
+            startContinuousDrawing();
+
+            // Start recording with canvas stream
+            startRecordingWithStream(canvasStream);
+          } else {
+            // Wait a bit more for video to be ready
+            setTimeout(drawInitialFrame, 100);
+          }
+        };
+
+        drawInitialFrame();
       }
 
-      function drawCroppedVideo() {
-        if (!isRecording && !isPaused) return;
+      function startContinuousDrawing() {
+        const draw = () => {
+          if (isRecording || isPaused) {
+            // Calculate scale factors
+            const videoRect = sourceVideo.getBoundingClientRect();
+            const scaleX = sourceVideo.videoWidth / videoRect.width;
+            const scaleY = sourceVideo.videoHeight / videoRect.height;
 
-        // Calculate scale factors
-        const videoRect = sourceVideo.getBoundingClientRect();
-        const scaleX = sourceVideo.videoWidth / videoRect.width;
-        const scaleY = sourceVideo.videoHeight / videoRect.height;
+            // Calculate source coordinates
+            const sourceX = (selectedArea.x - videoRect.left) * scaleX;
+            const sourceY = (selectedArea.y - videoRect.top) * scaleY;
+            const sourceWidth = selectedArea.width * scaleX;
+            const sourceHeight = selectedArea.height * scaleY;
 
-        // Calculate source coordinates
-        const sourceX = (selectedArea.x - videoRect.left) * scaleX;
-        const sourceY = (selectedArea.y - videoRect.top) * scaleY;
-        const sourceWidth = selectedArea.width * scaleX;
-        const sourceHeight = selectedArea.height * scaleY;
+            // Draw cropped video frame
+            ctx.drawImage(
+              sourceVideo,
+              sourceX,
+              sourceY,
+              sourceWidth,
+              sourceHeight,
+              0,
+              0,
+              selectedArea.width,
+              selectedArea.height,
+            );
 
-        // Draw cropped video frame
-        ctx.drawImage(
-          sourceVideo,
-          sourceX,
-          sourceY,
-          sourceWidth,
-          sourceHeight,
-          0,
-          0,
-          selectedArea.width,
-          selectedArea.height,
-        );
-
-        requestAnimationFrame(drawCroppedVideo);
+            requestAnimationFrame(draw);
+          }
+        };
+        draw();
       }
 
       function startRecordingWithStream(stream) {
