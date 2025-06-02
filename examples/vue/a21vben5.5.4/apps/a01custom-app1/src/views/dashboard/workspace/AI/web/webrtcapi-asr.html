@@ -65,6 +65,114 @@
             margin: 0;
         }
     </style>
+    <style>
+        .audio-settings {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .audio-settings h6 {
+            margin-top: 0;
+            color: #495057;
+        }
+
+        .audio-option {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .audio-option input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .audio-option label {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .volume-control {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .volume-control input[type="range"] {
+            flex: 1;
+        }
+
+        .recording {
+            background: #dc3545 !important;
+        }
+
+        .recording:hover {
+            background: #c82333 !important;
+        }
+
+        .status {
+            text-align: center;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .status.recording {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.ready {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .download-section {
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        .download-link {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            margin-top: 0px;
+        }
+
+        .download-link:hover {
+            background: #218838;
+        }
+
+        .audio-visualizer {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+            align-items: center;
+        }
+
+        .visualizer-bar {
+            width: 4px;
+            height: 20px;
+            background: #007bff;
+            border-radius: 2px;
+            transition: height 0.1s;
+        }
+    </style>
 </head>
 
 <body>
@@ -78,7 +186,8 @@
                     </div>
                     <div class="card-body">
                         <audio id="audio" autoplay="true"></audio>
-                        <video id="video" autoplay="true" playsinline="true"></video>
+                        <!-- <video id="video" autoplay="true" playsinline="true"></video> -->
+                        <video id="video" src="./testVideo.mp4" playsinline="true" controls></video>
                     </div>
                 </div>
             </div>
@@ -100,6 +209,57 @@
 
                 <div class="card">
                     <div class="card-header">
+                        <h5 class="mb-0">视频录制</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="audio-settings">
+                            <h6>音频设置</h6>
+                            <div class="audio-option">
+                                <input type="checkbox" id="recordMicrophone" checked>
+                                <label for="recordMicrophone">录制麦克风声音</label>
+                            </div>
+                            <div class="volume-control">
+                                <label>麦克风音量:</label>
+                                <input type="range" id="micVolume" min="0" max="100" value="50">
+                                <span id="micVolumeValue">50%</span>
+                            </div>
+
+                            <div class="audio-option">
+                                <input type="checkbox" id="recordVideoAudio" checked>
+                                <label for="recordVideoAudio">录制视频自带声音</label>
+                            </div>
+                            <div class="volume-control">
+                                <label>视频音量:</label>
+                                <input type="range" id="videoVolume" min="0" max="100" value="80">
+                                <span id="videoVolumeValue">80%</span>
+                            </div>
+
+                            <div class="audio-visualizer" id="audioVisualizer">
+                                <span>音频电平:</span>
+                                <div class="visualizer-bar"></div>
+                                <div class="visualizer-bar"></div>
+                                <div class="visualizer-bar"></div>
+                                <div class="visualizer-bar"></div>
+                                <div class="visualizer-bar"></div>
+                                <div class="visualizer-bar"></div>
+                                <div class="visualizer-bar"></div>
+                                <div class="visualizer-bar"></div>
+                            </div>
+                        </div>
+                        <div class="controls">
+                            <button class="btn btn-primary" id="recordBtn">开始录制</button>
+                            <button class="btn btn-primary" id="stopBtn" disabled>停止录制</button>
+                            <button class="btn btn-primary" id="testAudioBtn">测试音频</button>
+                        </div>
+                        <div id="status" class="status" style="display: none;"></div>
+                        <div class="download-section" id="downloadSection" style="display: none;">
+                            <a id="downloadLink" class="download-link" download="recorded-video.webm">下载录制的视频</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
                         <h5 class="mb-0">系统状态</h5>
                     </div>
                     <div class="card-body">
@@ -108,13 +268,15 @@
                                 <div class="mb-2">
                                     <small>CPU使用率:</small>
                                     <div class="progress">
-                                        <div id="cpu-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                        <div id="cpu-progress" class="progress-bar" role="progressbar"
+                                            style="width: 0%"></div>
                                     </div>
                                 </div>
                                 <div class="mb-2">
                                     <small>内存使用率:</small>
                                     <div class="progress">
-                                        <div id="memory-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                        <div id="memory-progress" class="progress-bar" role="progressbar"
+                                            style="width: 0%"></div>
                                     </div>
                                 </div>
                             </div>
@@ -122,13 +284,15 @@
                                 <div class="mb-2">
                                     <small>GPU使用率:</small>
                                     <div class="progress">
-                                        <div id="gpu-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                        <div id="gpu-progress" class="progress-bar" role="progressbar"
+                                            style="width: 0%"></div>
                                     </div>
                                 </div>
                                 <div class="mb-2">
                                     <small>显存使用率:</small>
                                     <div class="progress">
-                                        <div id="gpu-memory-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                        <div id="gpu-memory-progress" class="progress-bar" role="progressbar"
+                                            style="width: 0%"></div>
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +322,8 @@
                     </div>
                 </div>
                 <!-- 日志显示区域 -->
-                <div class="card position-fixed bottom-0 end-0" style="width: 33%;max-height: 500px; margin: 20px; opacity: 0.9;">
+                <div class="card position-fixed bottom-0 end-0"
+                    style="width: 33%;max-height: 500px; margin: 20px; opacity: 0.9;">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h6 class="mb-0">系统日志</h6>
                         <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearLogs()">清空</button>
@@ -171,10 +336,12 @@
         </div>
     </div>
 
-    
+
 
     <script src="sockjs.min.js"></script>
     <script src="jquery-2.1.1.min.js"></script>
     <script src="bootstrap-5.3.3/js/bootstrap.bundle.min.js"></script>
     <script src="client.js"></script>
+    <script src="advanced-video-recorder.js"></script>
+
 </html>

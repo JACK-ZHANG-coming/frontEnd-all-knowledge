@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高级视频录制器</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    .container {
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .audio-settings {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .audio-settings h3 {
+      margin-top: 0;
+      color: #495057;
+    }
+
+    .audio-option {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .audio-option input[type="checkbox"] {
+      margin-right: 10px;
+      transform: scale(1.2);
+    }
+
+    .audio-option label {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .volume-control {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .volume-control input[type="range"] {
+      flex: 1;
+    }
+
+    .video-section {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .video-container {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .video-container h3 {
+      margin-bottom: 10px;
+      color: #555;
+    }
+
+    video {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      background: #000;
+    }
+
+    .controls {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 0 10px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    button:disabled {
+      background: #6c757d;
+      cursor: not-allowed;
+    }
+
+    .recording {
+      background: #dc3545 !important;
+    }
+
+    .recording:hover {
+      background: #c82333 !important;
+    }
+
+    .status {
+      text-align: center;
+      margin: 20px 0;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .status.recording {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .status.ready {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .status.warning {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeaa7;
+    }
+
+    .download-section {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .download-link {
+      display: inline-block;
+      background: #28a745;
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+
+    .download-link:hover {
+      background: #218838;
+    }
+
+    .audio-visualizer {
+      display: flex;
+      gap: 10px;
+      margin: 10px 0;
+      align-items: center;
+    }
+
+    .visualizer-bar {
+      width: 4px;
+      height: 20px;
+      background: #007bff;
+      border-radius: 2px;
+      transition: height 0.1s;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>高级视频录制器</h1>
+
+    <div class="audio-settings">
+      <h3>音频设置</h3>
+      <div class="audio-option">
+        <input type="checkbox" id="recordMicrophone" checked>
+        <label for="recordMicrophone">录制麦克风声音</label>
+      </div>
+      <div class="volume-control">
+        <label>麦克风音量:</label>
+        <input type="range" id="micVolume" min="0" max="100" value="50">
+        <span id="micVolumeValue">50%</span>
+      </div>
+
+      <div class="audio-option">
+        <input type="checkbox" id="recordVideoAudio" checked>
+        <label for="recordVideoAudio">录制视频自带声音</label>
+      </div>
+      <div class="volume-control">
+        <label>视频音量:</label>
+        <input type="range" id="videoVolume" min="0" max="100" value="80">
+        <span id="videoVolumeValue">80%</span>
+      </div>
+
+      <div class="audio-visualizer" id="audioVisualizer">
+        <span>音频电平:</span>
+        <div class="visualizer-bar"></div>
+        <div class="visualizer-bar"></div>
+        <div class="visualizer-bar"></div>
+        <div class="visualizer-bar"></div>
+        <div class="visualizer-bar"></div>
+        <div class="visualizer-bar"></div>
+        <div class="visualizer-bar"></div>
+        <div class="visualizer-bar"></div>
+      </div>
+    </div>
+
+    <div class="video-section">
+      <div class="video-container">
+        <h3>原始视频</h3>
+        <video id="video" controls>
+          <!-- 你可以替换为实际的视频文件路径 -->
+          <source src="./testVedio.mp4" type="video/mp4">
+          您的浏览器不支持视频播放。
+        </video>
+      </div>
+
+      <div class="video-container">
+        <h3>录制结果</h3>
+        <video id="recordedVideo" controls style="display: none;"></video>
+        <div id="placeholder"
+          style="width: 100%; height: 200px; background: #f8f9fa; border: 2px dashed #dee2e6; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+          <span style="color: #6c757d;">录制完成后将在此显示</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="recordBtn">开始录制</button>
+      <button id="stopBtn" disabled>停止录制</button>
+      <button id="playOriginalBtn">播放原始视频</button>
+      <button id="testAudioBtn">测试音频</button>
+    </div>
+
+    <div id="status" class="status" style="display: none;"></div>
+
+    <div class="download-section" id="downloadSection" style="display: none;">
+      <p>录制完成！</p>
+      <a id="downloadLink" class="download-link" download="recorded-video.webm">下载录制的视频</a>
+    </div>
+  </div>
+
+  <script>
+    class AdvancedVideoRecorder {
+      constructor() {
+        this.mediaRecorder = null;
+        this.recordedChunks = [];
+        this.isRecording = false;
+        this.audioContext = null;
+        this.microphoneStream = null;
+        this.videoAudioStream = null;
+        this.mixedAudioStream = null;
+        this.analyser = null;
+        this.visualizerInterval = null;
+
+        // 获取DOM元素
+        this.sourceVideo = document.getElementById('video');
+        this.recordedVideo = document.getElementById('recordedVideo');
+        this.recordBtn = document.getElementById('recordBtn');
+        this.stopBtn = document.getElementById('stopBtn');
+        this.playOriginalBtn = document.getElementById('playOriginalBtn');
+        this.testAudioBtn = document.getElementById('testAudioBtn');
+        this.status = document.getElementById('status');
+        this.downloadSection = document.getElementById('downloadSection');
+        this.downloadLink = document.getElementById('downloadLink');
+        this.placeholder = document.getElementById('placeholder');
+
+        // 音频设置元素
+        this.recordMicCheckbox = document.getElementById('recordMicrophone');
+        this.recordVideoAudioCheckbox = document.getElementById('recordVideoAudio');
+        this.micVolumeSlider = document.getElementById('micVolume');
+        this.videoVolumeSlider = document.getElementById('videoVolume');
+        this.micVolumeValue = document.getElementById('micVolumeValue');
+        this.videoVolumeValue = document.getElementById('videoVolumeValue');
+        this.audioVisualizer = document.getElementById('audioVisualizer');
+
+        this.initEventListeners();
+        this.setupAudioContext();
+      }
+
+      initEventListeners() {
+        this.recordBtn.addEventListener('click', () => this.startRecording());
+        this.stopBtn.addEventListener('click', () => this.stopRecording());
+        this.playOriginalBtn.addEventListener('click', () => this.playOriginalVideo());
+        this.testAudioBtn.addEventListener('click', () => this.testAudio());
+
+        // 音量控制
+        this.micVolumeSlider.addEventListener('input', (e) => {
+          this.micVolumeValue.textContent = e.target.value + '%';
+        });
+
+        this.videoVolumeSlider.addEventListener('input', (e) => {
+          this.videoVolumeValue.textContent = e.target.value + '%';
+        });
+      }
+
+      async setupAudioContext() {
+        try {
+          this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        } catch (error) {
+          console.error('音频上下文创建失败:', error);
+        }
+      }
+
+      async getMicrophoneStream() {
+        if (!this.recordMicCheckbox.checked) return null;
+
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            audio: {
+              echoCancellation: true,
+              noiseSuppression: true,
+              autoGainControl: true
+            }
+          });
+          return stream;
+        } catch (error) {
+          console.error('获取麦克风失败:', error);
+          this.showStatus('无法获取麦克风权限', 'warning');
+          return null;
+        }
+      }
+
+      getVideoAudioStream() {
+        if (!this.recordVideoAudioCheckbox.checked) return null;
+
+        try {
+          // 从video元素捕获音频流
+          const stream = this.sourceVideo.captureStream();
+          const audioTracks = stream.getAudioTracks();
+
+          if (audioTracks.length > 0) {
+            return new MediaStream(audioTracks);
+          } else {
+            console.warn('视频没有音频轨道');
+            return null;
+          }
+        } catch (error) {
+          console.error('获取视频音频失败:', error);
+          return null;
+        }
+      }
+
+      async mixAudioStreams(micStream, videoAudioStream) {
+        if (!this.audioContext) {
+          await this.setupAudioContext();
+        }
+
+        if (this.audioContext.state === 'suspended') {
+          await this.audioContext.resume();
+        }
+
+        // 创建音频目标节点
+        const destination = this.audioContext.createMediaStreamDestination();
+
+        // 创建增益节点用于音量控制
+        const micGain = this.audioContext.createGain();
+        const videoGain = this.audioContext.createGain();
+
+        // 设置音量
+        micGain.gain.value = this.micVolumeSlider.value / 100;
+        videoGain.gain.value = this.videoVolumeSlider.value / 100;
+
+        // 连接麦克风音频
+        if (micStream) {
+          const micSource = this.audioContext.createMediaStreamSource(micStream);
+          micSource.connect(micGain);
+          micGain.connect(destination);
+        }
+
+        // 连接视频音频
+        if (videoAudioStream) {
+          const videoSource = this.audioContext.createMediaStreamSource(videoAudioStream);
+          videoSource.connect(videoGain);
+          videoGain.connect(destination);
+        }
+
+        // 设置音频分析器用于可视化
+        this.analyser = this.audioContext.createAnalyser();
+        this.analyser.fftSize = 256;
+
+        if (micStream) {
+          const micSource = this.audioContext.createMediaStreamSource(micStream);
+          micSource.connect(this.analyser);
+        }
+
+        return destination.stream;
+      }
+
+      startAudioVisualization() {
+        if (!this.analyser) return;
+
+        const dataArray = new Uint8Array(this.analyser.frequencyBinCount);
+        const bars = this.audioVisualizer.querySelectorAll('.visualizer-bar');
+
+        this.visualizerInterval = setInterval(() => {
+          this.analyser.getByteFrequencyData(dataArray);
+
+          // 计算平均音量
+          const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
+
+          // 更新可视化条
+          bars.forEach((bar, index) => {
+            const height = Math.max(2, (dataArray[index * 4] / 255) * 30);
+            bar.style.height = height + 'px';
+            bar.style.backgroundColor = average > 50 ? '#28a745' : '#007bff';
+          });
+        }, 100);
+      }
+
+      stopAudioVisualization() {
+        if (this.visualizerInterval) {
+          clearInterval(this.visualizerInterval);
+          this.visualizerInterval = null;
+        }
+
+        // 重置可视化条
+        const bars = this.audioVisualizer.querySelectorAll('.visualizer-bar');
+        bars.forEach(bar => {
+          bar.style.height = '2px';
+          bar.style.backgroundColor = '#007bff';
+        });
+      }
+
+      async startRecording() {
+        try {
+          // 获取视频流
+          let videoStream;
+          if (this.sourceVideo.srcObject) {
+            videoStream = this.sourceVideo.srcObject;
+          } else {
+            videoStream = this.sourceVideo.captureStream();
+          }
+
+          // 获取音频流
+          const micStream = await this.getMicrophoneStream();
+          const videoAudioStream = this.getVideoAudioStream();
+
+          if (!micStream && !videoAudioStream) {
+            this.showStatus('请至少选择一种音频源', 'warning');
+            return;
+          }
+
+          // 混合音频流
+          const mixedAudioStream = await this.mixAudioStreams(micStream, videoAudioStream);
+
+          // 合并视频和音频流
+          const tracks = [...videoStream.getVideoTracks()];
+          if (mixedAudioStream) {
+            tracks.push(...mixedAudioStream.getAudioTracks());
+          }
+
+          const combinedStream = new MediaStream(tracks);
+
+          // 创建MediaRecorder
+          const options = { mimeType: 'video/webm;codecs=vp9,opus' };
+          if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+            options.mimeType = 'video/webm';
+          }
+
+          this.mediaRecorder = new MediaRecorder(combinedStream, options);
+          this.recordedChunks = [];
+
+          this.mediaRecorder.ondataavailable = (event) => {
+            if (event.data.size > 0) {
+              this.recordedChunks.push(event.data);
+            }
+          };
+
+          this.mediaRecorder.onstop = () => {
+            this.handleRecordingComplete();
+          };
+
+          // 开始录制
+          this.mediaRecorder.start();
+          this.isRecording = true;
+
+          // 开始音频可视化
+          this.startAudioVisualization();
+
+          // 更新UI
+          this.recordBtn.textContent = '录制中...';
+          this.recordBtn.classList.add('recording');
+          this.recordBtn.disabled = true;
+          this.stopBtn.disabled = false;
+          this.showStatus('正在录制视频和音频...', 'recording');
+
+          // 存储流引用以便后续清理
+          this.microphoneStream = micStream;
+          this.videoAudioStream = videoAudioStream;
+          this.mixedAudioStream = mixedAudioStream;
+
+        } catch (error) {
+          console.error('录制启动失败:', error);
+          this.showStatus('录制启动失败: ' + error.message, 'warning');
+        }
+      }
+
+      stopRecording() {
+        if (this.mediaRecorder && this.isRecording) {
+          this.mediaRecorder.stop();
+          this.isRecording = false;
+
+          // 停止音频可视化
+          this.stopAudioVisualization();
+
+          // 清理音频流
+          if (this.microphoneStream) {
+            this.microphoneStream.getTracks().forEach(track => track.stop());
+          }
+
+          // 更新UI
+          this.recordBtn.textContent = '开始录制';
+          this.recordBtn.classList.remove('recording');
+          this.recordBtn.disabled = false;
+          this.stopBtn.disabled = true;
+          this.showStatus('录制已停止，正在处理...', 'ready');
+        }
+      }
+
+      handleRecordingComplete() {
+        const blob = new Blob(this.recordedChunks, { type: 'video/webm' });
+        const videoURL = URL.createObjectURL(blob);
+
+        // 显示录制结果
+        this.recordedVideo.src = videoURL;
+        this.recordedVideo.style.display = 'block';
+        this.placeholder.style.display = 'none';
+
+        // 设置下载链接
+        this.downloadLink.href = videoURL;
+        this.downloadSection.style.display = 'block';
+
+        this.showStatus('录制完成！包含视频和混合音频', 'ready');
+      }
+
+      async testAudio() {
+        try {
+          const micStream = await this.getMicrophoneStream();
+          const videoAudioStream = this.getVideoAudioStream();
+
+          if (micStream || videoAudioStream) {
+            this.showStatus('音频测试成功！', 'ready');
+
+            // 开始短暂的音频可视化测试
+            if (micStream) {
+              const tempAudioContext = new AudioContext();
+              const analyser = tempAudioContext.createAnalyser();
+              const source = tempAudioContext.createMediaStreamSource(micStream);
+              source.connect(analyser);
+              this.analyser = analyser;
+              this.startAudioVisualization();
+
+              setTimeout(() => {
+                this.stopAudioVisualization();
+                micStream.getTracks().forEach(track => track.stop());
+                tempAudioContext.close();
+              }, 3000);
+            }
+          } else {
+            this.showStatus('音频测试失败，请检查设置', 'warning');
+          }
+        } catch (error) {
+          this.showStatus('音频测试失败: ' + error.message, 'warning');
+        }
+      }
+
+      playOriginalVideo() {
+        if (this.sourceVideo.paused) {
+          this.sourceVideo.play();
+          this.playOriginalBtn.textContent = '暂停原始视频';
+        } else {
+          this.sourceVideo.pause();
+          this.playOriginalBtn.textContent = '播放原始视频';
+        }
+      }
+
+      showStatus(message, type) {
+        this.status.textContent = message;
+        this.status.className = `status ${type}`;
+        this.status.style.display = 'block';
+      }
+    }
+
+    // 页面加载完成后初始化录制器
+    document.addEventListener('DOMContentLoaded', () => {
+      new AdvancedVideoRecorder();
+    });
+  </script>
+</body>
+
+</html>
