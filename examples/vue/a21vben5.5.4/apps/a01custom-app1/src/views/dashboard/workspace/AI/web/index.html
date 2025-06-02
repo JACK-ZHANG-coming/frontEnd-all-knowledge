@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>直播版数字人配置管理</title>
+    <link rel="stylesheet" href="layui-2.9.20/css/layui.css">
+    <link rel="stylesheet" href="css/index.css?v=1.0.3">
+</head>
+
+<body>
+    <div class="layui-container">
+        <h1 class="page-title">直播版数字人配置管理</h1>
+
+        <div class="layui-tab layui-tab-brief" lay-filter="mainTab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">配置管理</li>
+                <li>数字人训练</li>
+            </ul>
+            <div class="layui-tab-content">
+                <!-- 配置管理标签页 -->
+                <div class="layui-tab-item layui-show">
+                    <form class="layui-form form-content" id="config-form" lay-filter="configForm">
+                        <!-- 系统配置部分 -->
+                        <div class="config-section">
+                            <div class="section-title">系统配置</div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">授权卡密</label>
+                                    <div class="layui-input-block" style="display: flex; align-items: center;">
+                                        <input type="text" id="auth_key" name="auth_key" required lay-verify="required" 
+                                            placeholder="请输入授权卡密" class="layui-input" style="margin-right: 10px;">
+                                        <button type="button" class="layui-btn layui-btn-danger" id="unbindAuthKey">解绑卡密</button>
+                                        <tip class="tip">请输入有效的授权卡密，保存后会自动写入key.txt文件</tip>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">启用HTTPS</label>
+                                    <div class="layui-input-block">
+                                        <input type="checkbox" name="ssl" lay-skin="switch" lay-text="开启|关闭" lay-filter="sslSwitch" >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="ssl_config" style="display: none;">
+                                <div class="layui-form-item">
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">SSL证书文件</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" id="ssl_cert" name="ssl_cert" 
+                                                placeholder="请输入SSL证书文件路径" class="layui-input" value="cert.pem">
+                                            <tip class="tip">SSL证书文件路径，例如：cert.pem</tip>
+                                        </div>
+                                    </div>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">SSL私钥文件</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" id="ssl_key" name="ssl_key" 
+                                                placeholder="请输入SSL私钥文件路径" class="layui-input" value="key.pem">
+                                            <tip class="tip">SSL私钥文件路径，例如：key.pem</tip>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 数字人配置部分 -->
+                        <div class="config-section">
+                            <div class="section-title">数字人配置</div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">数字人模型</label>
+                                    <div class="layui-input-block" style="display: flex; align-items: center;">
+                                        <select id="avatar_id" name="avatar_id" required lay-verify="required" lay-filter="avatarSelect"
+                                            class="layui-input" style="margin-right: 10px;">
+                                            <option value="">请选择数字人模型</option>
+                                        </select>
+                                        <button type="button" class="layui-btn layui-btn-primary" id="refreshAvatars">
+                                            <i class="layui-icon layui-icon-refresh"></i>
+                                        </button>
+                                        <button type="button" class="layui-btn layui-btn-danger layui-btn-primary" id="deleteAvatar" style="margin-left: 10px;">
+                                            <i class="layui-icon layui-icon-delete"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="layui-inline avatar-preview" style="display: none;">
+                                    <div class="layui-input-block">
+                                        <img id="avatarPreview" src="" alt="数字人形象预览" style="max-width: 200px; max-height: 200px; border: 1px solid #e6e6e6; border-radius: 2px;">
+                                        <div id="previewError" class="preview-error" style="color: #FF5722; display: none;"></div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">模型</label>
+                                    <div class="layui-input-block">
+                                        <select id="model" name="model" required lay-verify="required" lay-filter="modelSelect"
+                                            class="layui-input">
+                                            <option value="wav2lip">wav2lip</option>
+                                            <option value="wav2lipls">wav2lipls</option>
+                                            <option value="ernerf">ernerf</option>
+                                            <option value="musetalk">musetalk</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">传输协议</label>
+                                    <div class="layui-input-block">
+                                        <select id="transport" name="transport" required lay-verify="required"
+                                            lay-filter="transportSelect" class="layui-input">
+                                            <option value="webrtc">webrtc</option>
+                                            <option value="rtmp">rtmp</option>
+                                            <option value="rtcpush">rtcpush</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">HTTP端口</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="listenport" name="listenport" required lay-verify="required|port"
+                                            placeholder="请输入 listenport" class="layui-input" value="">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">最大会话数</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="max_session" name="max_session" required lay-verify="required|positiveInt"
+                                            placeholder="请输入 max_session" class="layui-input" value="">
+                                        <tip class="tip">同时支持的数字人数量，请根据服务器性能调整</tip>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">Batch大小</label>
+                                    <div class="layui-input-block">
+                                        <input type="number" id="batch_size" name="batch_size" required lay-verify="required|positiveInt"
+                                            placeholder="请输入 Batch Size" min="1" class="layui-input">
+                                        <tip class="tip">推理的batch大小,根据显存大小调整</tip>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TTS配置部分 -->
+                        <div class="config-section">
+                            <div class="section-title">TTS配置</div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">TTS</label>
+                                    <div class="layui-input-block">
+                                        <select id="tts" name="tts" required lay-verify="required" lay-filter="ttsSelect"
+                                            class="layui-input">
+                                            <option value="gpt-sovits-v2">gpt-sovits-v2</option>
+                                            <option value="gpt-sovits">gpt-sovits</option>
+                                            <option value="cosyvoice">cosyvoice</option>
+                                            <option value="bert-vits2">bert-vits2</option>
+                                            <option value="vits-simple-api">vits-simple-api</option>
+                                            <option value="xtts">xtts</option>
+                                            <option value="azure-tts">Azure TTS</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">TTS API地址</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="TTS_SERVER" name="TTS_SERVER" required lay-verify="required|url"
+                                            placeholder="请输入 TTS Server URL" class="layui-input" value="http://127.0.0.1:9880">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CosyVoice专属配置 -->
+                            <div class="layui-form-item" id="cosyvoice_config" style="display: none;">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">TTS模式</label>
+                                    <div class="layui-input-block">
+                                        <select id="tts_mode" name="tts_mode" lay-filter="tts_mode">
+                                            <option value="预训练音色">预训练音色</option>
+                                            <option value="3s极速复刻">3s极速复刻</option>
+                                            <option value="跨语种复刻">跨语种复刻</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <!-- 预训练音色模式的配置项 -->
+                                <div class="layui-inline pretrained-options">
+                                    <label class="layui-form-label">预设音色</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="tts_voice" name="tts_voice" 
+                                            placeholder="请输入预设音色名称" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline pretrained-options">
+                                    <label class="layui-form-label">版本</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="tts_version" name="tts_version" 
+                                            placeholder="请输入版本号" class="layui-input">
+                                    </div>
+                                </div>
+                                
+                                <!-- 所有模式通用的配置项 -->
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">语速</label>
+                                    <div class="layui-input-block">
+                                        <input type="number" id="tts_speed" name="tts_speed" 
+                                            placeholder="请输入语速" class="layui-input" value="1.0" step="0.1" min="0.5" max="2.0">
+                                        <tip class="tip">语速调节，范围0.5-2.0，默认1.0</tip>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">TTS类型</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="tts_type" name="tts_type" required lay-verify="required"
+                                            placeholder="请输入 TTS类型" class="layui-input" value="bert-vits2">
+                                        <tip class="tip">仅在tts为vits-simple-api 的情况下有用</tip>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">说话人ID</label>
+                                    <div class="layui-input-block">
+                                        <input type="number" id="speaker_id" name="speaker_id" required lay-verify="required|number"
+                                            placeholder="请输入说话人ID" class="layui-input" value="0">
+                                        <tip class="tip">仅在tts为vits-simple-api 的情况下有用</tip>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">语音长度</label>
+                                    <div class="layui-input-block">
+                                        <input type="number" id="tts_length" name="tts_length" required lay-verify="required|number"
+                                            placeholder="请输入语音长度" class="layui-input" value="1">
+                                        <tip class="tip">仅在tts为vits-simple-api 的情况下有用，控制语音长度</tip>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">参考音频文件</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" style="width: 300px;" id="REF_FILE" name="REF_FILE"
+                                            placeholder="请输入参考音频文件" class="layui-input"
+                                            value="C:\\Users\\Administrator\\Music\\test.wav">
+                                        <tip class="tip">克隆模式下的参考音频文件路径</tip>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">参考文本</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" style="width: 300px;" id="REF_TEXT" name="REF_TEXT" placeholder="请输入参考文本"
+                                            class="layui-input" value="大家有什么问题都可以直接问啊，主播会尽力回答的">
+                                        <tip class="tip">克隆模式下的参考文本，同语言克隆时必填</tip>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Azure TTS配置 -->
+                            <div class="layui-form-item" id="azure_tts_config" style="display: none;">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">订阅密钥</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="azure_subscription_key" name="azure_subscription_key" 
+                                            placeholder="请输入Azure订阅密钥" class="layui-input">
+                                        <tip class="tip">Azure TTS服务的订阅密钥</tip>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">服务区域</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="azure_region" name="azure_region" 
+                                            placeholder="请输入服务区域" class="layui-input" value="eastasia">
+                                        <tip class="tip">Azure TTS服务的区域，如：eastasia</tip>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">语音名称</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="azure_voice_name" name="azure_voice_name" 
+                                            placeholder="请输入语音名称" class="layui-input" value="zh-CN-XiaoxiaoNeural">
+                                        <tip class="tip">Azure TTS的语音名称，如：zh-CN-XiaoxiaoNeural</tip>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- LLM配置部分 -->
+                        <div class="config-section" style="display: none;">
+                            <div class="section-title">LLM配置</div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">LLM类型</label>
+                                    <div class="layui-input-block">
+                                        <select id="llm_type" name="llm_type" lay-filter="llm_type" required lay-verify="required">
+                                            <option value="openai">OpenAI</option>
+                                            <option value="anythingllm">AnythingLLM</option>
+                                            <option value="dify">Dify</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">LLM API地址</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="llm_api_url" name="llm_api_url" required lay-verify="required|url"
+                                            placeholder="请输入 llm_api_url" class="layui-input" value="">
+                                        <tip class="tip">OpenAI/Ollama/AnythingLLM的API地址</tip>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">LLM API密钥</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="llm_api_key" name="llm_api_key" required lay-verify="required"
+                                            placeholder="请输入 API密钥" class="layui-input" value="">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">LLM模型</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="llm_model" name="llm_model" required lay-verify="required"
+                                            placeholder="请输入模型名称" class="layui-input" value="" style="margin-right: 10px;">
+                                        <tip class="tip">如：gpt-3.5-turbo、qwen:0.5b-chat等</tip>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <div class="layui-input-block">
+                                        <button type="button" class="layui-btn layui-btn-primary" id="getModelsBtn" style="display: none;">
+                                            <i class="layui-icon layui-icon-refresh"></i>获取模型列表
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">LLM预设</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" style="width: 500px;" id="llm_system" name="llm_system" required
+                                            lay-verify="required" placeholder="请输入系统预设提示词" class="layui-input" value="">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">过滤Markdown</label>
+                                    <div class="layui-input-block">
+                                        <input type="checkbox" name="llm_filter_markdown" lay-skin="switch" lay-text="开启|关闭" checked>
+                                        <tip class="tip">是否过滤LLM响应中的Markdown符号（如*、-、#等）</tip>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item" id="anythingllm_config" style="display: none;">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">工作区</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="llm_workspace_slug" name="llm_workspace_slug" 
+                                            placeholder="请输入工作区名称" class="layui-input" value="test">
+                                        <tip class="tip">AnythingLLM的工作区名称</tip>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">对话模式</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="llm_mode_anything" name="llm_mode_anything" 
+                                            placeholder="请输入对话模式" class="layui-input" value="chat">
+                                        <tip class="tip">AnythingLLM的对话模式，默认为chat</tip>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item" id="dify_config" style="display: none;">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">对话模式</label>
+                                    <div class="layui-input-block">
+                                        <select id="llm_mode_dify" name="llm_mode_dify" lay-filter="llm_mode_dify">
+                                            <option value="聊天助手">聊天助手</option>
+                                            <option value="工作流">工作流</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">会话ID</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="conversation_id" name="conversation_id" 
+                                            placeholder="可选，留空自动生成" class="layui-input">
+                                        <tip class="tip">聊天助手模式下的会话ID，留空将自动生成</tip>
+                                    </div>
+                                </div>
+                                <div class="layui-inline" style="width: 100%;">
+                                    <label class="layui-form-label">自定义参数</label>
+                                    <div class="layui-input-block">
+                                        <textarea id="custom_params" name="custom_params" placeholder="工作流模式下的自定义参数，JSON格式" class="layui-textarea" style="height: 100px;">{}</textarea>
+                                        <tip class="tip">工作流模式下的自定义参数，支持变量：{{cur_time}}、{{comment}}等</tip>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 训练管理标签页 -->
+                <div class="layui-tab-item">
+                    <div class="training-section">
+                        <div class="section-title">新建训练任务</div>
+                        <form class="layui-form" id="training-form">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">训练视频</label>
+                                    <div class="layui-input-block">
+                                        <button type="button" class="layui-btn" id="videoUpload">
+                                            <i class="layui-icon">&#xe67c;</i>选择视频
+                                        </button>
+                                        <tip class="tip">请选择MP4格式的视频文件</tip>
+                                        <div id="selected-video-info" style="display: none; margin-top: 10px;">
+                                            <div class="layui-badge layui-bg-blue">
+                                                已选择文件：<span id="selected-video-name"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">角色名</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="avatar_id" required lay-verify="required"
+                                            placeholder="请输入角色名" class="layui-input" value="wav2lip_avatar1">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">图像大小</label>
+                                    <div class="layui-input-block">
+                                        <input type="number" name="img_size" required lay-verify="required|number" 
+                                            placeholder="请输入图像大小" class="layui-input" value="256">
+                                        <tip class="tip">训练图像的大小,建议256或512</tip>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">Batch大小</label>
+                                    <div class="layui-input-block">
+                                        <input type="number" name="batch_size" required lay-verify="required|number"
+                                            placeholder="请输入batch大小" class="layui-input" value="8">
+                                        <tip class="tip">训练的batch大小,根据显存大小调整</tip>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <button type="button" class="layui-btn" id="startTraining">开始训练</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="training-section">
+                        <div class="section-title">训练任务列表</div>
+                        <div class="task-list" id="taskList">
+                            <!-- 任务列表将通过JavaScript动态添加 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 固定在底部的按钮 -->
+        <div class="fixed-bottom">
+            <div style="text-align: center;">
+                <button type="button" class="layui-btn" id="saveConfig">保存配置</button>
+                <button type="button" class="layui-btn layui-btn-normal" id="startProgram">运行程序</button>
+                <button type="button" class="layui-btn layui-btn-danger" id="stopProgram" style="display: none;">停止运行</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="layui-2.9.20/layui.js" charset="utf-8"></script>
+    <script src="js/index.js?v=1.0.3" charset="utf-8"></script>
+</body>
+</body>
+
+</html>

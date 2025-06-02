@@ -1,0 +1,269 @@
+/* 链接美化 */
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* 默认按钮样式 */
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* 美化 select 样式 */
+select {
+  width: 20%;
+  padding: 10px 15px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #fff;
+  appearance: none; /* 去掉默认的浏览器箭头 */
+  -webkit-appearance: none; /* Safari */
+  -moz-appearance: none; /* Firefox */
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* 添加自定义箭头 */
+select::after {
+  content: "\25BC"; /* 向下箭头 */
+  font-size: 20px;
+  color: #333;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* 美化 checkbox 样式 */
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #007bff;
+  border-radius: 4px;
+  background-color: #fff;
+  appearance: none; /* 去掉默认外观 */
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22 fill=%22none%22%3E%3Cpath fill-rule=%22evenodd%22 clip-rule=%22evenodd%22 d=%22M11.658 1.344a.6.6 0 0 1 0 .849L4.51 9.59a.6.6 0 0 1-.847-.849l7.146-7.145a.6.6 0 0 1 .849 0z%22 fill=%22white%22 /%3E%3C/svg%3E"); /* 打勾符号 */
+  background-size: 12px 12px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* 鼠标悬停时的效果 */
+input[type="checkbox"]:hover {
+  border-color: #0056b3;
+}
+
+input[type="checkbox"]:checked:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+/* 输入框美化 */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea {
+  // width: 100%; /* 填充容器宽度 */
+  padding: 10px 12px; /* 内边距 */
+  border: 2px solid #ccc; /* 边框 */
+  border-radius: 4px; /* 圆角 */
+  background-color: #fff; /* 背景色 */
+  font-size: 14px; /* 字体大小 */
+  color: #333; /* 文字颜色 */
+  transition: all 0.3s ease; /* 过渡效果 */
+}
+
+/* 获取焦点时 */
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+  border-color: #007bff; /* 聚焦时边框颜色 */
+  outline: none; /* 去掉默认的蓝色边框 */
+  background-color: #f0f8ff; /* 聚焦时背景色 */
+}
+
+/* 禁用状态 */
+input[type="text"]:disabled,
+input[type="password"]:disabled,
+input[type="email"]:disabled,
+textarea:disabled {
+  background-color: #f5f5f5;
+  border-color: #ddd;
+  cursor: not-allowed;
+}
+
+/* 错误状态 */
+input[type="text"].error,
+input[type="password"].error,
+input[type="email"].error,
+textarea.error {
+  border-color: #e74c3c;
+  background-color: #f9e6e6; /* 错误时的背景色 */
+}
+
+/* 输入框内的清除按钮 */
+input[type="text"].clearable,
+input[type="password"].clearable {
+  padding-right: 30px; /* 留出空间给清除按钮 */
+}
+
+input[type="text"].clearable::-ms-clear,
+input[type="password"].clearable::-ms-clear {
+  display: none;
+}
+
+input[type="text"].clearable:focus::-webkit-input-placeholder,
+input[type="password"].clearable:focus::-webkit-input-placeholder {
+  color: transparent;
+}
+
+input[type="text"].clearable::after,
+input[type="password"].clearable::after {
+  content: "✖"; /* 清除按钮符号 */
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  cursor: pointer;
+}
+
+/* 文本框的样式 */
+textarea {
+  resize: vertical; /* 允许竖向调整大小 */
+  min-height: 100px; /* 最小高度 */
+}
+
+input[type="range"] {
+  width: 50%;
+}
+
+
+/* 自定义 radio 按钮样式 */
+input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #007bff;
+    border-radius: 50%;
+    background-color: #fff;
+    cursor: pointer;
+    appearance: none; /* 去掉默认外观 */
+    transition: background-color 0.3s, border-color 0.3s;
+    position: relative; /* 使伪元素相对定位 */
+  }
+  
+  /* 选中时的效果 */
+  input[type="radio"]:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  /* 选中时的白点，确保居中 */
+  input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 4px; /* 调整为4px，使白点居中 */
+    top: 4px; /* 调整为4px，使白点居中 */
+    width: 8px; /* 设置合适的白点大小 */
+    height: 8px; /* 设置合适的白点大小 */
+    border-radius: 50%;
+    background-color: white;
+  }
+  
+  /* 鼠标悬停时 */
+  input[type="radio"]:hover {
+    border-color: #0056b3;
+  }
+  
+  /* 禁用状态 */
+  input[type="radio"]:disabled {
+    border-color: #ccc;
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+  }
+  
+  input[type="radio"]:checked:disabled {
+    background-color: #ccc;
+    border-color: #ccc;
+  }
+  
+/* 自定义上传按钮样式 */
+.file-input-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.custom-file-label {
+  padding: 12px 20px;
+  background-color: #007BFF;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+  font-family: Arial, sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.custom-file-label:hover {
+  background-color: #0056b3;
+}
+
+input[type="file"] {
+  display: none; /* 隐藏原文件输入框 */
+}
+
+.file-name {
+  font-weight: bold;
+  color: #555;
+  font-style: italic;
+}
+
+/* 标签的样式 */
+label {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  user-select: none;
+}
+
+label span {
+  margin-left: 8px;
+}

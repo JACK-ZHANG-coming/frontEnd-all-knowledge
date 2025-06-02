@@ -1,0 +1,240 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+    min-height: 100vh;
+    padding-bottom: 70px;
+    position: relative;
+    font-size: 15px;
+}
+
+.config-section {
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+    font-size: 18px;
+    font-weight: bold;
+    color: #009688;
+}
+
+.layui-container {
+    padding: 15px;
+    max-width: 1200px;
+}
+
+.layui-form-label {
+    width: 110px;
+    padding: 9px 15px;
+    font-size: 15px;
+}
+
+.layui-input-block {
+    margin-left: 140px;
+}
+
+.layui-form-item {
+    margin-bottom: 10px;
+}
+
+.layui-inline {
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.tip {
+    color: #999;
+    font-size: 13px;
+    margin-top: 3px;
+    display: inline-block;
+    margin-top: 5px;
+    line-height: 18px;
+    padding-left: 10px;
+    position: relative;
+}
+
+.tip:before {
+    content: "提示：";
+    color: #1E9FFF;
+    font-weight: bold;
+}
+
+.layui-input {
+    height: 36px;
+    line-height: 36px;
+    font-size: 15px;
+}
+
+.layui-btn {
+    height: 38px;
+    line-height: 38px;
+    padding: 0 20px;
+    font-size: 15px;
+}
+
+.page-title {
+    margin: 10px 0 20px 0;
+    text-align: center;
+    color: #009688;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.form-content {
+    margin-bottom: 80px;
+}
+
+.training-section {
+    margin: 15px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.task-list {
+    margin-top: 20px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.task-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.task-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.task-list::-webkit-scrollbar-thumb {
+    background: #009688;
+    border-radius: 3px;
+}
+
+.task-list::-webkit-scrollbar-thumb:hover {
+    background: #007d71;
+}
+
+.task-item {
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    position: relative;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.task-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.task-main {
+    flex: 1;
+    padding-right: 120px; /* 为按钮预留空间 */
+}
+
+.progress-container {
+    width: 100%;
+    padding-right: 120px; /* 为按钮预留空间 */
+}
+
+.progress-bar {
+    height: 20px;
+    background-color: #e6e6e6;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px 0;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.progress-bar-inner {
+    height: 100%;
+    background-color: #009688;
+    transition: width 0.3s ease;
+    background-image: linear-gradient(45deg, 
+        rgba(255,255,255,0.15) 25%, 
+        transparent 25%, 
+        transparent 50%, 
+        rgba(255,255,255,0.15) 50%, 
+        rgba(255,255,255,0.15) 75%, 
+        transparent 75%, 
+        transparent);
+    background-size: 40px 40px;
+    animation: progress-bar-stripes 2s linear infinite;
+}
+
+@keyframes progress-bar-stripes {
+    from { background-position: 40px 0; }
+    to { background-position: 0 0; }
+}
+
+.task-status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 13px;
+    margin-left: 10px;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.status-running {
+    background-color: #009688;
+    color: #fff;
+}
+
+.status-completed {
+    background-color: #5FB878;
+    color: #fff;
+}
+
+.status-stopped {
+    background-color: #FF5722;
+    color: #fff;
+}
+
+.status-failed {
+    background-color: #FF5722;
+    color: #fff;
+}
+
+.task-actions {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100px; /* 固定按钮区域宽度 */
+    text-align: right;
+}
+
+.task-item:hover {
+    background-color: #f8f8f8;
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}

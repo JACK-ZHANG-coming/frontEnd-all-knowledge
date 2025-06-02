@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebRTC 数字人</title>
+    <link href="bootstrap-5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            height: 100%;
+            padding: 10px;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            height: 100%;
+            margin: 0 auto;
+            max-width: 100%;
+        }
+
+        .row {
+            height: 100%;
+        }
+
+        .card {
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #eee;
+            padding: 0.5rem 1rem;
+        }
+
+        .card-body {
+            padding: 1rem;
+        }
+
+        .btn {
+            margin-right: 10px;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            object-fit: contain;
+            height: 100%;
+        }
+
+        .form-control {
+            margin-bottom: 10px;
+        }
+
+        .row {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card" style="height: 100%;">
+                    <div class="card-header">
+                        <h5 class="mb-0">媒体预览</h5>
+                    </div>
+                    <div class="card-body">
+                        <audio id="audio" autoplay="true"></audio>
+                        <video id="video" autoplay="true" playsinline="true"></video>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">连接设置</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" id="use-stun" type="checkbox" />
+                            <label class="form-check-label" for="use-stun">使用STUN服务器</label>
+                        </div>
+                        <button class="btn btn-primary" id="start" onclick="start()">开始</button>
+                        <button class="btn btn-danger" id="stop" style="display: none" onclick="stop()">停止</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">系统状态</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="mb-2">
+                                    <small>CPU使用率:</small>
+                                    <div class="progress">
+                                        <div id="cpu-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <small>内存使用率:</small>
+                                    <div class="progress">
+                                        <div id="memory-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-2">
+                                    <small>GPU使用率:</small>
+                                    <div class="progress">
+                                        <div id="gpu-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <small>显存使用率:</small>
+                                    <div class="progress">
+                                        <div id="gpu-memory-progress" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">消息发送</h5>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" id="sessionid" value="0">
+                        <div class="mb-2">
+                            <span class="badge bg-info">队列中消息数: <span id="queue-size">0</span></span>
+                        </div>
+                        <form id="echo-form">
+                            <div class="mb-2">
+                                <label for="message" class="form-label">输入消息</label>
+                                <textarea class="form-control" id="message" rows="2">测试消息</textarea>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary" id="btn-interrupt">打断复述</button>
+                                <button type="button" class="btn btn-success" id="btn-no-interrupt">追加复述</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- 日志显示区域 -->
+                <div class="card position-fixed bottom-0 end-0" style="width: 33%;max-height: 500px; margin: 20px; opacity: 0.9;">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0">系统日志</h6>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearLogs()">清空</button>
+                    </div>
+                    <div class="card-body p-2" style="overflow-y: auto; max-height: 250px;">
+                        <pre id="log-content" class="small mb-0" style="white-space: pre-wrap;"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script src="sockjs.min.js"></script>
+    <script src="jquery-2.1.1.min.js"></script>
+    <script src="bootstrap-5.3.3/js/bootstrap.bundle.min.js"></script>
+    <script src="client.js"></script>
+</html>

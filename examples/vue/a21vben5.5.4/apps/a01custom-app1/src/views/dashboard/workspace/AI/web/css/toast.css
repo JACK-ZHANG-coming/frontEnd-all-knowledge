@@ -1,0 +1,73 @@
+/* 顶部提示容器 */
+#toast-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    width: auto;
+    max-width: 90%; /* 限制最大宽度 */
+  }
+  
+  .toast {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 14px;
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+    min-width: 200px; /* 设置最小宽度 */
+  }
+  
+  .toast span {
+    flex-grow: 1;
+  }
+  
+  /* 动画：渐入 */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* 消息类型背景色 */
+  .toast-info {
+    background-color: #17a2b8;
+  }
+  
+  .toast-warning {
+    background-color: #ffc107;
+  }
+  
+  .toast-error {
+    background-color: #dc3545;
+  }
+  
+  .toast-success {
+    background-color: #28a745;
+  }
+  
+  /* 自动消失 */
+  .toast.hide {
+    animation: fadeOut 0.5s forwards;
+  }
+  
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+  }
+  
