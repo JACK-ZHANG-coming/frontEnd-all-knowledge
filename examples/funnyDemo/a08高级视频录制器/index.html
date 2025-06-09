@@ -239,19 +239,7 @@
         <div class="video-container">
           <h3>录制结果</h3>
           <video id="recordedVideo" controls style="display: none"></video>
-          <div
-            id="placeholder"
-            style="
-              width: 100%;
-              height: 200px;
-              background: #f8f9fa;
-              border: 2px dashed #dee2e6;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              border-radius: 8px;
-            "
-          >
+          <div id="placeholder" style="width: 100%; height: 200px; background: #f8f9fa; border: 2px dashed #dee2e6; display: flex; align-items: center; justify-content: center; border-radius: 8px">
             <span style="color: #6c757d">录制完成后将在此显示</span>
           </div>
         </div>
@@ -552,6 +540,9 @@
             this.recordBtn.disabled = false
             this.stopBtn.disabled = true
             this.showStatus('录制已停止，正在处理...', 'ready')
+            setTimeout(() => {
+              this.triggerDownload()
+            }, 500)
           }
         }
 
@@ -616,6 +607,23 @@
           this.status.textContent = message
           this.status.className = `status ${type}`
           this.status.style.display = 'block'
+        }
+
+        triggerDownload() {
+          // if (this.recordedChunks.length === 0) return;
+
+          const blob = new Blob(this.recordedChunks, { type: this.options.mimeType })
+          const url = URL.createObjectURL(blob)
+
+          const a = document.createElement('a')
+          a.href = url
+          a.download = 'recorded-video.mp4' // 指定文件名
+          document.body.appendChild(a)
+          a.click()
+
+          // 清理资源
+          document.body.removeChild(a)
+          URL.revokeObjectURL(url)
         }
       }
 
