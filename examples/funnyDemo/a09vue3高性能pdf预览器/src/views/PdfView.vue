@@ -18,7 +18,11 @@ const verifyPrintRight = async () => {
   // 打印权限校验
   let flag = true // 默认有权限
   loading.value = true
-  flag = true
+  /**
+   * ... 权限接口请求
+   *
+   */
+  flag = false // 这里根据接口返回的权限判断结果返回 true 或 false，当前临时赋值为静态数值没有权限
   loading.value = false
   return flag
 }
@@ -27,8 +31,11 @@ const verifyDownloadRight = async () => {
   // 这里进行权限判断接口请求
   let flag = true // 默认有权限
   loading.value = true
-  // ... 接口请求
-  flag = true
+  /**
+   * ... 权限接口请求
+   *
+   */
+  flag = true // 这里根据接口返回的权限判断结果返回 true 或 false，当前临时赋值为静态数值有权限
   loading.value = false
   return flag
 }
@@ -54,6 +61,10 @@ const initPreview = async () => {
   currentFileUrl.value = encodeURIComponent(
     `http://116.198.200.217:7501/api/v1/user/getPdfFile?file=${fullName.value}&customFileName=${fullName.value}`,
   )
+  //
+  // currentFileUrl.value = encodeURIComponent(
+  //   `http://116.198.200.217:7501/api/v1/user/getPdfFile?file=%E6%B5%8B%E8%AF%95pdf%E6%96%87%E4%BB%B61.pdf`,
+  // )
   switch (fileType.value) {
     case 'pdf':
       nextTick(() => {
@@ -95,6 +106,8 @@ const interceptor = async (e: any) => {
     // 如果有权限 打标记再触发一次 click，让它执行原始逻辑
     target.setAttribute(ALLOWED_FLAG, 'true')
     target.click()
+  } else {
+    alert('没有权限')
   }
 }
 
