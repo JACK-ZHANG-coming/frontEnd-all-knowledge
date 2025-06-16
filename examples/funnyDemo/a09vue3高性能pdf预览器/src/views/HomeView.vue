@@ -16,6 +16,7 @@ const handleClick = (file: string = '') => {
       :href="githubLink"
       target="_blank"
       rel="noopener noreferrer"
+      title="GitHub仓库地址"
     >
       <img width="40px" :src="img_github" :href="''" alt="GitHub" />
     </a>
