@@ -2,8 +2,6 @@ import path from 'node:path';
 
 import { execa } from 'execa';
 
-export * from '@changesets/git';
-
 /**
  * 获取暂存区文件
  */

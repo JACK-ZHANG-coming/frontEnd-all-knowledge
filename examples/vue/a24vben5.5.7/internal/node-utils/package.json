@@ -28,7 +28,6 @@
     }
   },
   "dependencies": {
-    "@changesets/git": "catalog:",
     "@manypkg/get-packages": "catalog:",
     "chalk": "catalog:",
     "consola": "catalog:",

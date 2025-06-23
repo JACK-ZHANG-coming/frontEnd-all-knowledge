@@ -10,13 +10,8 @@ packages:
   - packages/business/*
   - apps/*
   - scripts/*
-  - docs
-  - playground
 catalog:
   '@ast-grep/napi': ^0.37.0
-  '@changesets/changelog-github': ^0.5.1
-  '@changesets/cli': ^2.29.2
-  '@changesets/git': ^3.0.4
   '@clack/prompts': ^0.10.1
   '@commitlint/cli': ^19.8.0
   '@commitlint/config-conventional': ^19.8.0
