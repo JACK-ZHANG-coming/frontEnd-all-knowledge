@@ -71,10 +71,10 @@ async function runNitroServer(rootDir: string, port: number, verbose: boolean) {
             verbose &&
               consola.info(
                 `Nitro config updated:\n${diff
-                  .map((entry) => `  ${entry.toString()}`)
+                  .map((entry: any) => `  ${entry.toString()}`)
                   .join('\n')}`,
               );
-            await (diff.every((e) => hmrKeyRe.test(e.key))
+            await (diff.every((e: any) => hmrKeyRe.test(e.key))
               ? nitro.updateConfig(newConfig.config)
               : reload());
           },
