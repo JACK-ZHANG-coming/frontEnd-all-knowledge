@@ -12,5 +12,16 @@ export default defineConfig({
     alias: {
       '@': path.resolve('./src') // @代替src
     }
+  },
+  // 配置跨域
+  server: {
+    port: 5188, // 自定义端口号
+    proxy: {
+      '/api': {
+        target: 'http://116.198.200.217:7501',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
   }
 })

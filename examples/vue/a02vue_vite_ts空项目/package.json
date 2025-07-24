@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@types/node": "^18.15.11",
+    "axios": "^1.11.0",
     "element-plus": "^2.3.12",
     "sass": "^1.60.0",
+    "ua-parser-js": "^2.0.4",
     "unplugin-auto-import": "^0.15.2",
     "unplugin-vue-components": "^0.24.1",
     "vue": "^3.2.47",
